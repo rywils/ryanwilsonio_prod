@@ -1,0 +1,119 @@
+---
+// src/components/Blog.astro
+import { Calendar, Clock, ArrowRight, User } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+
+// Get all blog posts in src/content/blog/
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+});
+
+// Sort by date 
+const blogPosts = allPosts.sort((a, b) => {
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+// Helper function to get first few words 
+function getPreview(content: string, wordCount: number = 25): string {
+  // Strip
+  const stripped = content
+    .replace(/#{1,6}\s/g, '') // Remove headers
+    .replace(/\*\*|__/g, '') // Remove bold
+    .replace(/\*|_/g, '') // Remove italic
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove links but keep text
+    .replace(/`{1,3}[^`]*`{1,3}/g, '') // Remove code blocks
+    .replace(/>\s/g, '') // Remove blockquotes
+    .replace(/[-*+]\s/g, '') // Remove list markers
+    .trim();
+  
+  const words = stripped.split(/\s+/);
+  if (words.length <= wordCount) {
+    return stripped;
+  }
+  return words.slice(0, wordCount).join(' ') + '...';
+}
+---
+
+<section id="blog" class="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary-green/5 to-transparent pointer-events-none"></div>
+  
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl sm:text-5xl md:text-5xl mb-4 text-[var(--primary-green)]">
+        Latest Blog Posts
+      </h2>
+      <div class="h-1 w-20 bg-gradient-to-r from-[var(--primary-green)] to-[var(--primary-blue)] mx-auto rounded-full mb-4"></div>
+      
+    </div>
+
+    <div class="flex flex-col gap-4 max-w-2xl mx-auto">
+      {blogPosts.slice(0, 6).map((post) => (
+        <a
+          href={`/blog/${post.slug}`}
+          class="group rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-green)]/50 transition-all hover:scale-[1.01] block"
+          data-astro-prefetch
+        >
+          <div class="p-3">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex flex-wrap gap-1">
+                {Array.isArray(post.data.category) ? (
+                  post.data.category.map((cat) => (
+                    <span class="px-2 py-0.5 rounded-full bg-[var(--primary-blue)]/20 text-xs">
+                      {cat}
+                    </span>
+                  ))
+                ) : (
+                  <span class="px-2 py-0.5 rounded-full bg-[var(--primary-blue)]/20 text-xs">
+                    {post.data.category}
+                  </span>
+                )}
+              </div>
+              
+              <div class="flex items-center gap-3 text-xs text-muted-foreground">
+                <span class="flex items-center gap-1">
+                  <Calendar size={12} />
+                  {post.data.date}
+                </span>
+                <span class="flex items-center gap-1">
+                  <Clock size={12} />
+                  {post.data.readTime}
+                </span>
+              </div>
+            </div>
+
+              <h3 class="text-base mb-1 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
+                {post.data.title}
+              </h3>
+
+            <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+              {getPreview(post.body, 20)}
+            </p>
+
+            <div class="flex items-center justify-between">
+              <span class="flex items-center gap-1 text-xs text-muted-foreground">
+                <User size={12} />
+                {post.data.author}
+              </span>
+              
+              <span class="flex items-center gap-1 text-xs text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-all font-medium">
+                Read More
+                <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform" />
+              </span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    {blogPosts.length > 6 && (
+      <div class="text-center mt-12">
+        <a
+          href="/blog"
+          class="inline-block px-8 py-3 border border-[var(--primary-green)] rounded-full hover:bg-[var(--primary-green)]/10 transition-all hover:scale-105 active:scale-95"
+        >
+          View All Posts
+        </a>
+      </div>
+    )}
+  </div>
+</section>

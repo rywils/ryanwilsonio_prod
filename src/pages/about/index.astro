@@ -1,0 +1,142 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { skillData } from "../../data/skillData";
+import me from "../../assets/me.png";
+import { experiences } from "../../data/experiences";
+import WorkExperience from "@/components/WorkExperience.astro";
+ import wguIcon from '../assets/wgu.png';
+   import sansIcon from '../../assets/sans.jpg'
+   import dmaccIcon from '../../assets/dmacc.jpg'; 
+   import { Image } from "astro:assets";
+   import { GraduationCap, Award, Calendar } from '@lucide/astro';
+import Education from "@/components/Education.astro";
+
+
+
+
+const coreSkillNames = [
+  "C Programming",
+  "Python",
+  "TypeScript",
+  "Next.js",
+  "Laravel",
+  "Cisco",
+  "Docker",
+  "Kubernetes",
+  "Ansible",
+  "AWS",
+  "Fortinet",
+  "Burpsuite",
+  "Nmap",
+];
+
+const education = [
+  // {
+  //   degree: 'Bachelor of Science in Cyber Security and Information Assurance',
+  //   institution: 'Western Governors University',
+  //   period: '2025 - Present',
+  //   description: 'Expected graduation in 2027',
+  //   icon: wguIcon,
+  // },
+  {
+    degree: 'Bachelor of Applied Cybersecurity',
+    institution: 'SANS Technical Institute',
+    period: '2025 - Present',
+    description: 'Expected graduation 2027',
+    icon : sansIcon,
+  },
+  {
+    degree: 'Associate of Applied Science in Information Technology Network Administration',
+    institution: 'Des Moines Area Community College',
+    period: '2014 - 2016',
+    description: 'Linux emphasis',
+    icon: dmaccIcon,
+  },
+];
+
+const allSkills = skillData.flatMap((category) => category.skills);
+const coreSkills = coreSkillNames
+  .map((name) => allSkills.find((skill) => skill.name === name))
+  .filter(Boolean);
+
+  
+---
+
+<Layout title="About Me">
+
+<section class="">
+<div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+<div class="mx-auto max-w-4xl px-6 py-20 text-gray-300">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
+<img 
+        src={me.src ?? me}
+        alt="Ryan Wilson"
+        class="md:hidden md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
+      />
+      <div class="flex-1">
+        <h1 class="text-4xl font-bold mb-4 text-(--primary-green)">About Me</h1>
+
+        <p class="text-lg leading-relaxed text-gray-400 max-w-3xl">
+          I’m a solutions architect, full-stack developer, and cybersecurity specialist focused on
+          building secure, scalable, high-performance systems. My background spans application 
+          development, infrastructure, networking, and cloud platforms—bringing a security-first mindset 
+          to everything I build.
+        </p>
+      </div>
+
+      <img 
+        src={me.src ?? me}
+        alt="Ryan Wilson"
+        class="hidden md:inline-block md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
+      />
+
+    </div>
+
+    <h2 class="text-2xl font-semibold mb-4 pb-4 text-(--primary-green)">A few of my favorites</h2>
+
+    <div class="flex flex-wrap gap-6 pb-8 justify-center md:justify-normal">
+      {coreSkills.map((skill) => (
+        <div class="flex flex-col items-center text-center w-16">
+          <!-- Iconify web component; assumes you already load the iconify script in your layout -->
+          <iconify-icon
+            icon={skill.icon}
+            class="text-4xl opacity-80 hover:opacity-100 transition"
+          ></iconify-icon>
+          <span class="text-xs mt-1 text-gray-400">
+            {skill.name}
+          </span>
+        </div>
+      ))}
+    </div>
+</div>
+</div>
+<div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+<div class="mx-auto max-w-4xl px-6 py-10 text-gray-300">
+
+    <WorkExperience />
+    <Education />
+    
+    <h2 class="text-2xl font-semibold mt-12 mb-4 text-(--primary-green)">Outside of Tech</h2>
+    <p class="text-lg text-gray-400">
+      Outside of tech I enjoy spending time with friends, pool league, and spontaneous road trips.
+    </p>
+
+  </section>
+
+  <script>
+  document.querySelectorAll(".resume-row").forEach((row) => {
+    row.addEventListener("click", () => {
+      const content = row.querySelector(".resume-content") as HTMLElement;
+
+      if (!content) return;
+
+      if (content.style.maxHeight) {
+        content.style.maxHeight = "";
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+    });
+  });
+</script>
+
+</Layout>

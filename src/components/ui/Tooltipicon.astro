@@ -1,0 +1,244 @@
+---
+interface Props {
+  content: string;
+  containerClassName?: string;
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'auto';
+  width?: string;
+}
+
+const { content, containerClassName = '', position = 'auto', width = '15rem' } = Astro.props;
+---
+
+<div 
+  class={`tooltip-trigger relative inline-block ${containerClassName}`}
+  data-content={content}
+  data-position={position}
+  data-width={width}
+>
+  <slot />
+</div>
+
+<script>
+  class TooltipManager {
+    constructor(trigger: HTMLElement) {
+      this.trigger = trigger;
+      this.isVisible = false;
+      this.mouse = { x: 0, y: 0 };
+      this.position = { x: 0, y: 0 };
+      this.preferredPosition = (trigger.dataset.position || 'auto') as 'top' | 'bottom' | 'left' | 'right' | 'auto';
+      this.tooltipWidth = this.parseWidth(trigger.dataset.width || '15rem');
+      this.content = trigger.dataset.content || '';
+      
+      // Create tooltip element and append to body
+      this.popup = this.createTooltip();
+      document.body.appendChild(this.popup);
+      
+      this.init();
+    }
+
+    private trigger: HTMLElement;
+    private popup: HTMLElement;
+    private contentElement!: HTMLElement;
+    private isVisible: boolean;
+    private mouse: { x: number; y: number };
+    private position: { x: number; y: number };
+    private preferredPosition: 'top' | 'bottom' | 'left' | 'right' | 'auto';
+    private tooltipWidth: number;
+    private content: string;
+    private hideTimeout?: number;
+
+    createTooltip(): HTMLElement {
+      const popup = document.createElement('div');
+      const widthValue = this.trigger.dataset.width || '15rem';
+      popup.className = 'tooltip-popup-portal pointer-events-none fixed z-[9999] overflow-hidden rounded-md border border-transparent shadow-sm ring-1 shadow-black/5 ring-black/5 bg-neutral-900 shadow-white/10 dark:ring-white/5 opacity-0 transition-opacity duration-200';
+      popup.style.width = widthValue;
+      popup.style.minWidth = widthValue;
+      
+      this.contentElement = document.createElement('div');
+      this.contentElement.className = 'tooltip-content p-2 text-sm text-neutral-400 md:p-4 ';
+      this.contentElement.textContent = this.content;
+      
+      popup.appendChild(this.contentElement);
+      return popup;
+    }
+
+    parseWidth(width: string): number {
+      // Convert rem to pixels (assuming 1rem = 16px)
+      if (width.endsWith('rem')) {
+        return parseFloat(width) * 16;
+      }
+      // Convert px to number
+      if (width.endsWith('px')) {
+        return parseFloat(width);
+      }
+      // If it's just a number, assume pixels
+      return parseFloat(width);
+    }
+
+    init() {
+      this.trigger.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
+      this.trigger.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+      this.trigger.addEventListener('mousemove', this.handleMouseMove.bind(this));
+      this.trigger.addEventListener('touchstart', this.handleTouchStart.bind(this));
+      this.trigger.addEventListener('touchend', this.handleTouchEnd.bind(this));
+      this.trigger.addEventListener('click', this.handleClick.bind(this));
+    }
+
+    calculatePosition(clientX: number, clientY: number) {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      // Get actual tooltip dimensions from the rendered element
+      const tooltipWidth = this.popup.offsetWidth || this.tooltipWidth;
+      const tooltipHeight = this.contentElement.scrollHeight;
+
+      let finalX = clientX + 12;
+      let finalY = clientY + 12;
+
+      // Determine position 
+      if (this.preferredPosition === 'top') {
+        finalY = clientY - tooltipHeight - 12;
+        finalX = clientX - tooltipWidth / 2;
+      } else if (this.preferredPosition === 'bottom') {
+        finalY = clientY + 12;
+        finalX = clientX - tooltipWidth / 2;
+      } else if (this.preferredPosition === 'left') {
+        finalX = clientX - tooltipWidth - 12;
+        finalY = clientY - tooltipHeight / 2;
+      } else if (this.preferredPosition === 'right') {
+        finalX = clientX + 12;
+        finalY = clientY - tooltipHeight / 2;
+      } else {
+        if (clientY + 12 + tooltipHeight > viewportHeight) {
+          finalY = clientY - tooltipHeight - 12;
+        } else {
+          finalY = clientY + 12;
+        }
+      }
+
+      if (finalY < 0) {
+        finalY = 12;
+      }
+
+      if (finalY + tooltipHeight > viewportHeight) {
+        if (this.preferredPosition === 'top' || this.preferredPosition === 'auto') {
+          finalY = clientY - tooltipHeight - 12;
+        }
+        if (finalY + tooltipHeight > viewportHeight) {
+          finalY = viewportHeight - tooltipHeight - 12;
+        }
+      }
+
+      // Handle horizontal positioning
+      if (finalX + tooltipWidth > viewportWidth) {
+        if (this.preferredPosition === 'auto' || this.preferredPosition === 'top' || this.preferredPosition === 'bottom') {
+          finalX = clientX - tooltipWidth - 12;
+        } else {
+          finalX = viewportWidth - tooltipWidth - 12;
+        }
+      }
+
+      if (finalX < 0) {
+        finalX = 12;
+      }
+
+      return { x: finalX, y: finalY };
+    }
+
+    updateMousePosition(clientX: number, clientY: number) {
+      this.mouse = { x: clientX, y: clientY };
+      this.position = this.calculatePosition(clientX, clientY);
+      this.updatePopupPosition();
+    }
+
+    updatePopupPosition() {
+      this.popup.style.top = `${this.position.y}px`;
+      this.popup.style.left = `${this.position.x}px`;
+    }
+
+    show() {
+      this.isVisible = true;
+      this.popup.style.opacity = '1';
+      this.popup.style.height = 'auto';
+    }
+
+    hide() {
+      this.isVisible = false;
+      this.popup.style.opacity = '0';
+      this.popup.style.height = '0';
+      this.mouse = { x: 0, y: 0 };
+      this.position = { x: 0, y: 0 };
+    }
+
+    handleMouseEnter(e: MouseEvent) {
+      this.updateMousePosition(e.clientX, e.clientY);
+      this.show();
+    }
+
+    handleMouseLeave() {
+      this.hide();
+    }
+
+    handleMouseMove(e: MouseEvent) {
+      if (!this.isVisible) return;
+      this.updateMousePosition(e.clientX, e.clientY);
+    }
+
+    handleTouchStart(e: TouchEvent) {
+      const touch = e.touches[0];
+      this.updateMousePosition(touch.clientX, touch.clientY);
+      this.show();
+    }
+
+    handleTouchEnd() {
+      this.hideTimeout = window.setTimeout(() => {
+        this.hide();
+      }, 2000);
+    }
+
+    handleClick(e: MouseEvent) {
+      // Toggle visibility on click for mobile devices
+      if (window.matchMedia("(hover: none)").matches) {
+        e.preventDefault();
+        if (this.isVisible) {
+          this.hide();
+        } else {
+          this.updateMousePosition(e.clientX, e.clientY);
+          this.show();
+        }
+      }
+    }
+
+    destroy() {
+      this.popup.remove();
+    }
+  }
+
+  // Store tooltip instances for cleanup
+  const tooltipInstances = new WeakMap<HTMLElement, TooltipManager>();
+
+  // Initialize all tooltips
+  function initializeTooltips() {
+    document.querySelectorAll('.tooltip-trigger').forEach((trigger) => {
+      if (!tooltipInstances.has(trigger as HTMLElement)) {
+        const instance = new TooltipManager(trigger as HTMLElement);
+        tooltipInstances.set(trigger as HTMLElement, instance);
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initializeTooltips);
+  
+  // Also initialize on initial load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTooltips);
+  } else {
+    initializeTooltips();
+  }
+</script>
+
+<style>
+  .tooltip-popup-portal {
+    transition: opacity 0.2s ease-in-out;
+  }
+</style>

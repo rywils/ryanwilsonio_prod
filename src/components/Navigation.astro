@@ -1,0 +1,295 @@
+---
+// Navigation.astro
+import { Menu, X } from '@lucide/astro';
+import '../styles/globals.css';
+import { Image } from 'astro:assets';
+import PagePosition from './PagePosition';
+
+const navLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
+  { name: 'Resume', href: '/resume', id: 'resume'},
+];
+---
+
+<nav class="nav-container sticky z-40 border-l border-r border-[#10191d] shadow-xs shadow-[#0a0a0a] w-full" id="main-nav">
+  <div class="nav-inner relative mx-auto transition-all duration-300 border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+    <div class="px-6 sm:px-8 bg-[#1A1A1C]">
+      <div class="flex items-center justify-between h-16 w-full">
+        <!-- Logo -->
+        
+        <a  href="/"
+          class="nav-logo text-2xl hover:scale-105 transition-transform bg-transparent">
+          <Image
+            src="/images/Logo.svg"
+            alt="Logo"
+            width={80}
+            height={80}
+            class="object-contain" />
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center relative h-full border-l border-white/10">
+          <ul class="md:flex md:items-stretch h-full">
+            {navLinks.map((link) => (
+              <li class="relative flex-shrink-0 hover:bg-[#1C1C1F] hover:brightness-110 border-l border-r border-l-black/20 border-r-white/10 shadow-xs shadow-black/30">
+                <a
+                  id={link.id ? link.id : null}
+                  href={link.href}
+                  class="nav-link relative inline-flex items-center h-full px-4 text-(--primary-blue) transition-all font-body md:border-solid md:border-black/10 md:dark:border-white/10 md:border-l text-[11px] uppercase tracking-widest"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="h-full w-[1px] bg-black/20"></div>
+        </div>
+        
+        
+        <div class="hidden md:flex items-center h-full justify-center border-l border-r border-[#2C2C2F]">
+          <div class="h-full border-l border-r border-black/20"></div>
+          <PagePosition client:load/>
+          <div class="h-full border-l border-black/20"></div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center space-x-2">
+          <button
+            id="mobile-menu-toggle"
+            class="p-2 rounded-md hover:bg-accent transition-colors"
+            aria-label="Toggle menu"
+          >
+            <Menu class="menu-icon" size={24} />
+            <X class="close-icon hidden" size={24} />
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="md:hidden overflow-hidden mobile-menu">
+        <div class="px-4 py-4 space-y-2">
+          {navLinks.map((link) => (
+            
+            <a  href={link.href}
+              class="mobile-nav-link block px-3 py-2 rounded-md hover:bg-accent transition-colors"
+              style="color: var(--primary-blue);"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav-container {
+    top: 0;
+    
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-inner {
+    background: rgba(26, 26, 26, 0.4);
+    transition: background 0.3s ease-in-out;
+  }
+
+  .nav-inner.nav-scrolled {
+    background: rgba(26, 26, 26, 0.95);
+  }
+
+  /* Active link styling */
+  .nav-link.active-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-blue);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  let ticking = false;
+  let bannerHeight = 0;
+  let initialized = false;
+
+  function updateBannerHeight() {
+    const banner = document.getElementById('site-banner');
+    bannerHeight = banner ? banner.offsetHeight : 0;
+  }
+
+  function handleNavPosition() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const nav = document.getElementById('main-nav');
+        const navInner = document.querySelector('.nav-inner');
+        
+        if (nav && navInner) {
+          const scrollY = window.scrollY;
+          
+          // Update nav styling based on scroll
+          if (scrollY > 20) {
+            navInner.classList.add('nav-scrolled');
+          } else {
+            navInner.classList.remove('nav-scrolled');
+          }
+          
+          // With sticky positioning, the nav will automatically stick
+          // We just need to set the initial top position
+          if (scrollY === 0) {
+            // At top of page - position below banner if it exists
+            nav.style.top = `${bannerHeight}px`;
+          } else {
+            // When scrolling - stick to top
+            nav.style.top = '0px';
+          }
+        }
+        
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  // Update active links
+  function updateActiveLinks() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link, .mobile-nav-link');
+    
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      
+      const isActive = href === '/' 
+        ? currentPath === '/' 
+        : currentPath.startsWith(href);
+      
+      if (isActive) {
+        link.classList.add('active-link');
+      } else {
+        link.classList.remove('active-link');
+      }
+    });
+  }
+
+  // Mobile menu toggle
+  function setupMobileMenu() {
+    if ((window as any).__navMobileBound) return;
+    (window as any).__navMobileBound = true;
+
+    const closeMenu = () => {
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = toggle?.querySelector('.menu-icon');
+      const closeIcon = toggle?.querySelector('.close-icon');
+      mobileMenu?.classList.remove('mobile-menu-open');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+      (window as any).__navMobileOpen = false;
+    };
+
+    const openMenu = () => {
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = toggle?.querySelector('.menu-icon');
+      const closeIcon = toggle?.querySelector('.close-icon');
+      mobileMenu?.classList.add('mobile-menu-open');
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      toggle?.setAttribute('aria-expanded', 'true');
+      (window as any).__navMobileOpen = true;
+    };
+
+    document.addEventListener('click', (e) => {
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (!toggle || !mobileMenu) return;
+      const isToggle = toggle.contains(e.target as Node);
+      const isLink = (e.target as HTMLElement)?.classList?.contains('mobile-nav-link');
+
+      if (isToggle) {
+        e.preventDefault();
+        const isOpen = (window as any).__navMobileOpen;
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      } else if (isLink) {
+        closeMenu();
+      } else if ((window as any).__navMobileOpen && !mobileMenu.contains(e.target as Node)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('astro:before-swap', closeMenu);
+    closeMenu();
+  }
+
+  // Smooth scroll
+  function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(this: HTMLAnchorElement, e) {
+        const href = this.getAttribute('href');
+        // Skip if it's just a hash without a target
+        if (!href || href === '#') {
+          e.preventDefault();
+          return;
+        }
+        
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  }
+
+  // Initialize
+  function init() {
+    if (initialized) {
+      // Only update active links if already initialized
+      updateActiveLinks();
+      return;
+    }
+    
+    updateBannerHeight();
+    setupMobileMenu();
+    setupSmoothScroll();
+    handleNavPosition();
+    updateActiveLinks();
+    
+    // Only add these listeners once
+    window.addEventListener('banner-closed', () => {
+      updateBannerHeight();
+      handleNavPosition();
+    });
+    
+    window.addEventListener('scroll', handleNavPosition, { passive: true });
+    window.addEventListener('resize', () => {
+      updateBannerHeight();
+      handleNavPosition();
+    });
+    
+    initialized = true;
+  }
+
+  init();
+  
+  // Re-run after page transitions - only update active links
+  document.addEventListener('astro:after-swap', updateActiveLinks);
+  document.addEventListener('astro:page-load', updateActiveLinks);
+</script>

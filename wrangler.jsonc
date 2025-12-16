@@ -1,0 +1,12 @@
+{
+	"name": "ryanwilsonio-prod",
+  "compatibility_date": "2025-11-26",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "pages_build_output_dir": "./dist",
+	"observability": {
+    "enabled": true
+  }
+}

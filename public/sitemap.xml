@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ryanwilson.io/</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/about</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/projects</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/projects/bitprobe</loc>
+    <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/blog</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/blog/anintro</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/contact</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanwilson.io/resume</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>

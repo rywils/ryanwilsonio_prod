@@ -1,0 +1,178 @@
+---
+interface Props {
+  text: string;
+  class?: string;
+  revealDelayMs?: number;
+  charset?: string;
+  flipDelayMs?: number;
+  encryptedClass?: string;
+  revealedClass?: string;
+}
+
+const {
+  text,
+  class: className = "",
+  revealDelayMs = 200,
+  charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}[];:,.<>/?",
+  flipDelayMs = 50,
+  encryptedClass = "",
+  revealedClass = "",
+} = Astro.props;
+---
+
+<span 
+  class={className}
+  data-text={text}
+  data-reveal-delay={revealDelayMs}
+  data-charset={charset}
+  data-flip-delay={flipDelayMs}
+  data-encrypted-class={encryptedClass}
+  data-revealed-class={revealedClass}
+  data-encrypted-text
+  aria-label={text}
+>
+  {text.split("").map((char) => (
+    <span class="encrypted-char transition-colors duration-300">{char === " " ? " " : "?"}</span>
+  ))}
+</span>
+
+<style>
+  [data-encrypted-text] span {
+    display: inline-block;
+  }
+  
+  [data-encrypted-text] span.encrypted-char {
+    color: var(--primary-green);
+  }
+  
+  [data-encrypted-text] span.revealed-char {
+    color: #888888
+  }
+</style>
+
+<script>
+  function generateRandomCharacter(charset: string): string {
+    const index = Math.floor(Math.random() * charset.length);
+    return charset.charAt(index);
+  }
+
+  function generateGibberishPreservingSpaces(
+    original: string,
+    charset: string
+  ): string {
+    if (!original) return "";
+    let result = "";
+    for (let i = 0; i < original.length; i += 1) {
+      const ch = original[i];
+      result += ch === " " ? " " : generateRandomCharacter(charset);
+    }
+    return result;
+  }
+
+  function initEncryptedText() {
+    const elements = document.querySelectorAll("[data-encrypted-text]");
+
+    elements.forEach((element) => {
+      const span = element as HTMLElement;
+      const text = span.dataset.text || "";
+      const revealDelayMs = parseInt(span.dataset.revealDelay || "50");
+      const charset = span.dataset.charset || "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}[];:,.<>/?";
+      const flipDelayMs = parseInt(span.dataset.flipDelay || "50");
+      const encryptedClass = span.dataset.encryptedClass || "";
+      const revealedClass = span.dataset.revealedClass || "";
+
+      let revealCount = 0;
+      let animationFrameId: number | null = null;
+      let startTime = 0;
+      let lastFlipTime = 0;
+      let scrambleChars = generateGibberishPreservingSpaces(text, charset).split("");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startAnimation();
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(span);
+
+      function startAnimation() {
+        scrambleChars = generateGibberishPreservingSpaces(text, charset).split("");
+        startTime = performance.now();
+        lastFlipTime = startTime;
+        revealCount = 0;
+
+        function update(now: number) {
+          const elapsedMs = now - startTime;
+          const totalLength = text.length;
+          const currentRevealCount = Math.min(
+            totalLength,
+            Math.floor(elapsedMs / Math.max(1, revealDelayMs))
+          );
+
+          revealCount = currentRevealCount;
+
+          // Update the display
+          const spans = span.querySelectorAll("span");
+          text.split("").forEach((char, index) => {
+            const isRevealed = index < revealCount;
+            const displayChar = isRevealed
+              ? char
+              : char === " "
+                ? " "
+                : scrambleChars[index] ?? generateRandomCharacter(charset);
+
+            if (spans[index]) {
+              spans[index].textContent = displayChar;
+              if (isRevealed) {
+                spans[index].classList.remove('encrypted-char');
+                spans[index].classList.add('revealed-char');
+              } else {
+                spans[index].classList.remove('revealed-char');
+                spans[index].classList.add('encrypted-char');
+              }
+            }
+          });
+
+          if (currentRevealCount >= totalLength) {
+            return;
+          }
+
+          // Re-randomize unrevealed scramble characters
+          const timeSinceLastFlip = now - lastFlipTime;
+          if (timeSinceLastFlip >= Math.max(0, flipDelayMs)) {
+            for (let index = 0; index < totalLength; index += 1) {
+              if (index >= currentRevealCount) {
+                if (text[index] !== " ") {
+                  scrambleChars[index] = generateRandomCharacter(charset);
+                } else {
+                  scrambleChars[index] = " ";
+                }
+              }
+            }
+            lastFlipTime = now;
+          }
+
+          animationFrameId = requestAnimationFrame(update);
+        }
+
+        animationFrameId = requestAnimationFrame(update);
+      }
+    });
+  }
+
+  // Initialize on page load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initEncryptedText);
+  } else {
+    initEncryptedText();
+  }
+
+  // Re-initialize on view transitions
+  document.addEventListener("astro:page-load", initEncryptedText);
+</script>
