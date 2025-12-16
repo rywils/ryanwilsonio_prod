@@ -1,6 +1,6 @@
 {
 	"main": "dist/_worker.js/index.js",
-	"name": "ryanwilsonio",
+	"name": "ryanwilsonio_prod",
   "compatibility_date": "2025-11-26",
   "compatibility_flags": [
     "nodejs_compat",
