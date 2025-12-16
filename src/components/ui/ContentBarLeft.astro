@@ -1,0 +1,12 @@
+---
+// import texturedBackground from "/src/assets/images/textures/texturedbg.png"; bg-[#171717 tyle={`background-image: url(${texturedbg2.src});`} class=" bg-cover bg-center brightness-60 
+import { Image } from "astro:assets"
+import texturedbg from '/src/assets/texturebg.png'; 
+import texturedbg2 from '/src/assets/grunge.jpg';
+import PatternOverlay from "./PatternOverlay.astro"; 
+---
+
+<div class="invisible md:visible fixed h-full w-14 shadow-lg glow-primary-bg-green left-80 top-0 -z-90  bg-[#151515]">
+<PatternOverlay pattern="diagonal" opacity={0.1} color="green" className="z-[-95]" />
+
+</div>

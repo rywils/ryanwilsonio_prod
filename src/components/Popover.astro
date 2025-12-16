@@ -1,0 +1,64 @@
+---
+// Popover.astro - Simple modal/popover styles
+---
+
+<style is:global>
+  /* Backdrop overlay */
+  .popover-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    backdrop-filter: blur(4px);
+  }
+
+  .popover-backdrop[hidden] {
+    display: none;
+  }
+
+  /* Popover content */
+  .popover-content {
+    position: fixed;
+    z-index: 9999;
+    border-radius: 0.75rem;
+    border: 1px solid hsl(var(--border, 214.3 31.8% 91.4%));
+    background-color: hsl(var(--popover, 207 27% 8%));
+    color: hsl(var(--popover-foreground, 0,0, 100%));
+    padding: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90vw;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+/* hsl(var(--popover, 0 0% 10%)) */
+  .popover-content[hidden] {
+    display: none !important;
+  }
+
+  .popover-content[data-state="open"] {
+    animation: popover-in 0.2s ease-out;
+  }
+
+  .popover-backdrop[data-state="open"] {
+    animation: fade-in 0.2s ease-out;
+  }
+
+  @keyframes popover-in {
+    from { 
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to { 
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>

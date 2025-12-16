@@ -1,0 +1,179 @@
+---
+// src/pages/projects/[id].astro
+import Layout from '../../layouts/Layout.astro';
+import { ArrowLeft, ExternalLink, Github } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { id: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={`${project.data.title} - Ryan Wilson`}>
+  <article class="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary-blue)]/5 to-transparent pointer-events-none"></div>
+    
+    <div class="max-w-5xl mx-auto relative z-10">
+      <!-- Back Button -->
+      <a 
+        href="/projects"
+        class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all mb-8 group"
+        data-astro-prefetch
+      >
+        <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={20} />
+        <span class="font-semibold">Back to Projects</span>
+      </a>
+
+      <!-- Hero Image -->
+      <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[var(--primary-blue)]/20">
+        <img 
+          src={project.data.image} 
+          alt={project.data.title}
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Title and Tags -->
+      <div class="mb-8">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--primary-green)] mb-4">
+          {project.data.title}
+        </h1>
+        
+        <div class="flex flex-wrap gap-2 mb-6">
+          {project.data.tags.map(tag => (
+            <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-4">
+          {project.data.github && (
+            <a 
+              href={project.data.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-blue)]/20 border border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/30 transition-all hover:scale-105 active:scale-95 font-semibold"
+            >
+              <Github size={20} />
+              View Code
+            </a>
+          )}
+          {project.data.demo && project.data.demo !== project.data.github && (
+            <a 
+              href={project.data.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--secondary-purple)]/20 border border-[var(--secondary-purple)] text-[var(--secondary-purple)] hover:bg-[var(--secondary-purple)]/30 transition-all hover:scale-105 active:scale-95 font-semibold"
+            >
+              <ExternalLink size={20} />
+              Live Demo
+            </a>
+          )}
+        </div>
+      </div>
+
+      <!-- Markdown Content -->
+      <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
+        <Content />
+      </div>
+
+      <!-- Technologies Used (if available) -->
+      {project.data.technologies && project.data.technologies.length > 0 && (
+        <section class="mt-8">
+          <h2 class="text-3xl font-semibold text-[var(--primary-blue)] mb-4">Technologies Used</h2>
+          <div class="flex flex-wrap gap-3">
+            {project.data.technologies.map(tech => (
+              <span class="px-4 py-2 rounded-full bg-[var(--primary-green)]/10 border border-[var(--primary-green)]/30 text-base font-medium">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Bottom Navigation -->
+      <div class="mt-16 pt-8 border-t border-[var(--primary-blue)]/20">
+        <a 
+          href="/projects"
+          class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all group font-semibold text-lg"
+          data-astro-prefetch
+        >
+          <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={24} />
+          <span>View All Projects</span>
+        </a>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .markdown-content :global(h2) {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+
+  .markdown-content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  
+  .markdown-content :global(p) {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .markdown-content :global(ul) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .markdown-content :global(li) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .markdown-content :global(li::before) {
+    content: "▹";
+    color: var(--primary-green);
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .markdown-content :global(strong) {
+    color: var(--primary-green);
+    font-weight: 600;
+  }
+
+  .markdown-content :global(a) {
+    color: var(--primary-blue);
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+
+  .markdown-content :global(a:hover) {
+    color: var(--primary-green);
+  }
+</style>

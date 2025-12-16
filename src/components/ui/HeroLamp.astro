@@ -1,0 +1,216 @@
+---
+
+---
+
+<div id="beam-body" class="bg-[#090E10] flex items-start ">
+<div
+  class="fixed min-h-full w-14 bg-[#151515] shadow-md right-80 top-0 bottom-0 vertical-glow-bar"
+  style="z-index: -10;" 
+>
+</div>
+
+<div
+  class="lamp-wrapper absolute -top-30 z-9999 w-full flex flex-col items-center justify-start pointer-events-none"
+  style="height: 0px; margin-bottom: 0px;"
+>
+  <!-- Hood layer - full width, positioned at top -->
+  <div 
+    class="absolute w-full z-60 overflow-hidden"
+    style="height: 150px; top: 10;"
+  >
+    <!-- Optional Hood Design Element -->
+    <!-- <div 
+      class="lamp-beam-head relative left-0 right-0 mx-auto w-full bg-[#090E10] z-60"
+      style="height: 150px; top: 0;"
+    >
+  </div> -->
+  </div>
+  
+  <div class="relative w-3/4 max-w-4xl flex items-center justify-center" style="margin-top: 150px;">
+    <div 
+      class="lamp-beam absolute z-50 rounded-full" 
+      style="
+        height: 2px; 
+        width: 0;
+        top: 0;
+        /* NEW FULL SPECTRUM GRADIENT */
+        background: linear-gradient(90deg, 
+          #F88F3A, #DB9350, #A29A80, #5AA3BD, #49A5CA, #1DAAF0, 
+          #5778FE, #646EFF, #8C53FF, #B734FF, #D722CC, #EF11A0, 
+          #FD2972, #F96D4C, #F88F3A
+        );
+        /* NEW COMPLEX SHADOW */
+        box-shadow: 
+          0 0 20px rgba(248, 143, 58, 0.8),
+          0 0 20px rgba(219, 147, 80, 0.5),
+          0 0 20px rgba(162, 154, 128, 0.3),
+          0 0 20px rgba(90, 163, 189, 0.4),
+          0 0 20px rgba(73, 165, 202, 0.5),
+          0 0 20px rgba(29, 170, 240, 0.3),
+          0 0 20px rgba(87, 120, 254, 0.3),
+          0 0 20px rgba(100, 110, 255, 0.8),
+          0 0 20px rgba(140, 83, 255, 0.6),
+          0 0 20px rgba(183, 52, 255, 0.4),
+          0 0 20px rgba(215, 34, 204, 0.5),
+          0 0 20px rgba(239, 17, 160, 0.6),
+          0 0 20px rgba(253, 41, 114, 0.6),
+          0 0 20px rgba(249, 109, 76, 0.8);
+      "
+    ></div>
+    
+    <!-- (UPDATED RAINBOW GLOW) -->
+    <div 
+      class="lamp-glow-down absolute z-40" 
+      style="
+        height: 0px; 
+        width: 0;
+        top: 0;
+        /* UPDATED: Full rainbow spectrum, 180deg (downward) */
+        background: linear-gradient(180deg, 
+          rgba(248, 143, 58, 0.6) 0%,    /* F88F3A */
+          rgba(162, 154, 128, 0.5) 15%,   /* A29A80 */
+          rgba(73, 165, 202, 0.4) 30%,    /* 49A5CA */
+          rgba(100, 110, 255, 0.3) 45%,   /* 646EFF */
+          rgba(183, 52, 255, 0.2) 60%,    /* B734FF */
+          rgba(253, 41, 114, 0.1) 75%,    /* FD2972 */
+          transparent 100%
+        );
+        filter: blur(60px);
+      "
+    ></div>
+    
+    <!-- Center glow-->
+    <div 
+      class="lamp-glow-intense absolute z-45" 
+      style="
+        height: 120px; 
+        width: 0;
+        top: 0;
+        /* UPDATED: Intense blue/purple focused spectrum, 180deg (downward) */
+        background: linear-gradient(180deg, 
+          rgba(29, 170, 240, 0.7) 0%,    /* 1DAAF0 (Cyan) */
+          rgba(140, 83, 255, 0.5) 40%,   /* 8C53FF (Purple) */
+          rgba(239, 17, 160, 0.3) 70%,   /* EF11A0 (Pink) */
+          transparent 100%
+        );
+        filter: blur(50px);
+      "
+    ></div>
+    
+    <!-- side glow  -->
+    <div 
+      class="lamp-glow-sides absolute z-35 rounded-full" 
+      style="
+        height: 30px; 
+        width: 0;
+        top: 0;
+        /* UPDATED: Radial glow using key spectrum colors */
+        background: radial-gradient(ellipse, 
+          rgba(248, 143, 58, 0.3) 0%,    /* F88F3A (Orange) */
+          rgba(162, 154, 128, 0.2) 20%,   /* A29A80 (Gray/Green) */
+          rgba(57, 120, 254, 0.1) 40%,    /* 5778FE (Light Blue) */
+          transparent 60%
+        );
+        filter: blur(40px);
+      "
+    ></div>
+  </div>
+</div>
+
+</div>
+
+ <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        
+        #beam-body {
+            font-family: 'Inter', sans-serif;
+            background-color: #090E10; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+            margin: 0;
+        }
+
+        /* --- Vertical Glow Bar --- */
+        .vertical-glow-bar {
+            position: relative;
+            /* Set a subtle outer shadow on the bar itself for definition */
+            box-shadow: 1px 0 10px rgba(100, 110, 255, 0.5); 
+        }
+
+        /* ::before creates the subtle vertical rainbow color on the bar's surface */
+        .vertical-glow-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Vertical Rainbow Gradient (full) */
+            background: linear-gradient(180deg, 
+                #F88F3A 0%, #DB9350 10%, #A29A80 20%, #5AA3BD 30%, #49A5CA 40%, 
+                #1DAAF0 50%, #5778FE 60%, #646EFF 70%, #8C53FF 80%, #B734FF 90%, 
+                #D722CC 100%
+            );
+            /* Set opacity low so the dark background color shows through for a subtle effect */
+            opacity: 0.3; 
+        }
+
+        /* blurred, glow */
+        .vertical-glow-bar::after {
+            content: '';
+            position: absolute;
+            top: -20px;    
+            bottom: -20px;
+            left: -20px;   
+            right: 20px;   
+            z-index: -1;   
+            pointer-events: none;
+
+            background: linear-gradient(180deg, 
+                rgba(248, 143, 58, 0.5) 0%,   /* #F88F3A (Orange) */
+                rgba(73, 165, 202, 0.5) 30%,  /* #49A5CA (Cyan) */
+                rgba(100, 110, 255, 0.5) 60%, /* #646EFF (Blue) */
+                rgba(239, 17, 160, 0.5) 100%  /* #EF11A0 (Pink/Magenta) */
+            );
+            /* heavy blur */
+            filter: blur(40px);
+        }
+        /* ------------------------------------------------ */
+
+
+        .lamp-wrapper {
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in forwards;
+        }
+
+        .lamp-beam,
+        .lamp-glow-down,
+        .lamp-glow-intense,
+        .lamp-glow-sides {
+            opacity: 0;
+            animation: expandGlowHorizontal 1.5s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes expandGlowHorizontal {
+            0% {
+                opacity: 0;
+                width: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+
+                width: 100%; 
+            }
+        }
+    </style>

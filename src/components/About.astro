@@ -1,0 +1,103 @@
+---
+import { Code2, Palette, Rocket, Cloud, ShieldCheck, MonitorCog, Network, EthernetPort } from '@lucide/astro';
+
+const features = [
+  {
+    icon: Code2,
+    title: 'Full-Stack Development',
+    description: 'Building robust applications from front to back with modern frameworks',
+  },
+  {
+    icon: Palette,
+    title: 'UI/UX Design',
+    description: 'Creating beautiful, intuitive interfaces that users love',
+  },
+  {
+    icon: Network,
+    title: 'Network Engineering',
+    description: 'Designing and managing network infrastructure for optimal performance',
+  },
+  {
+    icon: Rocket,
+    title: 'WAN Optimization',
+    description: 'Enhancing network performance and reliability across wide area networks, with technologies such as Talari SD-WAN, Riverbed Steelhead, and more',
+  },
+    {
+    icon: Cloud,
+    title: 'Cloud Solutions',
+    description: 'Designing, implementing and managing cloud architectures for scalability and efficiency, with expertise in AWS, Azure, and Google Cloud',
+  },
+    {
+    icon: MonitorCog,
+    title: 'Alert monitoring & Incident Response',
+    description: 'Implementing proactive monitoring and response strategies to detect and mitigate network outage and security incidents',
+  },
+    {
+    icon: ShieldCheck,
+    title: 'Vulnerability Analysis & Penetration Testing',
+    description: 'Simulating cyber attacks to identify vulnerabilities and strengthen defenses',
+  },
+    {
+    icon: EthernetPort,
+    title: 'Systems Administration',
+    description: 'Managing and maintaining IT infrastructure and systems ensuring optimal performance and security',
+  },
+];
+---
+<section id="about" class=" px-4 sm:px-6 lg:px-8 relative overflow-hidden   border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+ 
+  <div class="w-full mx-auto"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary-blue)]/5 to-transparent pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto relative z-10 about-container">
+    <div class="text-center mb-16">
+      <div class="h-20 w-20 bg-gradient-to-r from-primary-blue to-secondary-purple mx-auto rounded-full about-underline">
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 ">
+      {features.map((feature, index) => {
+        const Icon = feature.icon;
+        return (
+          <div
+            class="about-feature-card p-6 rounded-xl bg-card border border-(--primary-blue)/40 hover:border-(--primary-green) transition-all group text-(--primary-blue) hover:text-(--primary-green)"
+            style={`--feature-delay: ${0.6 + index * 0.1}s `}
+          >
+            <Icon class="w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
+            <h4 class="mb-2 font-semibold ">{feature.title}</h4>
+            <p class="text-muted-foreground text-sm">{feature.description}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+  
+</section>
+
+<script>
+  if (typeof window !== 'undefined') {
+    const observerOptions = {
+      threshold: 0.3,
+      rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    function setupObserver() {
+      const section = document.querySelector('#about .about-container');
+      if (section) {
+        observer.observe(section);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', setupObserver);
+    document.addEventListener('astro:page-load', setupObserver);
+  }
+</script>

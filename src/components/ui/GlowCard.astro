@@ -1,0 +1,86 @@
+---
+interface Props {
+  class?: string;
+  animate?: boolean;
+}
+
+const { class: className = '', animate = false } = Astro.props;
+---
+
+<div class={`glow-card-wrapper ${className}`}>
+  <div class={`glow-card-border ${animate ? 'animate' : ''}`}>
+    <div class="glow-card-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .glow-card-wrapper {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .glow-card-border {
+    position: relative;
+    padding: 1px;
+    border-radius: 0.5rem;
+    background: linear-gradient(90deg, 
+      hsl(27deg 93% 60%) 0%,
+      hsl(200deg 100% 52%) 25%,
+      hsl(280deg 100% 60%) 50%,
+      hsl(330deg 100% 52%) 75%,
+      hsl(27deg 93% 60%) 100%
+    );
+    background-size: 200% 100%;
+  }
+
+  .glow-card-border.animate {
+    animation: gradient-slide 8s linear infinite;
+  }
+
+  .glow-card-border::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: inherit;
+    background-size: inherit;
+    filter: blur(20px);
+    opacity: 0.7;
+    z-index: -1;
+    border-radius: inherit;
+  }
+
+  .glow-card-border.animate::before {
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+
+  .glow-card-content {
+    position: relative;
+    background: linear-gradient(135deg, #1e1e24 10%, #050505 60%);
+    border-radius: 0.375rem;
+    height: 100%;
+    width: 100%;
+    /* Removed z-index: 1 to allow children to use z-index freely */
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      opacity: 0.6;
+      filter: blur(60px);
+    }
+    50% {
+      opacity: 0.9;
+      filter: blur(80px);
+    }
+  }
+
+  @keyframes gradient-slide {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
+</style>

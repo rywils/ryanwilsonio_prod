@@ -1,0 +1,68 @@
+---
+interface Props {
+  pattern?: 'cubes' | 'scanlines' | 'grid' | 'dots' | 'diagonal' | 'hexagons';
+  opacity?: number;
+  color?: string;
+  className?: string;
+}
+
+const { 
+  pattern = 'cubes', 
+  opacity = 0.05, 
+  color = 'white',
+  className = '' 
+} = Astro.props;
+
+function encodeSVG(svg: string): string {
+  return svg
+    .replace(/\s+/g, ' ')
+    .replace(/"/g, "'")
+    .replace(/%/g, '%25')
+    .replace(/#/g, '%23')
+    .replace(/{/g, '%7B')
+    .replace(/}/g, '%7D')
+    .replace(/</g, '%3C')
+    .replace(/>/g, '%3E');
+}
+
+const patterns = {
+  cubes: `<svg width='120' height='104' xmlns='http://www.w3.org/2000/svg'><path d='M0 52L30 34.64 60 52 30 69.36zM30 34.64L60 17.28 90 34.64 60 52zM60 52L90 34.64 120 52 90 69.36zM30 69.36L60 52 60 86.72 30 104zM60 52L90 69.36 90 104 60 86.72zM0 0L30 17.28 30 52 0 34.64zM90 17.28L120 0 120 34.64 90 52z' fill='none' stroke='${color}' stroke-width='1.5'/><path d='M30 17.28L60 0 90 17.28M0 52L30 69.36 30 104M60 86.72L60 104 90 86.72M90 34.64L120 52 120 86.72' fill='none' stroke='${color}' stroke-width='1.5'/></svg>`,
+  
+  scanlines: `<svg width='100%' height='4' xmlns='http://www.w3.org/2000/svg'><line x1='0' y1='0' x2='100%' y2='0' stroke='${color}' stroke-width='1'/></svg>`,
+  
+  grid: `<svg width='40' height='40' xmlns='http://www.w3.org/2000/svg'><path d='M0 20h40M20 0v40' fill='none' stroke='${color}' stroke-width='1'/></svg>`,
+  
+  dots: `<svg width='20' height='20' xmlns='http://www.w3.org/2000/svg'><circle cx='2' cy='2' r='1.5' fill='${color}'/></svg>`,
+  
+  diagonal: `<svg width='10' height='10' xmlns='http://www.w3.org/2000/svg'><path d='M0 10L10 0M-5 5L5 -5M5 15L15 5' stroke='${color}' stroke-width='0.5'/></svg>`,
+  
+  hexagons: `<svg width='56' height='100' xmlns='http://www.w3.org/2000/svg'><path d='M28 0L0 16.67V50L28 66.67L56 50V16.67L28 0z' fill='none' stroke='${color}' stroke-width='1.5'/><path d='M28 66.67L0 83.33V116.67L28 133.33' fill='none' stroke='${color}' stroke-width='1.5'/><path d='M28 66.67L56 83.33V116.67' fill='none' stroke='${color}' stroke-width='1.5'/></svg>`
+};
+
+const selectedPattern = patterns[pattern];
+const dataUri = `data:image/svg+xml,${encodeSVG(selectedPattern)}`;
+
+const patternSizes: Record<string, string> = {
+  cubes: '120px 104px',
+  scanlines: '100% 4px',
+  grid: '40px 40px',
+  dots: '20px 20px',
+  diagonal: '10px 10px',
+  hexagons: '56px 100px'
+};
+---
+
+<div 
+  class={`pattern-overlay ${className}`}
+  style={`background-image: url("${dataUri}"); background-size: ${patternSizes[pattern]}; opacity: ${opacity};`}
+></div>
+
+<style>
+  .pattern-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-repeat: repeat;
+    z-index: 1;
+  }
+</style>

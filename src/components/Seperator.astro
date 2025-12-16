@@ -1,0 +1,48 @@
+---
+interface Props {
+  class?: string;
+  orientation?: "horizontal" | "vertical";
+  decorative?: boolean;
+}
+
+const {
+  class: className = "",
+  orientation = "horizontal",
+  decorative = true,
+  ...props
+} = Astro.props;
+
+const baseClasses = "shrink-0";
+const orientationClasses = orientation === "horizontal" 
+  ? "h-px w-full" 
+  : "h-full w-px";
+
+const allClasses = [baseClasses, orientationClasses, className]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div
+  data-slot="separator"
+  data-orientation={orientation}
+  role={decorative ? "none" : "separator"}
+  aria-orientation={decorative ? undefined : orientation}
+  class={allClasses}
+  {...props}
+/>
+
+<style>
+  [data-slot="separator"] {
+    background-color: hsl(var(--border, 214.3 31.8% 91.4%));
+  }
+  
+  /* Dark mode support */
+  :root.dark [data-slot="separator"],
+  .dark [data-slot="separator"] {
+    background-color: hsl(var(--border, 217.2 32.6% 17.5%));
+  }
+  
+  [data-slot="separator"].bg-border {
+    background-color: hsl(var(--border));
+  }
+</style>

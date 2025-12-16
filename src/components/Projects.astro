@@ -1,0 +1,329 @@
+---
+// src/components/Projects.astro
+import { ExternalLink, Github, Tag } from '@lucide/astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+
+const featuredProjects = allProjects
+  .filter(p => p.data.featured)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .slice(0, 6);
+
+const displayProjects = featuredProjects.length > 0 ? featuredProjects : allProjects.slice(0, 6);
+
+// Pre-render content for modal
+const projectsWithContent = await Promise.all(
+  displayProjects.map(async (project) => {
+    const { Content, remarkPluginFrontmatter } = await project.render();
+    // Get the raw body text for preview
+    const bodyText = project.body.slice(0, 400);
+    return { project, Content, bodyText };
+  })
+);
+---
+
+<section id="projects" class="py-10 md:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style="position: relative; z-index: 10;">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--neon-pink)]/5 to-transparent pointer-events-none"></div>
+  
+  <div class="max-w-7xl mx-auto relative z-10 projects-container in-view">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-5xl md:text-5xl mb-4 projects-title text-[var(--primary-green)]">
+        Recent Projects
+      </h2>
+      <div class="h-1 w-20 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-green)] mx-auto rounded-full projects-underline"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+      {displayProjects.map((project, index) => (
+        <div
+          class="project-card group relative rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-green)]/50 transition-all hover:scale-[1.02] cursor-pointer"
+          data-project-slug={project.slug}
+          data-category={JSON.stringify(project.data.category)}
+          style={`--project-delay: ${0.1 + index * 0.1}s`}
+        >
+          <div class="relative overflow-hidden aspect-video">
+            <img
+              src={project.data.image}
+              alt={project.data.title}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+          </div>
+
+          <div class="p-6">
+            <h3 class="text-2xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
+              {project.data.title}
+            </h3>
+            <p class="text-muted-foreground mb-4">{project.data.description}</p>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.data.tags.map((tag) => (
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
+                  <Tag size={12} />
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {allProjects.length > 6 && (
+      <div class="text-center mt-12">
+        <a
+          href="/projects"
+          class="inline-flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/10 hover:scale-105 transition-all active:scale-95 font-semibold"
+          data-astro-prefetch
+        >
+          View All Projects
+          <ExternalLink size={20} />
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- Project Modal -->
+<div id="project-modal" class="fixed inset-0 z-50 hidden">
+  <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm" id="project-modal-backdrop"></div>
+  <div class="modal-content absolute inset-4 md:inset-8 lg:inset-12 bg-card border border-[var(--primary-blue)]/30 rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 border-b border-[var(--primary-blue)]/20 bg-card">
+      <button id="project-modal-back" class="flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-colors">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+      </button>
+      <button id="project-modal-close" class="text-[var(--primary-blue)] hover:text-[var(--secondary-pink)] transition-colors">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto p-6 md:p-8 bg-card" id="project-modal-body">
+      <!-- Content will be injected here -->
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ projectsWithContent }}>
+  function initProjectModal() {
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('project-modal-body');
+    const modalBackdrop = document.getElementById('project-modal-backdrop');
+    const modalBack = document.getElementById('project-modal-back');
+    const modalClose = document.getElementById('project-modal-close');
+
+    if (!modal || !modalBody) return;
+
+    // Pre-render all project content
+    const projectContents = {};
+    projectsWithContent.forEach(({ project, bodyText }) => {
+      const p = project.data;
+      const techs = project.data.technologies || [];
+      
+      // Clean up markdown symbols from body text
+      const cleanText = bodyText
+        .replace(/#{1,6}\s/g, '') // Remove markdown headers
+        .replace(/\*\*/g, '') // Remove bold
+        .replace(/\*/g, '') // Remove italic
+        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove links but keep text
+        .trim();
+      
+      projectContents[project.slug] = `
+        <div class="max-w-4xl mx-auto">
+          <img src="${p.image}" alt="${p.title}" class="w-full h-64 md:h-96 object-cover rounded-xl mb-6" />
+          
+          <h2 class="text-4xl md:text-5xl font-bold text-[var(--primary-green)] mb-4">${p.title}</h2>
+          
+          <div class="flex flex-wrap gap-2 mb-6">
+            ${p.tags.map(tag => `
+              <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
+                ${tag}
+              </span>
+            `).join('')}
+          </div>
+
+          <div class="flex gap-4 mb-8">
+            ${p.github ? `
+              <a href="${p.github}" target="_blank" rel="noopener noreferrer" 
+                 class="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-blue)]/20 border border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/30 transition-all">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View Code
+              </a>
+            ` : ''}
+            ${p.demo && p.demo !== p.github ? `
+              <a href="${p.demo}" target="_blank" rel="noopener noreferrer"
+                 class="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--secondary-purple)]/20 border border-[var(--secondary-purple)] text-[var(--secondary-purple)] hover:bg-[var(--secondary-purple)]/30 transition-all">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                Live Demo
+              </a>
+            ` : ''}
+          </div>
+
+          <div class="text-muted-foreground mb-6">
+            <p class="text-lg leading-relaxed">${cleanText}...</p>
+          </div>
+
+          ${techs.length > 0 ? `
+            <div class="mt-8">
+              <h3 class="text-2xl font-semibold text-[var(--primary-blue)] mb-3">Technologies Used</h3>
+              <div class="flex flex-wrap gap-2">
+                ${techs.map(tech => `
+                  <span class="px-3 py-1 rounded-full bg-[var(--primary-green)]/10 border border-[var(--primary-green)]/30 text-sm">
+                    ${tech}
+                  </span>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="mt-8 pt-6 border-t border-[var(--primary-blue)]/20 text-center">
+            <a href="/projects/${project.slug}" 
+               class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[var(--primary-blue)] text-white hover:bg-[var(--primary-green)] transition-all hover:scale-105 active:scale-95 font-semibold">
+              Read Full Project
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      `;
+    });
+
+    function openModal(projectSlug) {
+      if (!projectContents[projectSlug]) return;
+
+      modalBody.innerHTML = projectContents[projectSlug];
+
+      modal.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        modal.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closeModal() {
+      modal.classList.remove('modal-open');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    // Remove existing listeners
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+      const clone = card.cloneNode(true);
+      card.parentNode?.replaceChild(clone, card);
+    });
+
+    // Add fresh listeners
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const projectSlug = card.getAttribute('data-project-slug');
+        if (projectSlug) openModal(projectSlug);
+      });
+    });
+
+    modalBackdrop?.addEventListener('click', closeModal);
+    modalBack?.addEventListener('click', closeModal);
+    modalClose?.addEventListener('click', closeModal);
+
+    const escapeHandler = (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    };
+    document.removeEventListener('keydown', escapeHandler);
+    document.addEventListener('keydown', escapeHandler);
+  }
+
+  document.addEventListener('DOMContentLoaded', initProjectModal);
+  document.addEventListener('astro:page-load', initProjectModal);
+</script>
+
+<style>
+  #project-modal {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #project-modal.modal-open {
+    opacity: 1;
+  }
+
+  #project-modal .modal-content {
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  #project-modal.modal-open .modal-content {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-backdrop {
+    animation: fadeIn 0.3s ease;
+  }
+
+  .markdown-content :global(h2) {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+
+  .markdown-content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  
+  .markdown-content :global(p) {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    color: var(--muted-foreground);
+  }
+
+  .line-clamp-content {
+    max-height: 150px;
+    overflow: hidden;
+  }
+
+  .markdown-content :global(ul) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .markdown-content :global(li) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .markdown-content :global(li::before) {
+    content: "▹";
+    color: var(--primary-green);
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+import Contact from "@/components/Contact.astro";
+import Layout from "../../layouts/Layout.astro";
+import { Download, ArrowUpRight, ArrowRight } from '@lucide/astro';
+
+
+---
+
+<Layout title="Contact Me">
+  <section class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a] ">
+<div class="h-full w-full mt-10 ">
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-6">
+    <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-green)] font-bold">Contact</h1>
+  <div class="h-1 w-24 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-green)] mx-auto rounded-full"></div></div>
+  
+<p class="p-6">
+If you're wanting to get in touch, feel free to reach out using the form below or via email. If you're an employer, please select the "employer" option in the "Reason for Contact" dropdown menu on the form so I can flag your message accordingly. Rather you feel like reaching out just to say hi, to collaborate on a project, or if you're interested in rather or not I'd make a good asset to your team, I'm always open to connecting with new people and exploring new opportunities. 
+
+If you haven't already, check out my <a href="/resume" class="text-(--primary-blue) font-sembold" >Resume</a> and my <a href="/blog" class="text-(--primary-blue) font-semibold">Blog</a>! </p>
+</div>
+<div class="hidden md:flex w-full items-center justify-center gap-8 mb-4 stagger-item mt-2 pt-4 ">
+        
+          
+          <a href="/projects"
+            class="text-center py-3  w-32 text-nowrap px-4 bg-primary-blue rounded-lg glow-primary-blue hover:bg-secondary-purple transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+          >
+            </h2>View Work</h2>
+          </a>
+        
+          <a href="/resume"
+            class="text-center py-3  w-32 text-nowrap px-4 rounded-lg glow-primary-betweenpurple  hover:bg-secondary-purple transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+          >
+            <div class="flex items-center justify-center">Resume <ArrowRight class="ml-2" size={16} /></div>
+          </a>
+           <a href="/resume/resume_ryanwilsonio.pdf"
+            class="text-center py-3  w-36 text-nowrap px-4 rounded-lg glow-primary-betweenpurple  hover:bg-secondary-purple transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+          >
+            <div class="flex items-center justify-center">Download CV <Download class="ml-2" size={16} /></div>
+          </a>
+          
+          
+          <a href="#"
+            class="text-center py-3  w-32 text-nowrap px-4 rounded-lg glow-primary-purple hover:bg-secondary-purple transition-all duration-300 hover:scale-105 active:scale-95 text-sm"
+          >
+            <div class="flex items-center justify-center">Blog <ArrowUpRight class="ml-2" size={16} /></div>
+          </a>
+
+          
+        </div>
+        <div class="w-full flex items-center justify-center mx-auto">
+<Contact />
+</div>
+
+</div>
+</section>
+</Layout>
+
+<script>
+  //    const contactHeading = document.getElementById("contact-heading") as HTMLElement | null;
+  // if (contactHeading) {
+  //   contactHeading.className = "hidden";
+  // }
+
+  // const contactInfoFirst = document.getElementById("contact-info-first") as HTMLElement | null;
+  // if (contactInfoFirst) {
+  //   contactInfoFirst.className = "hidden";
+  // }
+
+  // const contactInfoThird = document.getElementById("contact-info-third") as HTMLElement | null;
+  // if (contactInfoThird) {
+  //   contactInfoThird.className = "hidden";
+  // }
+  
+  function hideContactElements() {
+    if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/contact')) {
+      return;
+    }
+  
+    const contactComponent = document.getElementById("contact") as HTMLElement | null;
+    if (contactComponent) {
+      contactComponent.className = "px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+    }
+  const contactForm = document.getElementById("contact-grid") as HTMLElement | null;
+  if (contactForm) {
+    contactForm.className = "w-full"
+  }
+
+  const contactGrid = document.getElementById("contact-grid") as HTMLElement | null;
+  if (contactGrid) {
+    contactGrid.className = "grid lg:grid-cols-2 gap-12"
+  }
+
+  const contactInfo = document.getElementsByClassName("contact-info") as HTMLCollectionOf<HTMLElement> | null;
+  if (contactInfo) {
+    Array.from(contactInfo).forEach(element => {
+      element.className = "hidden";
+    });
+  }
+  // const contactHeading = document.getElementById("contact-heading") as HTMLElement | null;
+  // if (contactHeading) {
+  //   contactHeading.className = "hidden";
+  // }
+  // const contactUnderline = document.getElementById("contact-underline") as HTMLElement | null;
+  // if (contactUnderline) {
+  //   contactUnderline.className = "hidden";
+  // }
+  // const contactSecondaryHeading = document.getElementById("contact-secondary-heading") as HTMLElement | null;
+  // if (contactSecondaryHeading) {
+  //   contactSecondaryHeading.className = "hidden";
+  // }
+
+  // const contactSecondaryHeadingBlock = document.getElementById("contact-secondary-heading-block") as HTMLElement | null;
+  // if (contactSecondaryHeadingBlock) {
+  //   contactSecondaryHeadingBlock.className = "hidden";
+  // }
+  const contactSubmit = document.getElementById("contact-submit") as HTMLElement | null;
+  if (contactSubmit) {
+    contactSubmit.classList.add("w-full", "flex", "justify-center", "items-center", "mt-4");
+  }
+
+  // const contactInfoCard = document.getElementsByClassName("contact-info-card") as HTMLCollectionOf<HTMLElement> | null;
+  // if (contactInfoCard) {
+  //   contactInfoCard[0].classList.add("max-w-sm", "mx-auto");
+  // }
+  // const contactEmailSubtitle = document.getElementById("contact-email-subtitle") as HTMLElement | null;
+  // if (contactEmailSubtitle) {
+  //   contactEmailSubtitle.className = "text-muted-foreground text-sm text-center mx-auto";
+  // }
+  }
+  // Run on initial page load
+  hideContactElements();
+  
+  // Run after Astro page transitions
+  document.addEventListener('astro:page-load', hideContactElements);
+</script>

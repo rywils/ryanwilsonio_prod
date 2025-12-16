@@ -1,0 +1,117 @@
+---
+import { X } from '@lucide/astro';
+
+interface Props {
+  content: string;
+  bannerType?: 'info' | 'warning' | 'error' | 'success';
+  class?: string;
+  dismissible?: boolean;
+  persistDismissal?: boolean; // New: whether dismissal persists across page loads
+}
+
+const { 
+  content, 
+  bannerType = 'info', 
+  class: className = '', 
+  dismissible = true,
+  persistDismissal = false // Default: banner shows again on refresh
+} = Astro.props;
+
+// Map banner types to color schemes
+const colorSchemes = {
+  info: {
+    bg: '#CFFAFE',
+    text: '#0E7490',
+    border: '#06B6D4'
+  },
+  warning: {
+    bg: '#FEF3C7',
+    text: '#92400E',
+    border: '#F59E0B'
+  },
+  error: {
+    bg: '#FEE2E2',
+    text: '#991B1B',
+    border: '#EF4444'
+  },
+  success: {
+    bg: '#D1FAE5',
+    text: '#065F46',
+    border: '#10B981'
+  }
+};
+
+const colors = colorSchemes[bannerType];
+---
+
+<div 
+  id="site-banner"
+  data-persist-dismissal={persistDismissal}
+  class={` top-0 left-0 right-0 w-full flex items-center justify-center p-3 border-b-2 transition-transform duration-300 ${className}`}
+  style={`background-color: ${colors.bg}; color: ${colors.text}; border-color: ${colors.border}; z-index: 9999;`}
+>
+  <div class="max-w-7xl w-full mx-auto px-4 flex items-center justify-center relative">
+    <p class="text-center text-sm md:text-base font-medium sm:whitespace-nowrap pr-10">{content}</p>
+    {dismissible && (
+      <button
+        id="banner-close"
+        class="p-1 rounded hover:bg-black/10 transition-colors absolute right-0"
+        aria-label="Close banner"
+      >
+        <X size={20} />
+      </button>
+    )}
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    const banner = document.getElementById('site-banner');
+    if (!banner) return;
+    
+    const persistDismissal = banner.getAttribute('data-persist-dismissal') === 'true';
+    
+    // Only check storage if persistence is enabled
+    if (persistDismissal) {
+      const bannerDismissed = sessionStorage.getItem('bannerDismissed');
+      
+      if (bannerDismissed === 'true') {
+        banner.style.display = 'none';
+        banner.remove();
+      }
+    }
+  })();
+</script>
+
+<script>
+  function setupBanner() {
+    const banner = document.getElementById('site-banner');
+    const closeBtn = document.getElementById('banner-close');
+    
+    if (!banner) return;
+    
+    const persistDismissal = banner.getAttribute('data-persist-dismissal') === 'true';
+    
+    // Handle close button
+    closeBtn?.addEventListener('click', () => {
+      banner.style.transform = 'translateY(-100%)';
+      setTimeout(() => {
+        banner.remove();
+        
+        // Only save to storage if persistence is enabled
+        if (persistDismissal) {
+          sessionStorage.setItem('bannerDismissed', 'true');
+        }
+        
+        // Dispatch custom event so layout can adjust
+        window.dispatchEvent(new CustomEvent('banner-closed'));
+      }, 300);
+    });
+  }
+  
+  // Run on initial load
+  setupBanner();
+  
+  // Re-run after page transitions
+  document.addEventListener('astro:after-swap', setupBanner);
+</script>
