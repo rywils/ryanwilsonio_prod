@@ -5,9 +5,11 @@ import Layout from "../layouts/Layout.astro"
 import Projects from "../components/Projects.astro"
 import Blog from "../components/Blog.astro"
 import Contact from "../components/Contact.astro"
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
 ---
 
-<Layout>
+<Layout title="Home" pageDescription="Solutions Architect & Developer based out of Des Moines, IA. Blogs, tutorials, technical insights, project showcases, portfolio and more.">
 <Hero />
 <Projects />
 <Blog />

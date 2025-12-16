@@ -5,8 +5,15 @@ import cloudflare from "@astrojs/cloudflare";
 
 import react from "@astrojs/react";
 
+import sitemap from '@astrojs/sitemap';
+
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://ryanwilson.io',
+  trailingSlash: 'never',
+  build: {
+    format: 'file'
+  },
   output: 'static',
   // Disable Cloudflare KV-backed sessions (not used) to avoid requiring a SESSION binding
   session: {
@@ -20,5 +27,5 @@ export default defineConfig({
   },
 
   adapter: cloudflare(),
-  integrations: [react()],
+  integrations: [react(), sitemap()],
 });

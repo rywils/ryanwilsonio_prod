@@ -2,12 +2,14 @@
 import { ClientRouter } from 'astro:transitions';
 
 import '../styles/globals.css';
-const pageTitle = "Home Page";
+const pageTitle = "";
 import Navigation from '../components/Navigation.astro';
 import ContentBarLeft from '../components/ui/ContentBarLeft.astro';
 import ContentBarRight from '../components/ui/ContentBarRight.astro';
 import Footer from '../components/Footer.astro'; 
 import Banner from '../components/ui/Banner.astro';
+import { SEO } from 'astro-seo';
+const pageDescription = ""
 ---
 <html lang="en">
   <head>
@@ -28,8 +30,38 @@ import Banner from '../components/ui/Banner.astro';
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link rel="canonical" href="https://ryanwilson.io/">
+
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Solutions Architect & Developer based out of Des Moines, IA. Blogs, tutorials, technical insights, project showcases, portfolio and more." />
+    <SEO
+      title={pageTitle}
+      description={pageDescription}
+      openGraph={{
+        basic: {
+          title: "Solutions Architect & Developer based out of Des Moines, IA. Blogs, tutorials, technical insights, project showcases, portfolio and more.",
+          type: "",
+          image: "",
+        }
+      }}
+      twitter={{
+        creator: "@siltrace_"
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: "icon", href: "/favicon.ico" }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: "twitter:image",
+            content: "https://x.com/siltrace_/photo",
+          },
+          { name: "twitter:title", content: "siltrace" },
+          { name: "twitter:description", content: "Cybersecurity | Developer" },
+        ],
+      }}
+    />
     <title>{pageTitle}</title>
     <ClientRouter />
 

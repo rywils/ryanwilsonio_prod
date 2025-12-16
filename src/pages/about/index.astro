@@ -10,6 +10,7 @@ import WorkExperience from "@/components/WorkExperience.astro";
    import { Image } from "astro:assets";
    import { GraduationCap, Award, Calendar } from '@lucide/astro';
 import Education from "@/components/Education.astro";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 
 
@@ -62,7 +63,7 @@ const coreSkills = coreSkillNames
   
 ---
 
-<Layout title="About Me">
+<Layout title="About Me" pageDescription="About me page. Skills, work history, and what I do outside of tech.">
 
 <section class="">
 <div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">

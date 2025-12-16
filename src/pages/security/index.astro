@@ -1,9 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 ---
 
-<Layout>
+<Layout title="Security" pageDescription="Security policy outline regarding vulnerabilities within the website or connected to the website.">
 <div class="max-w-4xl mx-auto flex flex-col mb-8">
     <div class="leading-6 text-md tracking-wide">
 <h2 class="text-(--primary-blue) text-lg py-4">1. Our Scope </h2>

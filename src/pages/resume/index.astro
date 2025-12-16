@@ -1,9 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Download } from "@lucide/astro";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<Layout title="Resume">
+<Layout title="Resume" pageDescription="Resume for Ryan Wilson, Solutions Architect & Developer">
   <!-- Download Button -->
   <div class="max-w-4xl mx-auto px-6 mt-10 flex justify-end">
     <a href="/resume/resume_ryanwilsonio.pdf">

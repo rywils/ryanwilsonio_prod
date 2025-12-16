@@ -3,6 +3,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { Calendar, Clock, User, ArrowRight, ChevronDown } from '@lucide/astro';
 import { getCollection } from 'astro:content';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const allPosts = await getCollection('blog', ({ data }) => {
   return data.draft !== true;
