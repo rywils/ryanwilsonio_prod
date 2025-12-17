@@ -2,12 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import { skillData } from "../../data/skillData";
 import me from "../../assets/me.png";
-import { experiences } from "../../data/experiences";
 import WorkExperience from "@/components/WorkExperience.astro";
  import wguIcon from '../assets/wgu.png';
    import sansIcon from '../../assets/sans.jpg'
    import dmaccIcon from '../../assets/dmacc.jpg'; 
-   import { Image } from "astro:assets";
    import { GraduationCap, Award, Calendar } from '@lucide/astro';
 import Education from "@/components/Education.astro";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -88,17 +86,16 @@ const coreSkills = coreSkillNames
       <img 
         src={me.src ?? me}
         alt="Ryan Wilson"
-        class="hidden md:inline-block md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
+        class="hidden md:inline-block md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border-3 border-(--primary-blue)/60 hover:border-(--primary-green)/60 shadow-xl opacity-90 hover:opacity-100 transition"
       />
 
     </div>
 
     <h2 class="text-2xl font-semibold mb-4 text-(--primary-green)">A few of my favorites</h2>
 
-    <div class="flex flex-wrap gap-6 pb-8 justify-center md:justify-normal">
+    <div class="flex flex-wrap gap-6 pb-2 pt-6 justify-center md:justify-normal">
       {coreSkills.map((skill) => (
         <div class="flex flex-col items-center text-center w-16">
-          <!-- Iconify web component; assumes you already load the iconify script in your layout -->
           <iconify-icon
             icon={skill.icon}
             class="text-4xl opacity-80 hover:opacity-100 transition"

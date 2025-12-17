@@ -194,7 +194,7 @@ const contactInfo = [
 
 <script is:inline>
   if (typeof window !== 'undefined') {
-    const observerOptions = { threshold: 0.3, rootMargin: '0px' };
+    const observerOptions = { threshold: 0.2, rootMargin: '0px' };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
