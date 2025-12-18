@@ -22,6 +22,7 @@ export const skillData: SkillCategory[] = [
       { name: 'SQL', icon: 'devicon:mysql' },
       { name: 'Bash', icon: 'devicon:bash' },
       { name: 'PowerShell', icon: 'devicon:powershell' },
+      { name: 'Go', icon: 'devicon:go'},
     ],
   },
   {
