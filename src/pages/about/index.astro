@@ -18,6 +18,7 @@ const coreSkillNames = [
   "Go",
   "TypeScript",
   "Next.js",
+  "Astro",
   "Laravel",
   "Cisco",
   "Docker",
@@ -61,7 +62,7 @@ const coreSkills = coreSkillNames
   
 ---
 
-<Layout title="About Me" pageDescription="About me page. Skills, work history, and what I do outside of tech.">
+<Layout title="About Me" description="About me page. Skills, work history, and what I do outside of tech.">
 
 <section class="">
 <div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
@@ -94,7 +95,7 @@ const coreSkills = coreSkillNames
     <h2 class="text-2xl font-semibold mb-4 text-(--primary-green)">A few of my favorites</h2>
 
     <div class="flex flex-wrap gap-6 pb-2 pt-6 justify-center md:justify-normal">
-      {coreSkills.map((skill) => (
+      {coreSkills.map((skill: any) => (
         <div class="flex flex-col items-center text-center w-16">
           <iconify-icon
             icon={skill.icon}

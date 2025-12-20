@@ -4,7 +4,7 @@ import { Download } from "@lucide/astro";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<Layout title="Resume" pageDescription="Resume for Ryan Wilson, Solutions Architect & Developer">
+<Layout title="Resume" description="Resume for Ryan Wilson, Solutions Architect & Developer">
   <!-- Download Button -->
   <div class="max-w-4xl mx-auto px-6 mt-10 flex justify-end">
     <a href="/resume/resume_ryanwilsonio.pdf">
@@ -23,10 +23,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <h1 class="text-4xl font-bold text-white">Ryan Wilson</h1>
 
       <div class="mt-3 text-sm text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
-        <a href="mailto:ryan@ryanwilson.io" class="hover:text-white">
-          ryan@ryanwilson.io
-        </a>
-        <span>|</span>
         <a href="https://linkedin.com/in/rywils" class="hover:text-white">
           linkedin.com/in/rywils
         </a>

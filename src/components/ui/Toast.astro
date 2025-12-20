@@ -1,0 +1,115 @@
+---
+// Toast.astro - Reusable toast notification component with dismissal memory
+interface Props {
+  id?: string;
+  message: string;
+  type?: 'success' | 'error' | 'warning' | 'info';
+  persistent?: boolean;
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  rememberDismissal?: boolean;
+}
+
+const { 
+  id = 'toast',
+  message, 
+  type = 'info', 
+  persistent = false,
+  position = 'bottom-right',
+  rememberDismissal = false
+} = Astro.props;
+
+const typeStyles = {
+  success: 'bg-green-500 text-white',
+  error: 'bg-red-500 text-white',
+  warning: 'bg-yellow-500 text-black',
+  info: 'bg-blue-500 text-white'
+};
+
+const positionStyles = {
+  'top-left': 'top-4 left-4',
+  'top-right': 'top-4 right-4',
+  'bottom-left': 'bottom-4 left-4',
+  'bottom-right': 'bottom-4 right-4'
+};
+---
+
+<div
+  id={id}
+  class={`fixed ${positionStyles[position]} z-50 px-6 py-3 rounded-lg shadow-lg ${typeStyles[type]} flex items-center gap-3 transition-all duration-300`}
+  data-persistent={persistent.toString()}
+  data-remember-dismissal={rememberDismissal.toString()}
+  data-toast-id={id}
+>
+  <span class="flex-1">{message}</span>
+  {persistent && (
+    <button
+      type="button"
+      class="ml-2 hover:opacity-70 transition-opacity"
+      aria-label="Close notification"
+      data-close-toast
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  )}
+</div>
+
+<script define:vars={{ id, rememberDismissal }}>
+  (function() {
+    // Check IMMEDIATELY on load, before anything renders
+    if (rememberDismissal && typeof localStorage !== 'undefined') {
+      const dismissed = localStorage.getItem(`toast-dismissed-${id}`);
+      if (dismissed === 'true') {
+        const toast = document.getElementById(id);
+        if (toast) {
+          toast.style.display = 'none';
+        }
+        return;
+      }
+    }
+
+    function initToast() {
+      const toast = document.getElementById(id);
+      if (!toast || !(toast instanceof HTMLElement)) return;
+      
+      const isPersistent = toast.dataset.persistent === 'true';
+      
+      // Fade in
+      setTimeout(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+      }, 100);
+      
+      // Auto-dismiss if not persistent
+      if (!isPersistent) {
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(0.5rem)';
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+      
+      // Handle close button
+      const closeBtn = toast.querySelector('[data-close-toast]');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          if (rememberDismissal) {
+            localStorage.setItem(`toast-dismissed-${id}`, 'true');
+          }
+          
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(0.5rem)';
+          setTimeout(() => toast.remove(), 300);
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initToast);
+    } else {
+      initToast();
+    }
+  })();
+</script>

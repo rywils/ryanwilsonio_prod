@@ -1,15 +1,21 @@
 ---
+export interface Props {
+  title: String;
+  description?: String;
+}
+
 import { ClientRouter } from 'astro:transitions';
 
 import '../styles/globals.css';
-const pageTitle = "";
 import Navigation from '../components/Navigation.astro';
 import ContentBarLeft from '../components/ui/ContentBarLeft.astro';
 import ContentBarRight from '../components/ui/ContentBarRight.astro';
 import Footer from '../components/Footer.astro'; 
 import Banner from '../components/ui/Banner.astro';
 import { SEO } from 'astro-seo';
-const pageDescription = ""
+const { title } = Astro.props;
+const { description } = Astro.props;  
+import Toast from '@/components/ui/Toast.astro';
 ---
 <html lang="en">
   <head>
@@ -33,10 +39,10 @@ const pageDescription = ""
 
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content="Solutions Architect & Developer based out of Des Moines, IA. Blogs, tutorials, technical insights, project showcases, portfolio and more." />
+    <meta name="description" content={description}
     <SEO
-      title={pageTitle}
-      description={pageDescription}
+      title={title}
+      description={description}
       openGraph={{
         basic: {
           title: "Solutions Architect & Developer based out of Des Moines, IA. Blogs, tutorials, technical insights, project showcases, portfolio and more.",
@@ -61,7 +67,7 @@ const pageDescription = ""
         ],
       }}
     />
-    <title>{pageTitle}</title>
+    <title>{title}</title>
     <ClientRouter />
 
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
@@ -102,6 +108,12 @@ const pageDescription = ""
       <Navigation />
       <main id="main-content"> <!-- Added ID and main tag -->
         <slot />
+        <Toast 
+  message="🚧 This site is currently under construction. Some features may be incomplete."
+  type="warning"
+  persistent={true}
+  position="top-right"
+/>
       </main>
       <Footer/>
     </div>
