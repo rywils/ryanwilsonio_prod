@@ -15,7 +15,6 @@ import Banner from '../components/ui/Banner.astro';
 import { SEO } from 'astro-seo';
 const { title } = Astro.props;
 const { description } = Astro.props;  
-import Toast from '@/components/ui/Toast.astro';
 ---
 <html lang="en">
   <head>
@@ -108,12 +107,7 @@ import Toast from '@/components/ui/Toast.astro';
       <Navigation />
       <main id="main-content"> <!-- Added ID and main tag -->
         <slot />
-        <Toast 
-  message="🚧 This site is currently under construction. Some features may be incomplete."
-  type="warning"
-  persistent={true}
-  position="top-right"
-/>
+        
       </main>
       <Footer/>
     </div>

@@ -1,0 +1,14 @@
+---
+const { href, ...props} = Astro.props
+---
+
+
+<a href={href} class="cursor-pointer">
+ <button
+    
+       class:list={["w-full sm:w-auto px-8 py-3 bg-transparent rounded-lg glow-primary-blue flex items-center justify-center gap-2 hover:bg-secondary-purple hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-(--primary-blue)" , Astro.props.class]} {...props}>
+       
+    <slot />
+  
+</button>
+  </a>
