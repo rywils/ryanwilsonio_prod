@@ -1,8 +1,9 @@
 ---
-// src/pages/projects/[id].astro
+
 import Layout from '../../layouts/Layout.astro';
 import { ArrowLeft, ExternalLink, Github } from '@lucide/astro';
 import { getCollection } from 'astro:content';
+import LangBadge from '@/components/ui/LangBadge.astro';
 
 export const prerender = true;
 
@@ -20,11 +21,11 @@ const { Content } = await project.render();
 
 <Layout title={`${project.data.title} - Ryan Wilson`}>
   <article class="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
-    <!-- Background decoration -->
+    
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary-blue)]/5 to-transparent pointer-events-none"></div>
     
     <div class="max-w-5xl mx-auto relative z-10">
-      <!-- Back Button -->
+      
       <a 
         href="/projects"
         class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all mb-8 group"
@@ -34,7 +35,7 @@ const { Content } = await project.render();
         <span class="font-semibold">Back to Projects</span>
       </a>
 
-      <!-- Hero Image -->
+      
       <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[var(--primary-blue)]/20">
         <img 
           src={project.data.image} 
@@ -43,21 +44,23 @@ const { Content } = await project.render();
         />
       </div>
 
-      <!-- Title and Tags -->
+      
       <div class="mb-8">
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--primary-green)] mb-4">
           {project.data.title}
         </h1>
         
         <div class="flex flex-wrap gap-2 mb-6">
-          {project.data.tags.map(tag => (
-            <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
-              {tag}
-            </span>
-          ))}
-        </div>
+  {project.data.tags.map(tag => (
+    <LangBadge
+      variant={tag as any}
+      class="opacity-90"
+    />
+  ))}
+</div>
 
-        <!-- Action Buttons -->
+
+        
         <div class="flex flex-wrap gap-4">
           {project.data.github && (
             <a 
@@ -84,12 +87,12 @@ const { Content } = await project.render();
         </div>
       </div>
 
-      <!-- Markdown Content -->
+      
       <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
         <Content />
       </div>
 
-      <!-- Technologies Used (if available) -->
+      
       {project.data.technologies && project.data.technologies.length > 0 && (
         <section class="mt-8">
           <h2 class="text-3xl font-semibold text-[var(--primary-blue)] mb-4">Technologies Used</h2>
@@ -103,7 +106,7 @@ const { Content } = await project.render();
         </section>
       )}
 
-      <!-- Bottom Navigation -->
+      
       <div class="mt-16 pt-8 border-t border-[var(--primary-blue)]/20">
         <a 
           href="/projects"

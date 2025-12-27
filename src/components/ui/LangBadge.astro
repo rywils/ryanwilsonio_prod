@@ -1,0 +1,64 @@
+---
+import PatternOverlay from './PatternOverlay.astro';
+
+interface Props {
+  variant: string;
+  class?: string;
+}
+
+const { variant, class: className } = Astro.props;
+
+
+const key = variant?.toLowerCase().trim();
+
+
+const variants: Record<string, { label: string; accent: string }> = {
+  go:         { label: 'Go', accent: '#6ad7e5' },
+  python:     { label: 'Python', accent: '#f2c94c' },
+  javascript: { label: 'JS', accent: '#f7df1e' },
+  typescript: { label: 'TS', accent: '#3178c6' },
+  c:          { label: 'C', accent: '#5bc0de' },
+  cpp:        { label: 'C++', accent: '#6495ed' },
+  cs:         { label: 'C#', accent: '#9b59b6' },
+  bash:       { label: 'Bash', accent: '#7bd88f' },
+  powershell: { label: 'Powershell', accent: '#4fa3ff' },
+  php:        { label: 'PHP', accent: '#8993be' },
+  lua:        { label: 'Lua', accent: '#e67e22' },
+  java:       { label: 'Java', accent: '#f2994a' },
+  ruby:       { label: 'Ruby', accent: '#eb5757' },
+  html:       { label: 'HTML', accent: '#ff6b6b' },
+  css:        { label: 'CSS', accent: '#56ccf2' },
+  sass:       { label: 'SASS', accent: '#f178b6' },
+  tailwind:   { label: 'Tailwind', accent: '#38bdf8' },
+};
+
+
+const config = variants[key] ?? {
+  label: variant.toUpperCase(),
+  accent: '#6b7280', 
+};
+---
+<div
+  class:list={[
+    "relative flex items-center min-h-5 px-2 rounded-sm",
+    "bg-[#0b1215] border border-[#10191d]",
+    "text-[11px] uppercase tracking-wide opacity-85",
+    className
+  ]}
+>
+  <span
+    class="absolute left-0 top-0 h-full w-[2px] rounded-l-sm"
+    style={`background-color: ${config.accent};`}
+  />
+
+  <span class="relative z-10 jetbrains-mono-projTag">
+    {config.label}
+  </span>
+
+  <PatternOverlay
+    pattern="diagonal"
+    opacity={0.08}
+    color="white"
+    className="absolute inset-0 pointer-events-none"
+  />
+</div>

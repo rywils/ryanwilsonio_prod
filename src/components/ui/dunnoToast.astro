@@ -1,5 +1,4 @@
 ---
-// Toast.astro - Reusable toast notification component with dismissal memory
 interface Props {
   id?: string;
   message: string;
@@ -58,7 +57,7 @@ const positionStyles = {
 
 <script define:vars={{ id, rememberDismissal }}>
   (function() {
-    // Check IMMEDIATELY on load, before anything renders
+    
     if (rememberDismissal && typeof localStorage !== 'undefined') {
       const dismissed = localStorage.getItem(`toast-dismissed-${id}`);
       if (dismissed === 'true') {
@@ -76,13 +75,13 @@ const positionStyles = {
       
       const isPersistent = toast.dataset.persistent === 'true';
       
-      // Fade in
+      
       setTimeout(() => {
         toast.style.opacity = '1';
         toast.style.transform = 'translateY(0)';
       }, 100);
       
-      // Auto-dismiss if not persistent
+      
       if (!isPersistent) {
         setTimeout(() => {
           toast.style.opacity = '0';
@@ -91,7 +90,7 @@ const positionStyles = {
         }, 4000);
       }
       
-      // Handle close button
+      
       const closeBtn = toast.querySelector('[data-close-toast]');
       if (closeBtn) {
         closeBtn.addEventListener('click', () => {

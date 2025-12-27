@@ -2,7 +2,7 @@
 title: "Watchtower"
 description: "monitors your LAN and reports meaningful changes"
 image: "/noimage.png"
-tags: ["Go"]
+tags: ["go"]
 github: "https://github.com/rywils/watchtower"
 category: ["Systems/Cloud", "Development" ]
 technologies: ["Go"]

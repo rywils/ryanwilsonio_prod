@@ -1,0 +1,302 @@
+13:29:09 [WARN] [adapter] Cloudflare does not support sharp at runtime. However, you can configure `imageService: "compile"` to optimize images with sharp on prerendered pages during build time.
+13:29:09 [vite] Re-optimizing dependencies because vite config has changed
+13:29:09 [content] Syncing content
+13:29:09 [WARN] [glob-loader] Duplicate id "bitprobe" found in /Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/src/content/projects/Bitprobe.md. Later items with the same id will overwrite earlier ones.
+13:29:10 [WARN] [glob-loader] Duplicate id "arpio" found in /Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/src/content/projects/arpio.md. Later items with the same id will overwrite earlier ones.
+13:29:10 [WARN] [glob-loader] Duplicate id "watchtower" found in /Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/src/content/projects/watchtower.md. Later items with the same id will overwrite earlier ones.
+13:29:10 [WARN] [glob-loader] Duplicate id "anintro" found in /Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/src/content/blog/anintro.md. Later items with the same id will overwrite earlier ones.
+13:29:10 [WARN] [glob-loader] Duplicate id "building-unintentionally" found in /Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/src/content/blog/building-unintentionally.md. Later items with the same id will overwrite earlier ones.
+13:29:10 [content] Synced content
+13:29:10 [types] Generated 346ms
+13:29:10 [check] Getting diagnostics for Astro files in /Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod...
+[96mastro.config.mjs[0m:[93m24[0m:[93m15[0m - [91merror[0m[90m ts(2322): [0mType 'Plugin<any>[]' is not assignable to type 'PluginOption'.
+  Type 'Plugin<any>[]' is not assignable to type 'PluginOption[]'.
+    Type 'Plugin<any>' is not assignable to type 'PluginOption'.
+      Type 'import("/Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/node_modules/vite/dist/node/index").Plugin<any>' is not assignable to type 'import("/Users/regded/code/websites/astrojs/ryanwilson_neon/ryanwilsonio_prod/node_modules/astro/node_modules/vite/dist/node/index").Plugin<any>'.
+        Types of property 'hotUpdate' are incompatible.
+          Type 'ObjectHook<(this: MinimalPluginContext & { environment: DevEnvironment; }, options: HotUpdateOptions) => void | EnvironmentModuleNode[] | Promise<...>> | undefined' is not assignable to type 'ObjectHook<(this: HotUpdatePluginContext, options: HotUpdateOptions) => void | EnvironmentModuleNode[] | Promise<void | EnvironmentModuleNode[]>> | undefined'.
+            Type '(this: MinimalPluginContext & { environment: DevEnvironment; }, options: HotUpdateOptions) => void | EnvironmentModuleNode[] | Promise<...>' is not assignable to type 'ObjectHook<(this: HotUpdatePluginContext, options: HotUpdateOptions) => void | EnvironmentModuleNode[] | Promise<void | EnvironmentModuleNode[]>> | undefined'.
+              Type '(this: MinimalPluginContext & { environment: DevEnvironment; }, options: HotUpdateOptions) => void | EnvironmentModuleNode[] | Promise<...>' is not assignable to type '(this: HotUpdatePluginContext, options: HotUpdateOptions) => void | EnvironmentModuleNode[] | Promise<void | EnvironmentModuleNode[]>'.
+                The 'this' types of each signature are incompatible.
+                  Type 'HotUpdatePluginContext' is not assignable to type 'MinimalPluginContext & { environment: DevEnvironment; }'.
+                    Type 'HotUpdatePluginContext' is missing the following properties from type 'MinimalPluginContext': debug, error, info, meta, warn
+
+[7m24[0m     plugins: [tailwindcss()],
+[7m  [0m [91m              ~~~~~~~~~~~~~[0m
+
+[96msrc/components/Education.astro[0m:[93m9[0m:[93m4[0m - [93mwarning[0m[90m ts(6133): [0m'isuIcon' is declared but its value is never read.
+
+[7m9[0m    import isuIcon from '../assets/isu.png';
+[7m [0m [93m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Education.astro[0m:[93m6[0m:[93m4[0m - [93mwarning[0m[90m ts(6133): [0m'sansIcon' is declared but its value is never read.
+
+[7m6[0m    import sansIcon from '../assets/sans.jpg'
+[7m [0m [93m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Education.astro[0m:[93m2[0m:[93m1[0m - [93mwarning[0m[90m ts(6192): [0mAll imports in import declaration are unused.
+
+[7m2[0m import { GraduationCap, Award, Calendar } from '@lucide/astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/Encryptedtext.astro[0m:[93m85[0m:[93m11[0m - [93mwarning[0m[90m ts(6133): [0m'animationFrameId' is declared but its value is never read.
+
+[7m85[0m       let animationFrameId: number | null = null;
+[7m  [0m [93m          ~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Encryptedtext.astro[0m:[93m82[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'revealedClass' is declared but its value is never read.
+
+[7m82[0m       const revealedClass = span.dataset.revealedClass || "";
+[7m  [0m [93m            ~~~~~~~~~~~~~[0m
+[96msrc/components/Encryptedtext.astro[0m:[93m81[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'encryptedClass' is declared but its value is never read.
+
+[7m81[0m       const encryptedClass = span.dataset.encryptedClass || "";
+[7m  [0m [93m            ~~~~~~~~~~~~~~[0m
+
+[96msrc/components/Hero.astro[0m:[93m45[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'techLogosSystems' is declared but its value is never read.
+
+[7m45[0m const techLogosSystems = [
+[7m  [0m [93m      ~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Hero.astro[0m:[93m18[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'shieldIcon' is declared but its value is never read.
+
+[7m18[0m import shieldIcon from '../assets/shield.png';
+[7m  [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Hero.astro[0m:[93m10[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'PatternOverlay' is declared but its value is never read.
+
+[7m10[0m import PatternOverlay from './ui/PatternOverlay.astro';
+[7m  [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Hero.astro[0m:[93m3[0m:[93m16[0m - [93mwarning[0m[90m ts(6133): [0m'ArrowDown' is declared but its value is never read.
+
+[7m3[0m import { Mail, ArrowDown, Download, ArrowUpRight } from '@lucide/astro';
+[7m [0m [93m               ~~~~~~~~~[0m
+
+[96msrc/components/PagePosition.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/Projects.astro[0m:[93m50[0m:[93m7[0m - [91merror[0m[90m ts(2322): [0mType '"Development" | "Systems/Cloud" | "Cybersecurity" | ("Development" | "Systems/Cloud" | "Cybersecurity")[]' is not assignable to type 'string[] | undefined'.
+  Type 'string' is not assignable to type 'string[]'.
+
+[7m50[0m       category={project.data.category}
+[7m  [0m [91m      ~~~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m22[0m:[93m22[0m - [93mwarning[0m[90m ts(6133): [0m'remarkPluginFrontmatter' is declared but its value is never read.
+
+[7m22[0m     const { Content, remarkPluginFrontmatter } = await project.render();
+[7m  [0m [93m                     ~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'PatternOverlay' is declared but its value is never read.
+
+[7m6[0m import PatternOverlay from './ui/PatternOverlay.astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'LangBadge' is declared but its value is never read.
+
+[7m5[0m import LangBadge from './ui/LangBadge.astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m3[0m:[93m32[0m - [93mwarning[0m[90m ts(6133): [0m'Tag' is declared but its value is never read.
+
+[7m3[0m import { ExternalLink, Github, Tag } from '@lucide/astro';
+[7m [0m [93m                               ~~~[0m
+[96msrc/components/Projects.astro[0m:[93m3[0m:[93m24[0m - [93mwarning[0m[90m ts(6133): [0m'Github' is declared but its value is never read.
+
+[7m3[0m import { ExternalLink, Github, Tag } from '@lucide/astro';
+[7m [0m [93m                       ~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m3[0m:[93m24[0m - [93mwarning[0m[90m ts(6385): [0m'Github' is deprecated.
+
+[7m3[0m import { ExternalLink, Github, Tag } from '@lucide/astro';
+[7m [0m [93m                       ~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m147[0m:[93m5[0m - [93mwarning[0m[90m ts(2570): [0mCould not find name 'projectsWithContent'. Did you mean 'projectContents'?
+
+[7m147[0m     projectsWithContent.forEach(({ project, bodyText }) => {
+[7m   [0m [93m    ~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Projects.astro[0m:[93m98[0m:[93m9[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m98[0m <script define:vars={{ projectsWithContent }}>
+[7m  [0m [93m        ~~~~~~~~~~~[0m
+
+[96msrc/components/WorkExperience.astro[0m:[93m8[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'microsoftIcon' is declared but its value is never read.
+
+[7m8[0m import microsoftIcon from '../assets/experience/microsoft.svg';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/WorkExperience.astro[0m:[93m7[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'caseysIcon' is declared but its value is never read.
+
+[7m7[0m import caseysIcon from '../assets/experience/caseys.svg';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/WorkExperience.astro[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'blueallyIcon' is declared but its value is never read.
+
+[7m6[0m import blueallyIcon from '../assets/experience/blueally.webp';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/WorkExperience.astro[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'dhpaceIcon' is declared but its value is never read.
+
+[7m5[0m import dhpaceIcon from '../assets/experience/dhpace.png';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/WorkExperience.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'ryanwilsonioIcon' is declared but its value is never read.
+
+[7m4[0m import ryanwilsonioIcon from '../assets/experience/ryanwilsonio.png';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/WorkExperience.astro[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'ryanwilsonioIcon2' is declared but its value is never read.
+
+[7m3[0m import ryanwilsonioIcon2 from '../assets/experience/ryanwilsonio2.png';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/WorkExperience.astro[0m:[93m11[0m:[93m9[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m11[0m <script src="https://unpkg.com/alpinejs" defer></script>
+[7m  [0m [93m        ~~~[0m
+
+[96msrc/components/ui/Accordion.astro[0m:[93m12[0m:[93m61[0m - [93mwarning[0m[90m ts(6385): [0m'(from: number, length?: number | undefined): string' is deprecated.
+
+[7m12[0m const accordionId = `accordion-${Math.random().toString(36).substr(2, 9)}`;
+[7m  [0m [93m                                                            ~~~~~~[0m
+[96msrc/components/ui/Accordion.astro[0m:[93m44[0m:[93m69[0m - [93mwarning[0m[90m ts(2570): [0mCould not find name 'accordionId'. Did you mean 'accordion'?
+
+[7m44[0m     const accordion = document.querySelector(`[data-accordion-id="${accordionId}"]`);
+[7m  [0m [93m                                                                    ~~~~~~~~~~~[0m
+[96msrc/components/ui/Accordion.astro[0m:[93m43[0m:[93m11[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m43[0m   <script define:vars={{ accordionId }}>
+[7m  [0m [93m          ~~~~~~~~~~~[0m
+
+[96msrc/components/ui/ContentBarLeft.astro[0m:[93m7[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'StripedPattern' is declared but its value is never read.
+
+[7m7[0m import { StripedPattern } from "../ui/striped-pattern";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/ui/ContentBarLeft.astro[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'texturedbg2' is declared but its value is never read.
+
+[7m5[0m import texturedbg2 from '/src/assets/grunge.jpg';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/ui/ContentBarLeft.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'texturedbg' is declared but its value is never read.
+
+[7m4[0m import texturedbg from '/src/assets/texturebg.png';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/ui/ContentBarLeft.astro[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'Image' is declared but its value is never read.
+
+[7m3[0m import { Image } from "astro:assets"
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/ui/ContentBarRight.astro[0m:[93m2[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'texturedbg' is declared but its value is never read.
+
+[7m2[0m import texturedbg from '/src/assets/grunge.jpg';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/ui/Tooltipicon.astro[0m:[93m48[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'hideTimeout' is declared but its value is never read.
+
+[7m48[0m     private hideTimeout?: number;
+[7m  [0m [93m            ~~~~~~~~~~~[0m
+[96msrc/components/ui/Tooltipicon.astro[0m:[93m43[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'mouse' is declared but its value is never read.
+
+[7m43[0m     private mouse: { x: number; y: number };
+[7m  [0m [93m            ~~~~~[0m
+
+[96msrc/components/ui/dunnoToast.astro[0m:[93m58[0m:[93m9[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m58[0m <script define:vars={{ id, rememberDismissal }}>
+[7m  [0m [93m        ~~~~~~~~~~~[0m
+
+[96msrc/layouts/Layout.astro[0m:[93m22[0m:[93m9[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m22[0m <script async src="https://www.googletagmanager.com/gtag/js?id=G-NGYM6LNFJM"></script>
+[7m  [0m [93m        ~~~~~[0m
+
+[96msrc/pages/denied.astro[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'troll' is declared but its value is never read.
+
+[7m5[0m import troll from '@/assets/Trollface.jpg'
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/denied.astro[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'GenericButton' is declared but its value is never read.
+
+[7m3[0m import GenericButton from "@/components/ui/GenericButton.astro"
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/index.astro[0m:[93m8[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m8[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m [0m [93m      ~~~~~~~~~~~~[0m
+
+[96msrc/pages/about/index.astro[0m:[93m33[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'education' is declared but its value is never read.
+
+[7m33[0m const education = [
+[7m  [0m [93m      ~~~~~~~~~[0m
+[96msrc/pages/about/index.astro[0m:[93m11[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m11[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m  [0m [93m      ~~~~~~~~~~~~[0m
+[96msrc/pages/about/index.astro[0m:[93m9[0m:[93m4[0m - [93mwarning[0m[90m ts(6192): [0mAll imports in import declaration are unused.
+
+[7m9[0m    import { GraduationCap, Award, Calendar } from '@lucide/astro';
+[7m [0m [93m   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/about/index.astro[0m:[93m6[0m:[93m2[0m - [93mwarning[0m[90m ts(6133): [0m'wguIcon' is declared but its value is never read.
+
+[7m6[0m  import wguIcon from '../assets/wgu.png';
+[7m [0m [93m ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/blog/[slug].astro[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'LangBadge' is declared but its value is never read.
+
+[7m6[0m import LangBadge from '@/components/ui/LangBadge.astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/blog/index.astro[0m:[93m6[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m6[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m [0m [93m      ~~~~~~~~~~~~[0m
+
+[96msrc/pages/contact/index.astro[0m:[93m4[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m4[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m [0m [93m      ~~~~~~~~~~~~[0m
+
+[96msrc/pages/projects/[id].astro[0m:[93m72[0m:[93m16[0m - [93mwarning[0m[90m ts(6385): [0m'Github' is deprecated.
+
+[7m72[0m               <Github size={20} />
+[7m  [0m [93m               ~~~~~~[0m
+[96msrc/pages/projects/[id].astro[0m:[93m4[0m:[93m35[0m - [93mwarning[0m[90m ts(6385): [0m'Github' is deprecated.
+
+[7m4[0m import { ArrowLeft, ExternalLink, Github } from '@lucide/astro';
+[7m [0m [93m                                  ~~~~~~[0m
+
+[96msrc/pages/projects/index.astro[0m:[93m15[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m15[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m  [0m [93m      ~~~~~~~~~~~~[0m
+[96msrc/pages/projects/index.astro[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'ComingSoon' is declared but its value is never read.
+
+[7m6[0m import ComingSoon from "../../components/ComingSoon.astro"
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/projects/index.astro[0m:[93m4[0m:[93m24[0m - [93mwarning[0m[90m ts(6385): [0m'Github' is deprecated.
+
+[7m4[0m import { ExternalLink, Github, Tag } from '@lucide/astro';
+[7m [0m [93m                       ~~~~~~[0m
+[96msrc/pages/projects/index.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6192): [0mAll imports in import declaration are unused.
+
+[7m4[0m import { ExternalLink, Github, Tag } from '@lucide/astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/resume/index.astro[0m:[93m4[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m4[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m [0m [93m      ~~~~~~~~~~~~[0m
+
+[96msrc/pages/security/index.astro[0m:[93m3[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'canonicalURL' is declared but its value is never read.
+
+[7m3[0m const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+[7m [0m [93m      ~~~~~~~~~~~~[0m
+
+Result (51 files): 
+- 2 errors
+- 0 warnings
+- 56 hints
+

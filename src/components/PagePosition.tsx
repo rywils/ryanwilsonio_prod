@@ -12,27 +12,27 @@ function PagePosition() {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       
-      // At the top (within 50px)
+      
       if (scrollY < 50) {
         setScrollPosition('top');
       } 
-      // At the bottom (within 50px of the bottom)
+      
       else if (scrollY + windowHeight >= documentHeight - 50) {
         setScrollPosition('bottom');
       } 
-      // In the middle
+      
       else {
         setScrollPosition('middle');
       }
     };
 
-    // Check position on mount
+    
     handleScroll();
 
-    // Add scroll listener
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Cleanup
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -51,13 +51,13 @@ function PagePosition() {
   };
 
   const getUpColor = () => {
-    if (scrollPosition === 'top') return '#6B7280'; // gray when at top
-    return '#00BFFF'; // active blue otherwise
+    if (scrollPosition === 'top') return '#6B7280'; 
+    return '#00BFFF'; 
   };
 
   const getDownColor = () => {
-    if (scrollPosition === 'bottom') return '#6B7280'; // gray when at bottom
-    return '#00BFFF'; // active blue otherwise
+    if (scrollPosition === 'bottom') return '#6B7280'; 
+    return '#00BFFF'; 
   };
 
   return (

@@ -1,20 +1,21 @@
 ---
-// src/pages/blog/index.astro
+
 import Layout from '../../layouts/Layout.astro';
 import { Calendar, Clock, User, ArrowRight, ChevronDown } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+import CategoryMarker from '@/components/ui/CategoryMarker.astro';
 
 const allPosts = await getCollection('blog', ({ data }) => {
   return data.draft !== true;
 });
 
-// Sort posts by date
+
 const sortedPosts = allPosts.sort((a, b) => {
   return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
 
-// Dynamically extract unique categories from posts
+
 const categoriesSet = new Set<string>();
 sortedPosts.forEach(post => {
   const category = post.data.category;
@@ -25,20 +26,20 @@ sortedPosts.forEach(post => {
   }
 });
 
-// Convert to sorted array with "All" at the beginning
+
 const categories = ['All', ...Array.from(categoriesSet).sort()];
 
-// Helper function to get preview text and strip markdown
+
 function getPreview(content: string, wordCount: number = 50): string {
-  // Strip markdown syntax
+  
   const stripped = content
-    .replace(/#{1,6}\s/g, '') // Remove headers
-    .replace(/\*\*|__/g, '') // Remove bold
-    .replace(/\*|_/g, '') // Remove italic
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove links but keep text
-    .replace(/`{1,3}[^`]*`{1,3}/g, '') // Remove code blocks
-    .replace(/>\s/g, '') // Remove blockquotes
-    .replace(/[-*+]\s/g, '') // Remove list markers
+    .replace(/#{1,6}\s/g, '') 
+    .replace(/\*\*|__/g, '') 
+    .replace(/\*|_/g, '') 
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') 
+    .replace(/`{1,3}[^`]*`{1,3}/g, '') 
+    .replace(/>\s/g, '') 
+    .replace(/[-*+]\s/g, '') 
     .trim();
   
   const words = stripped.split(/\s+/);
@@ -54,7 +55,7 @@ function getPreview(content: string, wordCount: number = 50): string {
     <div class="absolute inset-0  pointer-events-none"></div>
     
     <div class="max-w-7xl mx-auto relative z-10">
-      <!-- Header -->
+      
       <div class="text-center mb-8">
         <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-green)] font-bold">
           All Blog Posts
@@ -65,7 +66,7 @@ function getPreview(content: string, wordCount: number = 50): string {
         </p>
       </div>
 
-      <!-- Category Dropdown -->
+      
       <div class="flex justify-center mb-12">
         <div class="relative inline-block w-full max-w-xs">
           <button
@@ -94,12 +95,12 @@ function getPreview(content: string, wordCount: number = 50): string {
         </div>
       </div>
 
-      <!-- Coming Soon Message -->
+      
       <h3 id="comingSoon" class="hidden text-center text-3xl text-[var(--primary-green)] col-span-full py-20">
         Coming Soon!
       </h3>
 
-      <!-- Blog List - Horizontal Cards -->
+      
 <div class="flex flex-col gap-6" id="blog-grid">
           {sortedPosts.map((post, index) => (
           <a
@@ -109,54 +110,52 @@ function getPreview(content: string, wordCount: number = 50): string {
             style={`--blog-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch
           >
-            <div class="p-5">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex flex-wrap gap-2">
-                  {Array.isArray(post.data.category) ? (
-                    post.data.category.map((cat) => (
-                      <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/20 text-xs">
-                        {cat}
-                      </span>
-                    ))
-                  ) : (
-                    <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/20 text-xs">
-                      {post.data.category}
-                    </span>
-                  )}
-                </div>
-                
-                <div class="flex items-center gap-4 text-xs text-muted-foreground">
-                  <span class="flex items-center gap-1">
-                    <Calendar size={12} />
-                    {post.data.date}
-                  </span>
-                  <span class="flex items-center gap-1">
-                    <Clock size={12} />
-                    {post.data.readTime}
-                  </span>
-                </div>
-              </div>
+            <div class="p-3">
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex flex-wrap gap-1">
+      {Array.isArray(post.data.category)
+        ? post.data.category.map((cat) => (
+            <CategoryMarker label={cat} />
+          ))
+        : (
+            <CategoryMarker label={post.data.category} />
+          )
+      }
+    </div>
 
-              <h3 class="text-xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
-                {post.data.title}
-              </h3>
+    <div class="flex items-center gap-3 text-xs text-muted-foreground">
+      <span class="flex items-center gap-1">
+        <Calendar size={12} />
+        {post.data.date}
+      </span>
+      <span class="flex items-center gap-1">
+        <Clock size={12} />
+        {post.data.readTime}
+      </span>
+    </div>
+  </div>
 
-              <p class="text-sm text-muted-foreground mb-3 line-clamp-3">
-                {getPreview(post.body, 50)}
-              </p>
+  <h3 class="text-base mb-1 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
+    {post.data.title}
+  </h3>
 
-              <div class="flex items-center justify-between">
-                <span class="flex items-center gap-1 text-sm text-muted-foreground">
-                  <User size={14} />
-                  {post.data.author}
-                </span>
-                
-                <span class="flex items-center gap-2 text-sm text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-all font-medium">
-                  Read More
-                  <ArrowRight size={14} class="group-hover:translate-x-1 transition-transform" />
-                </span>
-              </div>
-            </div>
+  <p class="text-xs text-muted-foreground mb-2 line-clamp-1">
+    {getPreview(post.body, 20)}
+  </p>
+
+  <div class="flex items-center justify-between">
+    <span class="flex items-center gap-1 text-xs text-muted-foreground">
+      <User size={12} />
+      {post.data.author}
+    </span>
+
+    <span class="flex items-center gap-1 text-xs text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-all font-medium">
+      Read More
+      <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform" />
+    </span>
+  </div>
+</div>
+
           </a>
         ))}
       </div>
@@ -179,7 +178,7 @@ function getPreview(content: string, wordCount: number = 50): string {
         return;
       }
       
-    // FORCE SHOW ALL CARDS IMMEDIATELY
+    
     blogCards.forEach(card => {
       card.style.opacity = '1';
       card.style.transform = 'scale(1)';
@@ -187,7 +186,7 @@ function getPreview(content: string, wordCount: number = 50): string {
     
     let isOpen = false;
     
-    // Toggle dropdown
+    
     dropdownBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -203,7 +202,7 @@ function getPreview(content: string, wordCount: number = 50): string {
       }
     });
     
-    // Close dropdown when clicking outside
+    
     document.addEventListener('click', (e) => {
       if (!dropdownBtn.contains(e.target as Node) && !dropdownMenu.contains(e.target as Node)) {
         isOpen = false;
@@ -212,7 +211,7 @@ function getPreview(content: string, wordCount: number = 50): string {
       }
     });
     
-    // Filter blog posts
+    
     categoryOptions.forEach(option => {
       option.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -220,32 +219,32 @@ function getPreview(content: string, wordCount: number = 50): string {
         
         console.log('Selected category:', category);
         
-        // Update selected category text
+        
         if (selectedCategoryText) {
           selectedCategoryText.textContent = category === 'All' ? 'All Categories' : category || 'All Categories';
         }
         
-        // Close dropdown
+        
         isOpen = false;
         dropdownMenu.style.display = 'none';
         dropdownIcon.style.transform = 'rotate(0deg)';
         
-        // Filter blog posts
+        
         let visibleCount = 0;
         blogCards.forEach(card => {
           const cardCategory = card.getAttribute('data-category');
           
-          // Handle both single category (string) and multiple categories (array)
+          
           let shouldShow = false;
           if (category === 'All') {
             shouldShow = true;
           } else if (cardCategory) {
             try {
-              // Try parsing as JSON array first
+              
               const categories = JSON.parse(cardCategory);
               shouldShow = Array.isArray(categories) && categories.includes(category);
             } catch {
-              // Fall back to string comparison for single categories
+              
               shouldShow = cardCategory === category;
             }
           }
@@ -259,7 +258,7 @@ function getPreview(content: string, wordCount: number = 50): string {
           }
         });
 
-        // Show/hide "Coming Soon" message
+        
         if (comingSoon) {
           if (visibleCount === 0) {
             comingSoon.classList.remove('hidden');
@@ -271,10 +270,10 @@ function getPreview(content: string, wordCount: number = 50): string {
     });
   }
 
-  // Run on initial page load
+  
   document.addEventListener('DOMContentLoaded', initFilters);
   
-  // Run after view transitions
+  
   document.addEventListener('astro:page-load', initFilters);
 </script>
 

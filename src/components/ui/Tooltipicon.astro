@@ -88,7 +88,6 @@ const { content, containerClassName = '', position = 'auto', width = '15rem' } =
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
-      // Get actual tooltip dimensions from the rendered element
       const tooltipWidth = this.popup.offsetWidth || this.tooltipWidth;
       const tooltipHeight = this.contentElement.scrollHeight;
 
@@ -214,7 +213,7 @@ const { content, containerClassName = '', position = 'auto', width = '15rem' } =
     }
   }
 
-  // Store tooltip instances for cleanup
+  // Store instances for cleanup
   const tooltipInstances = new WeakMap<HTMLElement, TooltipManager>();
 
   // Initialize all tooltips

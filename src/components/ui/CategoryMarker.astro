@@ -1,0 +1,29 @@
+---
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+
+const accents: Record<string, string> = {
+  Development: 'var(--primary-blue)',
+  SystemsCloud: 'var(--secondary-purple)',
+  Cybersecurity: 'var(--primary-green)',
+};
+
+const accent = accents[label] ?? 'var(--primary-blue)';
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-1",
+    "text-[11px] uppercase tracking-widest",
+    "text-muted-foreground",
+    className
+  ]}
+>
+  <span class="font-bold" style={`color: ${accent}`}>::</span>
+  <span class="font-semibold">{label}</span>
+  <span class="font-bold" style={`color: ${accent}`}>::</span>
+</span>

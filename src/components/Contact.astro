@@ -1,11 +1,11 @@
 ---
-// Contact.astro
+
 export const prerender = false;
 
 import { Mail, Send } from '@lucide/astro';
 
-// compact=false (default): full layout (homepage)
-// compact=true: hide side blocks + top header (contact page)
+
+
 const { compact = false } = Astro.props;
 
 const contactInfo = [
@@ -26,7 +26,7 @@ const contactInfo = [
 
   <div class={`mx-auto relative z-10 contact-container ${compact ? 'max-w-3xl' : 'max-w-6xl'}`}>
 
-    <!-- TOP HEADER (HIDDEN WHEN COMPACT) -->
+    
     {!compact && (
       <div class="text-center mb-16">
         <h2
@@ -53,7 +53,7 @@ const contactInfo = [
       class={`grid gap-12 ${compact ? 'grid-cols-1' : 'lg:grid-cols-5'}`}
     >
 
-      <!-- LEFT SIDE INFO (HIDDEN WHEN COMPACT) -->
+      
       {!compact && (
         <div id="contact-info" class="lg:col-span-2 space-y-6">
           <div id="contact-secondary-heading-block" class="contact-info">
@@ -115,7 +115,7 @@ const contactInfo = [
         </div>
       )}
 
-      <!-- FORM (ALWAYS RENDERS) -->
+      
       <div class={compact ? 'contact-form w-full mx-auto' : 'lg:col-span-3 contact-form'}>
         <form id="contact-form" class="space-y-6">
           <div class="grid sm:grid-cols-2 gap-6">
@@ -170,7 +170,7 @@ const contactInfo = [
             ></textarea>
           </div>
 
-          <!-- BUTTON: homepage keeps your layout; compact centers -->
+          
           <div
             id="contact-submit"
             class={`contact-submit ${compact ? 'w-full flex justify-center' : ''}`}

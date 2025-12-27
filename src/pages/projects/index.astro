@@ -1,10 +1,11 @@
 ---
-// src/pages/projects/index.astro
+
 import Layout from '../../layouts/Layout.astro';
 import { ExternalLink, Github, Tag } from '@lucide/astro';
 import { getCollection } from 'astro:content';
 import ComingSoon from "../../components/ComingSoon.astro"
 import CategoryEmpty from '@/components/CategoryEmpty.astro';
+import LangBadge from '@/components/ui/LangBadge.astro';
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => 
   b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
@@ -20,7 +21,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--neon-pink)]/5 to-transparent pointer-events-none"></div>
     
     <div class="max-w-7xl mx-auto relative z-10">
-      <!-- Header -->
+      
       <div class="text-center mb-12">
         <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-green)] font-bold">
           All Projects
@@ -31,7 +32,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         </p>
       </div>
 
-      <!-- Category Filter -->
+      
       <div class="flex flex-wrap justify-center gap-3 mb-12">
         {categories.map((category) => (
           <button
@@ -43,22 +44,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         ))}
       </div>
 
-      <!-- Coming Soon Message -->
+      
       <h3 id="comingSoon" class="hidden text-center col-span-full py-10">
         <CategoryEmpty />
       </h3>
 
-      <!-- Projects Grid -->
+      
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
         {projects.map((project, index) => (
           <a
             href={`/projects/${project.slug}`}
-            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-green)]/50 transition-all hover:scale-[1.02] block"
+            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-green)]/50 transition-all hover:scale-[1.02] flex flex-col h-full"
             data-category={JSON.stringify(project.data.category)}
             style={`--project-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch
           >
-            <div class="relative overflow-hidden aspect-video">
+<div class="relative overflow-hidden h-44 md:h-48 shrink-0">
               <img
                 src={project.data.image}
                 alt={project.data.title}
@@ -68,26 +69,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
             </div>
 
-            <div class="p-6">
-              <h3 class="text-2xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
-                {project.data.title}
-              </h3>
-              <p class="text-muted-foreground mb-4 line-clamp-2">{project.data.description}</p>
+            <div class="p-6 flex flex-col flex-1">
+  <h3 class="text-2xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
+    {project.data.title}
+  </h3>
 
-              <div class="flex flex-wrap gap-2">
-                {project.data.tags.slice(0, 3).map((tag) => (
-                  <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
-                    <Tag size={12} />
-                    {tag}
-                  </span>
-                ))}
-                {project.data.tags.length > 3 && (
-                  <span class="inline-flex items-center px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
-                    +{project.data.tags.length - 3}
-                  </span>
-                )}
-              </div>
-            </div>
+  <p class="text-muted-foreground mb-4 line-clamp-2">
+    {project.data.description}
+  </p>
+
+  
+  <div class="mt-auto pt-4">
+    <div class="flex flex-wrap gap-2">
+      {project.data.tags.slice(0, 3).map((tag) => (
+  <LangBadge variant={tag as any} />
+))}
+      {project.data.tags.length > 3 && (
+  <span class="text-xs opacity-60">
+    +{project.data.tags.length - 3}
+  </span>
+)}
+    </div>
+  </div>
+</div>
+
           </a>
         ))}
       </div>
@@ -101,7 +106,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     const projectCards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
     const comingSoon = document.getElementById('comingSoon');
     
-    // FORCE SHOW ALL CARDS IMMEDIATELY - bypass CSS animation
+    
     projectCards.forEach(card => {
       card.style.opacity = '1';
       card.style.transform = 'scale(1)';
@@ -111,7 +116,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       btn.addEventListener('click', () => {
         const category = btn.getAttribute('data-category');
         
-        // Update active button
+        
         categoryBtns.forEach(b => {
           b.classList.remove('border-[var(--primary-blue)]', 'bg-[var(--primary-blue)]/20');
           b.classList.add('border-[var(--primary-blue)]/30');
@@ -119,22 +124,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         btn.classList.remove('border-[var(--primary-blue)]/30');
         btn.classList.add('border-[var(--primary-blue)]', 'bg-[var(--primary-blue)]/20');
         
-        // Filter projects
+        
         let visibleCount = 0;
         projectCards.forEach(card => {
           const cardCategory = card.getAttribute('data-category');
           
-          // Handle both single category (string) and multiple categories (array)
+          
           let shouldShow = false;
           if (category === 'All') {
             shouldShow = true;
           } else if (cardCategory) {
             try {
-              // Try parsing as JSON array first
+              
               const categories = JSON.parse(cardCategory);
               shouldShow = Array.isArray(categories) && categories.includes(category);
             } catch {
-              // Fall back to string comparison for single categories
+              
               shouldShow = cardCategory === category;
             }
           }
@@ -148,7 +153,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           }
         });
 
-        // Show/hide "Coming Soon" message
+        
         if (comingSoon) {
           if (visibleCount === 0) {
             comingSoon.classList.remove('hidden');
@@ -159,7 +164,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       });
     });
     
-    // Set initial active button
+    
     const firstBtn = document.querySelector('.category-btn[data-category="All"]') as HTMLElement;
     if (firstBtn) {
       firstBtn.classList.add('border-[var(--primary-blue)]', 'bg-[var(--primary-blue)]/20');
@@ -167,10 +172,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     }
   }
 
-  // Run on initial page load
+  
   document.addEventListener('DOMContentLoaded', initFilters);
   
-  // Run after view transitions
+  
   document.addEventListener('astro:page-load', initFilters);
 </script>
 

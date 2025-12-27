@@ -2,7 +2,7 @@
 title: "Arpio"
 description: "A Fast, minimal LAN discovery tool using ARP and mDNS."
 image: "/noimage.png"
-tags: ["Go"]
+tags: ["go"]
 github: "https://github.com/rywils/arpio"
 category: ["Systems/Cloud", "Development" ]
 technologies: ["Go"]

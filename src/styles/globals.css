@@ -5,7 +5,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ===== ROOT VARIABLES ===== */
+
 :root {
   --primary-blue: #00BFFF;
   --primary-green: #00FF8D;
@@ -50,7 +50,7 @@ html {
   color-scheme: dark;
 }
 
-/* ===== BASE STYLES ===== */
+
 body {
   background-color: var(--background);
   color: var(--foreground);
@@ -61,7 +61,7 @@ body {
   background-color: #090E10;
 }
 
-/* ===== UTILITY CLASSES ===== */
+
 .text-muted-foreground {
   color: var(--muted-foreground);
 }
@@ -86,7 +86,7 @@ body {
   color: rgba(248, 144, 58, 0.4);
 }
 
-/* ===== COMPONENT STYLES ===== */
+
 .card {
   width: 190px;
   height: 254px;
@@ -172,7 +172,7 @@ body {
   }
 }
 
-/* ===== GLOW EFFECTS ===== */
+
 .glow-mixed-effect1{
   box-shadow: 0 0 30px linear-gradient(45deg, rgba(0, 191, 255, 0.4), rgba(248, 144, 58, 0.4), rgba(187, 51, 255, 0.4));
 }
@@ -216,10 +216,10 @@ body {
 .secondary-pink { 
   color: rgba(255, 0, 127, 0.4);
 }
-/* ===== SECTION-SPECIFIC STYLES ===== */
-/* ===== Hero Section Animations ===== */
 
-/* Background Orbs */
+
+
+
 .orb {
   position: absolute;
   width: 24rem;
@@ -266,20 +266,20 @@ body {
   50% { transform: translate(50px, -100px) scale(1.1); }
 }
 
-/* Content fade in */
+
 .content-container {
   opacity: 0;
   animation: fadeIn 0.8s ease-out 0.3s forwards;
 }
 
-/* Avatar fade in */
+
 .avatar-wrapper {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.5s ease-out 0.5s forwards;
 }
 
-/* Flying Tech Logos */
+
 .tech-logo {
   opacity: 0;
   transform: translateX(600px) scale(15) rotate(180deg);
@@ -329,7 +329,7 @@ body {
   }
 }
 
-/* Staggered content items */
+
 .stagger-item {
   opacity: 0;
   transform: translateY(20px);
@@ -343,7 +343,7 @@ body {
 .stagger-item:nth-child(7) { animation: fadeInUp 0.5s ease-out 1.7s forwards; }
 .stagger-item:nth-child(8) { animation: fadeInUp 0.5s ease-out 1.9s forwards; }
 
-/* Social links stagger */
+
 .social-link {
   opacity: 0;
   transform: translateY(20px);
@@ -355,7 +355,7 @@ body {
 .social-link:nth-child(3) { --index: 2; }
 .social-link:nth-child(4) { --index: 3; }
 
-/* Scroll Indicator */
+
 .scroll-indicator {
   animation: bounce 2s ease-in-out infinite;
 }
@@ -376,7 +376,7 @@ body {
   }
 }
 
-/* ===== About Section Animations ===== */
+
 
 .about-container {
   opacity: 0;
@@ -443,7 +443,7 @@ body {
   transform: translateY(0);
 }
 
-/* ===== Skills Section Animations ===== */
+
 
 .skills-container {
   opacity: 0;
@@ -529,7 +529,7 @@ body {
   transform: scale(1);
 }
 
-/* ===== Experience Section Animations ===== */
+
 
 .experience-container {
   opacity: 0;
@@ -572,7 +572,7 @@ body {
   transform: translateX(0);
 }
 
-/* ===== Education Section Animations ===== */
+
 
 .education-container {
   opacity: 0;
@@ -645,7 +645,7 @@ body {
   transform: scale(1);
 }
 
-/* ===== Projects Section Animations ===== */
+
 
 .projects-container {
   opacity: 0;
@@ -710,7 +710,7 @@ body {
   }
 }
 
-/* ===== Blog Section Animations ===== */
+
 
 .blog-container {
   opacity: 0;
@@ -775,7 +775,7 @@ body {
   opacity: 1;
 }
 
-/* ===== Contact Section Animations ===== */
+
 
 .contact-container {
   opacity: 0;
@@ -881,7 +881,7 @@ body {
   transform: translateY(0);
 }
 
-/* ===== Navigation Styles ===== */
+
 
 .mobile-menu {
   max-height: 0;
@@ -943,7 +943,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* ===== Reduced Motion ===== */
+
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1110,6 +1110,12 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+.jetbrains-mono-projTag {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
 }
 
 @layer base {

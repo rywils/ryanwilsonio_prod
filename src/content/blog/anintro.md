@@ -6,7 +6,7 @@ date: 'December 14, 2025'
 readTime: '3 min read'
 author: 'Ryan Wilson'
 category: ['Development'] 
-tags: ['React', 'Astro', 'Next.js']
+tags: ['react', 'astro', 'next.js']
 draft: false
 ---
 

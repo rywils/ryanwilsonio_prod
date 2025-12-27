@@ -3,10 +3,10 @@ title: 'How I unintentionally, intentionally built a vulnerability scanner'
 excerpt: 'The story behind Bitprobe, kinda...'
 image: ''
 date: 'December 17, 2025'
-readTime: '7 min read'
+readTime: '3 min read'
 author: 'Ryan Wilson'
 category: ['Development', 'Cybersecurity'] 
-tags: ['Python','Programming']
+tags: ['python','programming']
 draft: false
 ---
 ## Building BitProbe

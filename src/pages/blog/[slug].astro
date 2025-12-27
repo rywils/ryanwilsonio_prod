@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import { Calendar, Clock, User, ArrowLeft } from '@lucide/astro';
 import { getCollection } from 'astro:content';
+import CategoryMarker from '@/components/ui/CategoryMarker.astro';
+import LangBadge from '@/components/ui/LangBadge.astro';
+import BlogTagBadge from '@/components/ui/BlogTagBadge.astro';
 
 export const prerender = true;
 
@@ -45,7 +48,6 @@ const categories = Array.isArray(post.data.category)
         Back to Blog
       </a>
 
-      <!-- Featured Image -->
       {post.data.image && (
         <img
           src={post.data.image}
@@ -54,12 +56,12 @@ const categories = Array.isArray(post.data.category)
         />
       )}
 
-      <!-- Title -->
+     
       <h1 class="text-4xl md:text-5xl font-bold text-[var(--primary-green)] mb-6">
         {post.data.title}
       </h1>
 
-      <!-- Info -->
+    
       <div class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6 pb-6 border-b border-[var(--primary-green)]/20">
         {post.data.date && (
           <span class="flex items-center gap-2">
@@ -84,14 +86,12 @@ const categories = Array.isArray(post.data.category)
       <!-- Categories and Tags -->
       <div class="flex flex-wrap gap-2 mb-8">
         {categories.map((category) => (
-          <span class="px-3 py-1 rounded-full bg-[var(--primary-green)]/20 border border-[var(--primary-green)]/30 text-sm font-semibold">
-            {category}
-          </span>
+          
+            <CategoryMarker label={category} />
+          
         ))}
         {post.data.tags?.map((tag) => (
-          <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
-            {tag}
-          </span>
+          <BlogTagBadge label={tag} />
         ))}
       </div>
 

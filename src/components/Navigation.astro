@@ -1,5 +1,5 @@
 ---
-// Navigation.astro
+
 import { Menu, X } from '@lucide/astro';
 import '../styles/globals.css';
 import { Image } from 'astro:assets';
@@ -19,7 +19,7 @@ const navLinks = [
   <div class="nav-inner relative mx-auto transition-all duration-300 border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
     <div class="px-6 sm:px-8 bg-[#1A1A1C]">
       <div class="flex items-center justify-between h-16 w-full">
-        <!-- Logo -->
+        
         
         <a  href="/"
           class="nav-logo text-2xl hover:scale-105 transition-transform bg-transparent">
@@ -31,7 +31,7 @@ const navLinks = [
             class="object-contain" />
         </a>
 
-        <!-- Desktop Navigation -->
+        
         <div class="hidden md:flex items-center relative h-full border-l border-white/10">
           <ul class="md:flex md:items-stretch h-full">
             {navLinks.map((link) => (
@@ -56,7 +56,7 @@ const navLinks = [
           <div class="h-full border-l border-black/20"></div>
         </div>
 
-        <!-- Mobile Menu Button -->
+        
         <div class="md:hidden flex items-center space-x-2">
           <button
             id="mobile-menu-toggle"
@@ -69,7 +69,7 @@ const navLinks = [
         </div>
       </div>
 
-      <!-- Mobile Menu -->
+      
       <div id="mobile-menu" class="md:hidden overflow-hidden mobile-menu">
         <div class="px-4 py-4 space-y-2">
           {navLinks.map((link) => (
@@ -135,20 +135,17 @@ const navLinks = [
         if (nav && navInner) {
           const scrollY = window.scrollY;
           
-          // Update nav styling based on scroll
+          
           if (scrollY > 20) {
             navInner.classList.add('nav-scrolled');
           } else {
             navInner.classList.remove('nav-scrolled');
           }
           
-          // With sticky positioning, the nav will automatically stick
-          // We just need to set the initial top position
+    
           if (scrollY === 0) {
-            // At top of page - position below banner if it exists
             nav.style.top = `${bannerHeight}px`;
           } else {
-            // When scrolling - stick to top
             nav.style.top = '0px';
           }
         }
@@ -159,7 +156,7 @@ const navLinks = [
     }
   }
 
-  // Update active links
+  
   function updateActiveLinks() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link, .mobile-nav-link');
@@ -180,7 +177,7 @@ const navLinks = [
     });
   }
 
-  // Mobile menu toggle
+  
   function setupMobileMenu() {
     if ((window as any).__navMobileBound) return;
     (window as any).__navMobileBound = true;
@@ -235,12 +232,12 @@ const navLinks = [
     closeMenu();
   }
 
-  // Smooth scroll
+  
   function setupSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(this: HTMLAnchorElement, e) {
         const href = this.getAttribute('href');
-        // Skip if it's just a hash without a target
+        
         if (!href || href === '#') {
           e.preventDefault();
           return;
@@ -258,10 +255,10 @@ const navLinks = [
     });
   }
 
-  // Initialize
+  
   function init() {
     if (initialized) {
-      // Only update active links if already initialized
+      
       updateActiveLinks();
       return;
     }
@@ -272,7 +269,7 @@ const navLinks = [
     handleNavPosition();
     updateActiveLinks();
     
-    // Only add these listeners once
+    
     window.addEventListener('banner-closed', () => {
       updateBannerHeight();
       handleNavPosition();
@@ -289,7 +286,7 @@ const navLinks = [
 
   init();
   
-  // Re-run after page transitions - only update active links
+  
   document.addEventListener('astro:after-swap', updateActiveLinks);
   document.addEventListener('astro:page-load', updateActiveLinks);
 </script>
