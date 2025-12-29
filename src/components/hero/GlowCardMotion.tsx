@@ -27,7 +27,13 @@ export default function GlowCardMotion({
   className = "",
 }: Props) {
   return (
-    <div className={`relative isolate ${className}`}>
+ <div 
+  className={`relative isolate ${className}`}
+  style={{
+    transform: "translateZ(0)",
+    willChange: "opacity, transform"
+  }}
+>
       {/* OUTER SOFT GLOW (ONLY BLUR LAYER — KEEP JUST ONE) */}
       <motion.div
         aria-hidden

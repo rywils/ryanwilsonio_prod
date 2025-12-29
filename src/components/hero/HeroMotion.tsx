@@ -16,7 +16,6 @@ export function TechIcon({
   delay
 }: TechIconProps) {
   return (
-    /* CENTERING WRAPPER — NOT ANIMATED */
     <div
       style={{
         position: "absolute",
@@ -26,46 +25,39 @@ export function TechIcon({
         pointerEvents: "none"
       }}
     >
-      {/* ANIMATED ELEMENT — PIXELS ONLY */}
       <motion.div
         initial={{
-          opacity: 0,
-          x: 600,
-          y: 0,
-          scale: 15,
-          rotate: 180
+          opacity: 1,
+          x: 400,   // 👈 START FROM WAY OFFSCREEN RIGHT
+          y: y + 100
         }}
         animate={{
           opacity: 1,
           x,
-          y,
-          scale: 1,
-          rotate: 0
+          y
         }}
         transition={{
-          duration: 1.4,
+          duration: 3.0,
           delay,
-          ease: [0.4, -0.1, 0.8, 1]
-        }}
-        style={{
-          filter: `drop-shadow(0 0 10px ${color})`
+          ease: [0.22, 1, 0.36, 1]
         }}
       >
         <motion.img
           src={`https://api.iconify.design/${icon}.svg`}
-          alt={icon}
+          alt=""
           width={36}
           height={36}
-          decoding="sync"
+          decoding="async"
           draggable={false}
           style={{
             display: "block",
             padding: 6,
-            background: "rgba(0,0,0,0.7)",
+            background: "rgba(10, 10, 10, 0.65)",
             borderRadius: 8,
-            border: `2px solid ${color}`
+            border: `1.5px solid ${color}`,
+            boxShadow: `0 0 10px ${color}33`
           }}
-          animate={{ y: [0, -6, 0] }}
+          animate={{ y: [0, -5, 0] }}
           transition={{
             duration: 6,
             repeat: Infinity,
