@@ -87,7 +87,7 @@ const socialLinks = [
         </div>
 
         <!-- SOCIALS -->
-        <div class="absolute top-5 right-5 flex flex-col items-center gap-3 z-50">
+        <div class="absolute top-5 right-5 flex flex-col items-center gap-3 z-50" style="--social-delay: 1.4s;">
           {socialLinks.map(({ icon, link, isImage }, index) => (
             <a href={link} target="_blank" rel="noopener noreferrer"
               class={`social__link social__link-${index + 1} w-8 h-8 flex items-center justify-center rounded-full border border-[var(--secondary-purple)] glow-primary-purple hover:scale-110 transition`}>
@@ -295,19 +295,23 @@ const socialLinks = [
 }
 
 .social__link-1 {
-  animation: bounce-in-left 1.5s 0.2s both;
+  animation: bounce-in-left 1.5s both;
+  animation-delay: calc(var(--social-delay, 2.2s) + 0.2s);
 }
 
 .social__link-2 {
-  animation: bounce-in-left 1.5s 0.35s both;
+  animation: bounce-in-left 1.5s both;
+  animation-delay: calc(var(--social-delay, 2.2s) + 0.35s);
 }
 
 .social__link-3 {
-  animation: bounce-in-left 1.5s 0.5s both;
+  animation: bounce-in-left 1.5s both;
+  animation-delay: calc(var(--social-delay, 2.2s) + 0.5s);
 }
 
 .social__link-4 {
-  animation: bounce-in-left 1.5s 0.65s both;
+  animation: bounce-in-left 1.5s both;
+  animation-delay: calc(var(--social-delay, 2.2s) + 0.65s);
 }
 
 @media (prefers-reduced-motion: reduce) {
