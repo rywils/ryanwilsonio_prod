@@ -28,7 +28,7 @@ export function TechIcon({
       <motion.div
         initial={{
           opacity: 1,
-          x: 400,   // 👈 START FROM WAY OFFSCREEN RIGHT
+          x: 400,  
           y: y + 100
         }}
         animate={{

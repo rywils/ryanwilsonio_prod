@@ -34,7 +34,7 @@ export default function GlowCardMotion({
     willChange: "opacity, transform"
   }}
 >
-      {/* OUTER SOFT GLOW (ONLY BLUR LAYER — KEEP JUST ONE) */}
+      {/* blur/glow */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
@@ -51,7 +51,6 @@ export default function GlowCardMotion({
         }}
       />
 
-      {/* BORDER WRAPPER */}
       <div
         className="relative rounded-xl"
         style={{
@@ -60,7 +59,6 @@ export default function GlowCardMotion({
           background: "transparent",
         }}
       >
-        {/* BORDER REVEAL (NO CLIP-PATH, NO BLUR) */}
         <motion.div
           aria-hidden
           initial={{ opacity: 0 }}
@@ -78,7 +76,7 @@ export default function GlowCardMotion({
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 1.1, ease: "easeOut", delay: 0.25 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.25 }}
             style={{
               position: "absolute",
               left: 0,
