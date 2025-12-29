@@ -88,9 +88,9 @@ const socialLinks = [
 
         <!-- SOCIALS -->
         <div class="absolute top-5 right-5 flex flex-col items-center gap-3 z-50">
-          {socialLinks.map(({ icon, link, isImage }) => (
+          {socialLinks.map(({ icon, link, isImage }, index) => (
             <a href={link} target="_blank" rel="noopener noreferrer"
-              class="w-8 h-8 flex items-center justify-center rounded-full border border-[var(--secondary-purple)] glow-primary-purple hover:scale-110 transition">
+              class={`social__link social__link-${index + 1} w-8 h-8 flex items-center justify-center rounded-full border border-[var(--secondary-purple)] glow-primary-purple hover:scale-110 transition`}>
               {isImage ? <span class="social-icon" style={`--icon-url: url(${icon});`}></span> : <Mail size={16} color="var(--secondary-purple)" />}
             </a>
           ))}
@@ -177,6 +177,7 @@ const socialLinks = [
   height: 16px;
   display: inline-block;
   background-color: var(--secondary-purple);
+  filter: drop-shadow(0 0 9px rgba(138, 43, 226, 0.7));
   -webkit-mask-image: var(--icon-url);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -185,6 +186,135 @@ const socialLinks = [
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: contain;
+}
+
+@-webkit-keyframes bounce-in-left {
+  0% {
+    -webkit-transform: translateX(-500px) scale(1);
+            transform: translateX(-500px) scale(1);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    -webkit-transform: translateX(0) scale(0.94);
+            transform: translateX(0) scale(0.94);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    -webkit-transform: translateX(-65px) scale(1.02);
+            transform: translateX(-65px) scale(1.02);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  72% {
+    -webkit-transform: translateX(0) scale(0.96);
+            transform: translateX(0) scale(0.96);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  81% {
+    -webkit-transform: translateX(-28px) scale(1.01);
+            transform: translateX(-28px) scale(1.01);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  90% {
+    -webkit-transform: translateX(0) scale(0.98);
+            transform: translateX(0) scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  95% {
+    -webkit-transform: translateX(-8px) scale(1.005);
+            transform: translateX(-8px) scale(1.005);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  100% {
+    -webkit-transform: translateX(0) scale(1);
+            transform: translateX(0) scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
+@keyframes bounce-in-left {
+  0% {
+    -webkit-transform: translateX(-500px) scale(1);
+            transform: translateX(-500px) scale(1);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    -webkit-transform: translateX(0) scale(0.94);
+            transform: translateX(0) scale(0.94);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    -webkit-transform: translateX(-65px) scale(1.02);
+            transform: translateX(-65px) scale(1.02);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  72% {
+    -webkit-transform: translateX(0) scale(0.96);
+            transform: translateX(0) scale(0.96);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  81% {
+    -webkit-transform: translateX(-28px) scale(1.01);
+            transform: translateX(-28px) scale(1.01);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  90% {
+    -webkit-transform: translateX(0) scale(0.98);
+            transform: translateX(0) scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  95% {
+    -webkit-transform: translateX(-8px) scale(1.005);
+            transform: translateX(-8px) scale(1.005);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  100% {
+    -webkit-transform: translateX(0) scale(1);
+            transform: translateX(0) scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
+.social__link-1 {
+  animation: bounce-in-left 1.5s 0.2s both;
+}
+
+.social__link-2 {
+  animation: bounce-in-left 1.5s 0.35s both;
+}
+
+.social__link-3 {
+  animation: bounce-in-left 1.5s 0.5s both;
+}
+
+.social__link-4 {
+  animation: bounce-in-left 1.5s 0.65s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social__link {
+    animation: none;
+    transform: none;
+  }
 }
 
 /* POSITIONS + ANIMATIONS (SOFI-STYLE) */
