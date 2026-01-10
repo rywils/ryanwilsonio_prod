@@ -118,13 +118,7 @@ const navLinks = [
 
 <script>
   let ticking = false;
-  let bannerHeight = 0;
   let initialized = false;
-
-  function updateBannerHeight() {
-    const banner = document.getElementById('site-banner');
-    bannerHeight = banner ? banner.offsetHeight : 0;
-  }
 
   function handleNavPosition() {
     if (!ticking) {
@@ -140,13 +134,6 @@ const navLinks = [
             navInner.classList.add('nav-scrolled');
           } else {
             navInner.classList.remove('nav-scrolled');
-          }
-          
-    
-          if (scrollY === 0) {
-            nav.style.top = `${bannerHeight}px`;
-          } else {
-            nav.style.top = '0px';
           }
         }
         
@@ -263,23 +250,13 @@ const navLinks = [
       return;
     }
     
-    updateBannerHeight();
     setupMobileMenu();
     setupSmoothScroll();
     handleNavPosition();
     updateActiveLinks();
     
-    
-    window.addEventListener('banner-closed', () => {
-      updateBannerHeight();
-      handleNavPosition();
-    });
-    
     window.addEventListener('scroll', handleNavPosition, { passive: true });
-    window.addEventListener('resize', () => {
-      updateBannerHeight();
-      handleNavPosition();
-    });
+    window.addEventListener('resize', handleNavPosition);
     
     initialized = true;
   }

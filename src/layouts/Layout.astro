@@ -11,7 +11,6 @@ import Navigation from '../components/Navigation.astro';
 import ContentBarLeft from '../components/ui/ContentBarLeft.astro';
 import ContentBarRight from '../components/ui/ContentBarRight.astro';
 import Footer from '../components/Footer.astro'; 
-import Banner from '../components/ui/Banner.astro';
 import { SEO } from 'astro-seo';
 const { title } = Astro.props;
 const { description } = Astro.props;  
@@ -71,39 +70,12 @@ const { description } = Astro.props;
     />
     <title>{title}</title>
     <ClientRouter />
-
+    
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
     
-    <script is:inline>
-      window.addEventListener('load', function() {
-        function setNavPosition() {
-          const banner = document.getElementById('site-banner');
-          const nav = document.querySelector('.nav-container');
-          
-          if (nav && banner) {
-            const bannerHeight = banner.offsetHeight;
-            
-            nav.style.top = bannerHeight + 'px';
-          } else if (nav) {
-            nav.style.top = '0px';
-          }
-        }
-        
-        setNavPosition();
-        window.addEventListener('banner-closed', setNavPosition);
-        window.addEventListener('resize', setNavPosition);
-        document.addEventListener('astro:after-swap', setNavPosition);
-      });
-    </script>
   </head>
   
   <body class="bg-[#0a0a0a] overflow-x-hidden">
-    <Banner 
-      content="🚧 This website is currently under construction. Some features may be incomplete or missing. 🚧" 
-      bannerType="warning"
-      persistDismissal={false}
-    />
-    
     <div id="documentContainer" class="max-w-2xl md:max-w-5xl h-full glow-primary-bg-blue mx-auto ">
       <ContentBarLeft/>
       <ContentBarRight/>
