@@ -43,7 +43,7 @@ export default function GlowCardMotion({
         style={{
           position: "absolute",
           inset: -2,
-          borderRadius: 12,
+          borderRadius: 0,
           background: GRAD_H,
           filter: "blur(22px)",
           zIndex: -2,
@@ -55,7 +55,7 @@ export default function GlowCardMotion({
         className="relative rounded-xl"
         style={{
           padding: 1,
-          borderRadius: 12,
+          borderRadius: 0,
           background: "transparent",
         }}
       >
@@ -67,7 +67,7 @@ export default function GlowCardMotion({
           style={{
             position: "absolute",
             inset: 0,
-            borderRadius: 12,
+            borderRadius: 0,
             pointerEvents: "none",
             zIndex: 2,
           }}
@@ -141,7 +141,7 @@ export default function GlowCardMotion({
         <div
           className="relative rounded-xl"
           style={{
-            borderRadius: 12,
+            borderRadius: 0,
             background: "linear-gradient(135deg, #1e1e24 10%, #050505 60%)",
             zIndex: 1,
           }}

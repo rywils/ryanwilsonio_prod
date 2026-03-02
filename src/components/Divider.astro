@@ -1,0 +1,28 @@
+---
+export interface Props {
+  name?: string;
+}
+
+const { name } = Astro.props;
+
+type ColorOption = {
+  name: string;
+  colorClass: string;
+};
+
+const colors: ColorOption[] = [
+  { name: 'blue', colorClass: 'bg-[#2c8fea]' },
+  { name: 'pink', colorClass: 'bg-[#db21c7]' },
+  { name: 'purple', colorClass: 'bg-[#8a2ae1]' },
+];
+
+const selectedColor =
+  colors.find((c) => c.name === name)?.colorClass ?? 'bg-gray-400';
+---
+
+<span
+  class:list={[
+    "inline-block h-5 w-[1.5px] mt-1 flex mx-2 self-stretch self-center",
+    selectedColor
+  ]}
+></span>
