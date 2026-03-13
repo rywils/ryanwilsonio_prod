@@ -1,11 +1,7 @@
 ---
-
-import { ExternalLink, Github, Tag } from '@lucide/astro';
+import { ExternalLink } from '@lucide/astro';
 import { getCollection } from 'astro:content';
-import LangBadge from './ui/LangBadge.astro';
-import PatternOverlay from './ui/PatternOverlay.astro';
 import ProjectCard from './ProjectCard.astro';
-
 
 const allProjects = await getCollection('projects');
 
@@ -16,44 +12,40 @@ const featuredProjects = allProjects
 
 const displayProjects = featuredProjects.length > 0 ? featuredProjects : allProjects.slice(0, 6);
 
-
 const projectsWithContent = await Promise.all(
   displayProjects.map(async (project) => {
-    const { Content, remarkPluginFrontmatter } = await project.render();
-    
+    const { Content } = await project.render();
     const bodyText = project.body.slice(0, 400);
     return { project, Content, bodyText };
   })
 );
 ---
 
-<section id="projects" class="py-10 md:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style="position: relative; z-index: 10;">  
-  <div class="max-w-7xl mx-auto relative z-10 projects-container in-view">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl sm:text-5xl md:text-5xl mb-4 projects-title text-[var(--primary-blue)]">
+<section id="projects" class="py-10 md:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto relative z-10 projects-container">
+    <div class="text-center mb-16">
+      <h2 class="text-2xl sm:text-5xl md:text-5xl mb-4 text-[var(--primary-blue)] projects-title">
         Recent Projects
       </h2>
-   
-      <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-green)] mx-auto rounded-full projects-underline"></div>
+      <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-green)] mx-auto rounded-full mt-4 projects-underline"></div>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
-  {displayProjects.map((project, index) => (
-    <ProjectCard
-      slug={project.slug}
-      title={project.data.title}
-      description={project.data.description}
-      image={project.data.image}
-      tags={project.data.tags}
-      category={project.data.category}
-      index={index}
-    />
-  ))}
-</div>
-
+      {displayProjects.map((project, index) => (
+        <ProjectCard
+          slug={project.slug}
+          title={project.data.title}
+          description={project.data.description}
+          image={project.data.image}
+          tags={project.data.tags}
+          category={project.data.category}
+          index={index}
+        />
+      ))}
+    </div>
 
     {allProjects.length > 6 && (
-      <div class="text-center mt-12">
+      <div class="text-center mt-16">
         <a
           href="/projects"
           class="inline-flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/10 hover:scale-105 transition-all active:scale-95 font-semibold"
@@ -71,7 +63,6 @@ const projectsWithContent = await Promise.all(
 <div id="project-modal" class="fixed inset-0 z-50 hidden">
   <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm" id="project-modal-backdrop"></div>
   <div class="modal-content absolute inset-4 md:inset-8 lg:inset-12 bg-card border border-[var(--primary-blue)]/30 rounded-2xl overflow-hidden flex flex-col shadow-2xl">
-    <!-- Header -->
     <div class="flex items-center justify-between p-6 border-b border-[var(--primary-blue)]/20 bg-card">
       <button id="project-modal-back" class="flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-colors">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -85,51 +76,21 @@ const projectsWithContent = await Promise.all(
         </svg>
       </button>
     </div>
-
-    <!-- Content -->
-    <div class="flex-1 overflow-y-auto p-6 md:p-8 bg-card" id="project-modal-body">
-
-    </div>
+    <div class="flex-1 overflow-y-auto p-6 md:p-8 bg-card" id="project-modal-body"></div>
   </div>
 </div>
 
 <script define:vars={{ projectsWithContent }}>
   function renderLangBadge(tag) {
-  const accents = {
-    go: '#6ad7e5',
-    python: '#f2c94c',
-    javascript: '#f7df1e',
-    typescript: '#3178c6',
-    c: '#5bc0de',
-    cpp: '#6495ed',
-    cs: '#9b59b6',
-    bash: '#7bd88f',
-    powershell: '#4fa3ff',
-    php: '#8993be',
-    lua: '#e67e22',
-    java: '#f2994a',
-    ruby: '#eb5757',
-    html: '#ff6b6b',
-    css: '#56ccf2',
-    sass: '#f178b6',
-    tailwind: '#38bdf8',
-  };
-
-  const accent = accents[tag] ?? '#6b7280';
-
-  return `
-    <span
-      class="relative inline-flex items-center px-2 py-1 text-[11px] uppercase tracking-wide
-             bg-[#0b1215] border border-[#10191d] opacity-85 rounded-sm"
-    >
-      <span
-        class="absolute left-0 top-0 h-full w-[2px] rounded-l-sm"
-        style="background-color: ${accent}"
-      ></span>
-      <span class="relative z-10 jetbrains-mono-projTag">${tag}</span>
-    </span>
-  `;
-}
+    const accents = {
+      go: '#6ad7e5', python: '#f2c94c', javascript: '#f7df1e', typescript: '#3178c6',
+      c: '#5bc0de', cpp: '#6495ed', cs: '#9b59b6', bash: '#7bd88f', powershell: '#4fa3ff',
+      php: '#8993be', lua: '#e67e22', java: '#f2994a', ruby: '#eb5757', html: '#ff6b6b',
+      css: '#56ccf2', sass: '#f178b6', tailwind: '#38bdf8',
+    };
+    const accent = accents[tag] ?? '#6b7280';
+    return `<span class="relative inline-flex items-center px-2 py-1 text-[11px] uppercase tracking-wide bg-[#0b1215] border border-[#10191d] opacity-85 rounded-sm"><span class="absolute left-0 top-0 h-full w-[2px] rounded-l-sm" style="background-color: ${accent}"></span><span class="relative z-10 jetbrains-mono-projTag">${tag}</span></span>`;
+  }
 
   function initProjectModal() {
     const modal = document.getElementById('project-modal');
@@ -140,88 +101,36 @@ const projectsWithContent = await Promise.all(
 
     if (!modal || !modalBody) return;
 
-    
     const projectContents = {};
     projectsWithContent.forEach(({ project, bodyText }) => {
       const p = project.data;
       const techs = project.data.technologies || [];
-      
-      
-     const cleanText = bodyText
-  .replace(/#{1,6}\s/g, '') 
-  .replace(/\*\*/g, '') 
-  .replace(/\*/g, '') 
-  .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') 
-  .trim();
+      const cleanText = bodyText
+        .replace(/#{1,6}\s/g, '')
+        .replace(/\*\*/g, '')
+        .replace(/\*/g, '')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .trim();
       
       projectContents[project.slug] = `
         <div class="max-w-4xl mx-auto">
           <img src="${p.image}" alt="${p.title}" class="w-full h-64 md:h-96 object-cover rounded-xl mb-6" />
-          
           <h2 class="text-4xl md:text-5xl font-bold text-[var(--primary-green)] mb-4">${p.title}</h2>
-          
-          <div class="flex flex-wrap gap-2 mb-6">
-             ${p.tags.map(tag => renderLangBadge(tag)).join('')}
-          </div>
-
+          <div class="flex flex-wrap gap-2 mb-6">${p.tags.map(tag => renderLangBadge(tag)).join('')}</div>
           <div class="flex gap-4 mb-8">
-            ${p.github ? `
-              <a href="${p.github}" target="_blank" rel="noopener noreferrer" 
-                 class="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-blue)]/20 border border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/30 transition-all">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                View Code
-              </a>
-            ` : ''}
-            ${p.demo && p.demo !== p.github ? `
-              <a href="${p.demo}" target="_blank" rel="noopener noreferrer"
-                 class="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--secondary-purple)]/20 border border-[var(--secondary-purple)] text-[var(--secondary-purple)] hover:bg-[var(--secondary-purple)]/30 transition-all">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15 3 21 3 21 9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-                Live Demo
-              </a>
-            ` : ''}
+            ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-blue)]/20 border border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/30 transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>View Code</a>` : ''}
+            ${p.demo && p.demo !== p.github ? `<a href="${p.demo}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--secondary-purple)]/20 border border-[var(--secondary-purple)] text-[var(--secondary-purple)] hover:bg-[var(--secondary-purple)]/30 transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>Live Demo</a>` : ''}
           </div>
-
-          <div class="text-muted-foreground mb-6">
-            <p class="text-lg leading-relaxed">${cleanText}...</p>
-          </div>
-
-          ${techs.length > 0 ? `
-            <div class="mt-8">
-              <h3 class="text-2xl font-semibold text-[var(--primary-blue)] mb-3">Technologies Used</h3>
-              <div class="flex flex-wrap gap-2">
-                ${techs.map(tech => `
-                  <span class="px-3 py-1 rounded-full bg-[var(--primary-green)]/10 border border-[var(--primary-green)]/30 text-sm">
-                    ${tech}
-                  </span>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-
-          <div class="mt-8 pt-6 border-t border-[var(--primary-blue)]/20 text-center">
-            <a href="/projects/${project.slug}" 
-               class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[var(--primary-blue)] text-white hover:bg-[var(--primary-green)] transition-all hover:scale-105 active:scale-95 font-semibold">
-              Read Full Project
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
+          <div class="text-muted-foreground mb-6"><p class="text-lg leading-relaxed">${cleanText}...</p></div>
+          ${techs.length > 0 ? `<div class="mt-8"><h3 class="text-2xl font-semibold text-[var(--primary-blue)] mb-3">Technologies Used</h3><div class="flex flex-wrap gap-2">${techs.map(tech => `<span class="px-3 py-1 rounded-full bg-[var(--primary-green)]/10 border border-[var(--primary-green)]/30 text-sm">${tech}</span>`).join('')}</div></div>` : ''}
+          <div class="mt-8 pt-6 border-t border-[var(--primary-blue)]/20 text-center"><a href="/projects/${project.slug}" class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[var(--primary-blue)] text-white hover:bg-[var(--primary-green)] transition-all hover:scale-105 active:scale-95 font-semibold">Read Full Project<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
         </div>
       `;
     });
 
     function openModal(projectSlug) {
       if (!projectContents[projectSlug]) return;
-
       modalBody.innerHTML = projectContents[projectSlug];
-
       modal.classList.remove('hidden');
       requestAnimationFrame(() => {
         modal.classList.add('modal-open');
@@ -237,14 +146,6 @@ const projectsWithContent = await Promise.all(
       }, 300);
     }
 
-    
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach(card => {
-      const clone = card.cloneNode(true);
-      card.parentNode?.replaceChild(clone, card);
-    });
-
-    
     document.querySelectorAll('.project-card').forEach(card => {
       card.addEventListener('click', () => {
         const projectSlug = card.getAttribute('data-project-slug');
@@ -256,17 +157,41 @@ const projectsWithContent = await Promise.all(
     modalBack?.addEventListener('click', closeModal);
     modalClose?.addEventListener('click', closeModal);
 
-    const escapeHandler = (e) => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
         closeModal();
       }
-    };
-    document.removeEventListener('keydown', escapeHandler);
-    document.addEventListener('keydown', escapeHandler);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', initProjectModal);
   document.addEventListener('astro:page-load', initProjectModal);
+
+  if (typeof window !== 'undefined') {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    function setupObserver() {
+      const section = document.querySelector('#projects .projects-container');
+      if (section) {
+        observer.observe(section);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', setupObserver);
+    document.addEventListener('astro:page-load', setupObserver);
+  }
 </script>
 
 <style>
@@ -274,70 +199,21 @@ const projectsWithContent = await Promise.all(
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-
   #project-modal.modal-open {
     opacity: 1;
   }
-
   #project-modal .modal-content {
     transform: scale(0.95) translateY(20px);
     transition: transform 0.3s ease;
   }
-
   #project-modal.modal-open .modal-content {
     transform: scale(1) translateY(0);
   }
-
   .modal-backdrop {
     animation: fadeIn 0.3s ease;
   }
-
-  .markdown-content :global(h2) {
-    font-size: 1.875rem;
-    font-weight: 600;
-    color: var(--primary-blue);
-    margin-bottom: 1rem;
-    margin-top: 2rem;
-  }
-
-  .markdown-content :global(h3) {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--primary-blue);
-    margin-bottom: 0.75rem;
-    margin-top: 1.5rem;
-  }
-  
-  .markdown-content :global(p) {
-    font-size: 1.125rem;
-    line-height: 1.75;
-    margin-bottom: 1rem;
-    color: var(--muted-foreground);
-  }
-
-  .line-clamp-content {
-    max-height: 150px;
-    overflow: hidden;
-  }
-
-  .markdown-content :global(ul) {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin: 1rem 0;
-  }
-
-  .markdown-content :global(li) {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .markdown-content :global(li::before) {
-    content: "▹";
-    color: var(--primary-green);
-    font-size: 1.25rem;
-    margin-top: 0.25rem;
-    flex-shrink: 0;
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 </style>

@@ -28,20 +28,17 @@ const contactInfo = [
 
     
     {!compact && (
-      <div class="text-center mb-16">
+      <div class="text-center mb-16 contact-header">
         <h2
-          id="contact-heading"
-          class="text-4xl sm:text-5xl md:text-6xl mb-4 contact-title text-(--primary-blue) contact-info"
+          class="text-4xl sm:text-5xl md:text-6xl mb-4 text-(--primary-blue) contact-title"
         >
           Get In Touch
         </h2>
         <div
-          id="contact-underline"
-          class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-green)] mx-auto rounded-full mt-4 contact-info"
+          class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-green)] mx-auto rounded-full mt-4 contact-underline"
         ></div>
         <p
-          id="contact-subtitle"
-          class="text-muted-foreground max-w-2xl mx-auto contact-subtitle contact-info pt-4"
+          class="text-muted-foreground max-w-2xl mx-auto pt-4 contact-subtitle"
         >
           Have a project in mind or want to collaborate? Feel free to reach out!
         </p>
@@ -49,20 +46,18 @@ const contactInfo = [
     )}
 
     <div
-      id="contact-grid"
       class={`grid gap-12 ${compact ? 'grid-cols-1' : 'lg:grid-cols-5'}`}
     >
 
       
       {!compact && (
-        <div id="contact-info" class="lg:col-span-2 space-y-6">
-          <div id="contact-secondary-heading-block" class="contact-info">
-            <h3 class="text-2xl mb-4 font-semibold text-(--primary-blue) contact-secondary-heading contact-info">
+        <div class="lg:col-span-2 space-y-6 contact-info-panel">
+          <div>
+            <h3 class="text-2xl mb-4 font-semibold text-(--primary-blue) contact-subheading">
               Let's Connect
             </h3>
             <p
-              id="contact-info-first"
-              class="text-muted-foreground mb-6 contact-info"
+              class="text-muted-foreground mb-6 contact-text"
             >
               I'm always interested in hearing about new projects and opportunities.
               Whether you have a question or just want to say hi, I'll try my best to
@@ -70,14 +65,13 @@ const contactInfo = [
             </p>
           </div>
 
-          <div id="contact-email" class="space-y-12 contact-info">
+          <div class="space-y-12">
             {contactInfo.map((info, index) => {
               const Icon = info.icon;
               return (
                 <>
                   <p
-                    id="contact-email-subtitle"
-                    class="text-muted-foreground text-md contact-info"
+                    class="text-muted-foreground text-md contact-text"
                   >
                     If you'd rather contact me via email instead of through the contact form,
                     feel free to do so!
@@ -85,15 +79,14 @@ const contactInfo = [
 
                   <a
                     href={info.href}
-                    class="contact-info-card flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/20 hover:border-primary-blue/50 transition-all hover:translate-x-1 hover:glow-(--primary-blue) group"
-                    style={`--info-delay: ${0.7 + index * 0.1}s`}
+                    class="contact-card flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/20 hover:border-primary-blue/50 transition-all hover:translate-x-1 group"
                   >
                     <div class="p-3 rounded-full bg-(--primary-blue)/10 border border-(--primary-blue)/30 group-hover:bg-(--primary-blue)/20 transition-colors">
                       <Icon class="w-5 h-5 text-primary-blue" />
                     </div>
                     <div>
-                      <p class="text-sm text-muted-foreground contact-info">{info.label}</p>
-                      <p class="group-hover:text-(--primary-blue) transition-colors contact-info">
+                      <p class="text-sm text-muted-foreground">{info.label}</p>
+                      <p class="group-hover:text-(--primary-blue) transition-colors">
                         {info.value}
                       </p>
                     </div>
@@ -104,8 +97,7 @@ const contactInfo = [
           </div>
 
           <div
-            id="contact-info-third"
-            class="contact-info contact-response-card p-6 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/30"
+            class="contact-card p-6 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/30"
           >
             <h4 class="mb-2 font-semibold text-(--primary-blue)">Quick Response</h4>
             <p class="text-sm text-muted-foreground">
@@ -116,7 +108,7 @@ const contactInfo = [
       )}
 
       
-      <div class={compact ? 'contact-form w-full mx-auto' : 'lg:col-span-3 contact-form'}>
+      <div class={compact ? 'w-full mx-auto' : 'lg:col-span-3 contact-form-panel'}>
         <form id="contact-form" class="space-y-6">
           <div class="grid sm:grid-cols-2 gap-6">
             <div class="contact-field">
@@ -131,7 +123,7 @@ const contactInfo = [
               />
             </div>
 
-            <div class="contact-field" style="--field-delay: 0.1s">
+            <div class="contact-field">
               <label for="email" class="block mb-2">Email</label>
               <input
                 id="email"
@@ -144,7 +136,7 @@ const contactInfo = [
             </div>
           </div>
 
-          <div class="contact-field" style="--field-delay: 0.2s">
+          <div class="contact-field">
             <label for="reason" class="block mb-2">Reason for Contact</label>
             <select
               id="reason"
@@ -158,7 +150,7 @@ const contactInfo = [
             </select>
           </div>
 
-          <div class="contact-field" style="--field-delay: 0.3s">
+          <div class="contact-field">
             <label for="message" class="block mb-2">Message</label>
             <textarea
               id="message"
@@ -172,7 +164,6 @@ const contactInfo = [
 
           
           <div
-            id="contact-submit"
             class={`contact-submit ${compact ? 'w-full flex justify-center' : ''}`}
           >
             <button
@@ -193,76 +184,235 @@ const contactInfo = [
 </section>
 
 <script is:inline>
-  if (typeof window !== 'undefined') {
-    const observerOptions = { threshold: 0.2, rootMargin: '0px' };
+  // Simple scroll animation using IntersectionObserver
+  function initContactAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+          entry.target.classList.add('animate-in');
           observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    function setupObserver() {
-      const section = document.querySelector('#contact .contact-container');
-      if (section) observer.observe(section);
-    }
+    // Observe header elements
+    document.querySelectorAll('.contact-title').forEach(el => observer.observe(el));
+    document.querySelectorAll('.contact-underline').forEach(el => observer.observe(el));
+    document.querySelectorAll('.contact-subtitle').forEach(el => observer.observe(el));
+    
+    // Observe info panel
+    document.querySelectorAll('.contact-info-panel').forEach(el => observer.observe(el));
+    
+    // Observe form panel
+    document.querySelectorAll('.contact-form-panel').forEach(el => observer.observe(el));
+  }
 
-    function showToast(message, type) {
-      const container = document.getElementById('toast-container');
-      if (!container) return;
-      const toast = document.createElement('div');
-      toast.className = `px-6 py-3 rounded-lg shadow-lg ${
-        type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-      }`;
-      toast.textContent = message;
-      container.appendChild(toast);
-      setTimeout(() => container.removeChild(toast), 4000);
-    }
+  // Run on load and on astro page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactAnimations);
+  } else {
+    initContactAnimations();
+  }
+  
+  document.addEventListener('astro:page-load', initContactAnimations);
 
-    function setupForm() {
-      const form = document.getElementById('contact-form');
-      if (!form) return;
+  // Form handling
+  function showToast(message, type) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = `px-6 py-3 rounded-lg shadow-lg ${
+      type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+    }`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => container.removeChild(toast), 4000);
+  }
 
-      if (form.dataset.bound === 'true') return;
-      form.dataset.bound = 'true';
+  function setupForm() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
 
-      const submitButton = document.getElementById('submit-button');
-      const buttonText = document.getElementById('button-text');
+    if (form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitButton.disabled = true;
-        buttonText.textContent = 'Sending...';
+    const submitButton = document.getElementById('submit-button');
+    const buttonText = document.getElementById('button-text');
 
-        try {
-          const response = await fetch('/api/contact', {
-            method: 'POST',
-            body: new FormData(form),
-          });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitButton.disabled = true;
+      buttonText.textContent = 'Sending...';
 
-          if (response.ok) {
-            showToast("Message sent! I'll get back to you soon.", 'success');
-            form.reset();
-          } else {
-            showToast('Failed to send message. Please try again.', 'error');
-          }
-        } catch {
-          showToast('Network error. Please try again.', 'error');
-        } finally {
-          submitButton.disabled = false;
-          buttonText.textContent = 'Send Message';
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+
+        if (response.ok) {
+          showToast("Message sent! I'll get back to you soon.", 'success');
+          form.reset();
+        } else {
+          showToast('Failed to send message. Please try again.', 'error');
         }
-      });
-    }
-
-    document.addEventListener('astro:page-load', () => {
-      setupObserver();
-      setupForm();
+      } catch {
+        showToast('Network error. Please try again.', 'error');
+      } finally {
+        submitButton.disabled = false;
+        buttonText.textContent = 'Send Message';
+      }
     });
+  }
 
-    setupObserver();
+  // Setup form
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupForm);
+  } else {
     setupForm();
   }
+  
+  document.addEventListener('astro:page-load', setupForm);
 </script>
+
+<style>
+  /* ===== SCROLL ANIMATIONS ===== */
+  
+  /* Header elements */
+  .contact-title {
+    opacity: 1;
+  }
+  
+  .contact-title.animate-in {
+    animation: titleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes titleReveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+  
+  /* Underline draw animation */
+  .contact-underline {
+    position: relative;
+  }
+  
+  .contact-underline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    border-radius: inherit;
+    transform: scaleX(0);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .contact-underline.animate-in::after {
+    transform: scaleX(1);
+  }
+  
+  /* Subtitle */
+  .contact-subtitle {
+    opacity: 1;
+  }
+  
+  .contact-subtitle.animate-in {
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Info panel slide in from left */
+  .contact-info-panel {
+    opacity: 1;
+  }
+  
+  .contact-info-panel.animate-in {
+    animation: slideFromLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes slideFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Form panel slide in from right */
+  .contact-form-panel {
+    opacity: 1;
+  }
+  
+  .contact-form-panel.animate-in {
+    animation: slideFromRight 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes slideFromRight {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Contact cards */
+  .contact-card {
+    opacity: 1;
+  }
+  
+  /* Glow effect for submit button */
+  .glow-primary-blue {
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .glow-primary-blue:hover {
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.4);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .contact-title.animate-in,
+    .contact-underline.animate-in::after,
+    .contact-subtitle.animate-in,
+    .contact-info-panel.animate-in,
+    .contact-form-panel.animate-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+    
+    .contact-underline::after {
+      transform: scaleX(1);
+    }
+  }
+</style>

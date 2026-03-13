@@ -1,0 +1,544 @@
+/* ============================================
+   ADVANCED SCROLL ANIMATIONS
+   Wow-factor animations for home page sections
+   ============================================ */
+
+/* ----------------------------------------
+   1. TEXT REVEAL ANIMATIONS
+   ---------------------------------------- */
+
+/* Character-by-character text reveal */
+.text-reveal {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.text-reveal span {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.text-reveal.in-view span {
+  animation: charReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--char-delay, 0s);
+}
+
+@keyframes charReveal {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Word-by-word reveal */
+.word-reveal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  justify-content: center;
+}
+
+.word-reveal .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px) rotateX(-90deg);
+  transform-origin: center top;
+}
+
+.word-reveal.in-view .word {
+  animation: wordFlip 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--word-delay, 0s);
+}
+
+@keyframes wordFlip {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+/* Gradient shimmer text */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--primary-blue) 0%,
+    var(--primary-green) 25%,
+    var(--secondary-purple) 50%,
+    var(--primary-green) 75%,
+    var(--primary-blue) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+}
+
+.shimmer-text.in-view {
+  animation: shimmer 3s linear infinite, fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ----------------------------------------
+   2. UNDERLINE DRAW ANIMATIONS
+   ---------------------------------------- */
+
+.underline-draw {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-draw::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+  transform: translateX(-50%);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px var(--primary-blue);
+}
+
+.underline-draw.in-view::after {
+  width: 80%;
+}
+
+.underline-draw-thin::after {
+  height: 1px;
+}
+
+/* ----------------------------------------
+   3. 3D CARD FLIP REVEALS
+   ---------------------------------------- */
+
+.perspective-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.card-3d {
+  opacity: 0;
+  transform: rotateY(-90deg) translateZ(-100px);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.card-3d.in-view {
+  animation: cardFlip3D 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--card-delay, 0s);
+}
+
+@keyframes cardFlip3D {
+  0% {
+    opacity: 0;
+    transform: rotateY(-90deg) translateZ(-100px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0) translateZ(0);
+  }
+}
+
+/* Alternate flip directions */
+.card-3d-left {
+  transform: rotateY(90deg) translateZ(-100px);
+}
+
+.card-3d-up {
+  transform: rotateX(-90deg) translateZ(-100px);
+}
+
+.card-3d-down {
+  transform: rotateX(90deg) translateZ(-100px);
+}
+
+/* Card hover lift effect */
+.card-lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 191, 255, 0.3),
+    0 0 30px rgba(0, 191, 255, 0.1);
+}
+
+/* ----------------------------------------
+   4. SLIDE & BLUR REVEALS
+   ---------------------------------------- */
+
+.slide-blur-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  filter: blur(10px);
+}
+
+.slide-blur-left.in-view {
+  animation: slideBlurLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideBlurLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+.slide-blur-right {
+  opacity: 0;
+  transform: translateX(80px);
+  filter: blur(10px);
+}
+
+.slide-blur-right.in-view {
+  animation: slideBlurRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideBlurRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+.slide-blur-up {
+  opacity: 0;
+  transform: translateY(60px);
+  filter: blur(8px);
+}
+
+.slide-blur-up.in-view {
+  animation: slideBlurUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideBlurUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ----------------------------------------
+   5. SCALE & FADE REVEALS
+   ---------------------------------------- */
+
+.scale-fade {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.scale-fade.in-view {
+  animation: scaleFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes scaleFade {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scale-fade-small {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.scale-fade-small.in-view {
+  animation: scaleFadeSmall 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes scaleFadeSmall {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ----------------------------------------
+   6. GLOW PULSE ANIMATIONS
+   ---------------------------------------- */
+
+.glow-pulse {
+  position: relative;
+}
+
+.glow-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-green), var(--secondary-purple));
+  border-radius: inherit;
+  opacity: 0;
+  filter: blur(15px);
+  z-index: -1;
+  transition: opacity 0.5s ease;
+}
+
+.glow-pulse.in-view::before {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+/* ----------------------------------------
+   7. STAGGER CASCADE
+   ---------------------------------------- */
+
+.stagger-cascade > * {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+}
+
+.stagger-cascade.in-view > * {
+  animation: cascadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cascadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ----------------------------------------
+   8. SPLIT REVEAL (for contact section)
+   ---------------------------------------- */
+
+.split-left {
+  opacity: 0;
+  transform: translateX(-100px) rotateY(15deg);
+  transform-origin: right center;
+}
+
+.split-left.in-view {
+  animation: splitLeftIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes splitLeftIn {
+  to {
+    opacity: 1;
+    transform: translateX(0) rotateY(0);
+  }
+}
+
+.split-right {
+  opacity: 0;
+  transform: translateX(100px) rotateY(-15deg);
+  transform-origin: left center;
+}
+
+.split-right.in-view {
+  animation: splitRightIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes splitRightIn {
+  to {
+    opacity: 1;
+    transform: translateX(0) rotateY(0);
+  }
+}
+
+/* ----------------------------------------
+   9. IMAGE REVEAL MASK
+   ---------------------------------------- */
+
+.image-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-reveal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--primary-blue);
+  transform: translateX(-101%);
+}
+
+.image-reveal.in-view::after {
+  animation: imageReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes imageReveal {
+  0% {
+    transform: translateX(-101%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(101%);
+  }
+}
+
+.image-reveal img {
+  opacity: 0;
+  transform: scale(1.2);
+}
+
+.image-reveal.in-view img {
+  animation: imageZoom 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+@keyframes imageZoom {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ----------------------------------------
+   10. FLOATING ANIMATION (continuous)
+   ---------------------------------------- */
+
+.float-gentle {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-delay-1 { animation-delay: 0s; }
+.float-delay-2 { animation-delay: 0.5s; }
+.float-delay-3 { animation-delay: 1s; }
+.float-delay-4 { animation-delay: 1.5s; }
+
+/* ----------------------------------------
+   11. MAGNETIC HOVER EFFECT
+   ---------------------------------------- */
+
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ----------------------------------------
+   12. BORDER DRAW ANIMATION
+   ---------------------------------------- */
+
+.border-draw {
+  position: relative;
+}
+
+.border-draw::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-green)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+}
+
+.border-draw.in-view::before {
+  animation: borderDraw 1s ease-out forwards;
+}
+
+@keyframes borderDraw {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------
+   13. ROTATE IN ANIMATION
+   ---------------------------------------- */
+
+.rotate-in {
+  opacity: 0;
+  transform: rotate(-180deg) scale(0.5);
+}
+
+.rotate-in.in-view {
+  animation: rotateIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes rotateIn {
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* ----------------------------------------
+   14. PROGRESSIVE REVEAL (for lists)
+   ---------------------------------------- */
+
+.progressive-reveal > *:nth-child(1) { animation-delay: 0s; }
+.progressive-reveal > *:nth-child(2) { animation-delay: 0.1s; }
+.progressive-reveal > *:nth-child(3) { animation-delay: 0.2s; }
+.progressive-reveal > *:nth-child(4) { animation-delay: 0.3s; }
+.progressive-reveal > *:nth-child(5) { animation-delay: 0.4s; }
+.progressive-reveal > *:nth-child(6) { animation-delay: 0.5s; }
+.progressive-reveal > *:nth-child(7) { animation-delay: 0.6s; }
+.progressive-reveal > *:nth-child(8) { animation-delay: 0.7s; }
+.progressive-reveal > *:nth-child(9) { animation-delay: 0.8s; }
+
+/* ----------------------------------------
+   15. REDUCED MOTION SUPPORT
+   ---------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .text-reveal.in-view span,
+  .word-reveal.in-view .word,
+  .shimmer-text.in-view,
+  .card-3d.in-view,
+  .slide-blur-left.in-view,
+  .slide-blur-right.in-view,
+  .slide-blur-up.in-view,
+  .scale-fade.in-view,
+  .scale-fade-small.in-view,
+  .stagger-cascade.in-view > *,
+  .split-left.in-view,
+  .split-right.in-view,
+  .image-reveal.in-view::after,
+  .image-reveal.in-view img,
+  .rotate-in.in-view {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  
+  .underline-draw.in-view::after {
+    width: 80%;
+  }
+  
+  .float-gentle {
+    animation: none;
+  }
+}

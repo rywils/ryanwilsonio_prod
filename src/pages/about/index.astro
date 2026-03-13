@@ -66,17 +66,17 @@ const coreSkills = coreSkillNames
 
 <section class="">
 <div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
-<div class="mx-auto max-w-4xl px-6 py-20 text-gray-300">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
+<div class="mx-auto max-w-4xl px-6 py-16 text-gray-300">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-8">
 <img 
         src={me.src ?? me}
         alt="Ryan Wilson"
-        class="md:hidden md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
+        class="md:hidden md:static h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
       />
       <div class="flex-1">
-        <h1 class="text-4xl font-bold mb-4 text-(--primary-green)">About Me</h1>
+        <h1 class="text-4xl font-bold mb-6 text-(--primary-blue)">About Me</h1>
 
-        <p class="text-lg leading-relaxed text-gray-400 max-w-3xl">
+        <p class="text-lg leading-relaxed text-gray-400 max-w-2xl">
           I’m a solutions architect, full-stack developer, and cybersecurity specialist focused on
           building secure, scalable, high-performance systems. My background spans application 
           development, infrastructure, networking, and cloud platforms—bringing a security-first mindset 
@@ -87,16 +87,16 @@ const coreSkills = coreSkillNames
       <img 
         src={me.src ?? me}
         alt="Ryan Wilson"
-        class="hidden md:inline-block md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border-3 border-(--primary-blue)/60 hover:border-(--primary-green)/60 shadow-xl opacity-90 hover:opacity-100 transition"
+        class="hidden md:inline-block md:static h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-(--primary-blue)/60 hover:border-(--primary-green)/60 shadow-xl opacity-90 hover:opacity-100 transition"
       />
 
     </div>
 
-    <h2 class="text-2xl font-semibold mb-4 text-(--primary-green)">A few of my favorites</h2>
+    <h2 class="text-2xl font-semibold mb-6 text-(--primary-blue)">A few of my favorites</h2>
 
-    <div class="flex flex-wrap gap-6 pb-2 pt-6 justify-center md:justify-normal">
+    <div class="flex flex-wrap gap-4 pb-2 pt-4 justify-center md:justify-normal max-w-2xl">
       {coreSkills.map((skill: any) => (
-        <div class="flex flex-col items-center text-center w-16">
+        <div class="flex flex-col items-center text-center w-14">
           <iconify-icon
             icon={skill.icon}
             class="text-4xl opacity-80 hover:opacity-100 transition"
@@ -110,14 +110,14 @@ const coreSkills = coreSkillNames
 </div>
 </div>
 <div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
-<div class="mx-auto max-w-4xl px-6 py-10 text-gray-300">
+<div class="mx-auto max-w-4xl px-6 py-12 text-gray-300">
 
     <WorkExperience />
     <Education />
     
-    <h2 class="text-2xl font-semibold mt-12 mb-4 text-(--primary-green)">Outside of Tech</h2>
+    <h2 class="text-2xl font-semibold mt-16 mb-6 text-(--primary-blue)">Outside of Tech</h2>
     <p class="text-lg text-gray-400">
-      Outside of tech I enjoy spending time with friends, pool league, and spontaneous road trips.
+      Outside of tech I enjoy spending time with friends, pool league, photography, and spontaneous road trips.
     </p>
 
   </section>

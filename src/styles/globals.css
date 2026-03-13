@@ -2,6 +2,7 @@
 
 @plugin "tailwindcss-animate";
 @import "tw-animate-css";
+@import "./scroll-animations.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -15,7 +16,7 @@
   --secondary-pink: #FF007F;
   --background: #0a0a0a;
   --foreground: #cacaca;
-  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg: rgba(255, 255, 255, 0.05);
   --muted-foreground: #888;
   --radius: 0.625rem;
   --card: oklch(1 0 0);

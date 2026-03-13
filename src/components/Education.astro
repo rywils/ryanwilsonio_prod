@@ -8,6 +8,7 @@ import { GraduationCap, Award, Calendar } from '@lucide/astro';
    import dmaccIcon from '../assets/dmacc.jpg'; 
    import { Image } from 'astro:assets';
    import isuIcon from '../assets/isu.png';
+import Certifications from './Certifications.astro';
 
 const education = [
 
@@ -35,7 +36,7 @@ const education = [
        icon: isc2Icon,
      },
      {
-       name: 'Riverbed Certified Solutions Associate (RCSA) - WAN Optimization',
+       name: 'Riverbed Accredited Associate (RCPE) - WAN Optimization',
        issuer: 'Riverbed Technology',
        date: '2020',
        icon: riverbedIcon,
@@ -49,11 +50,11 @@ const education = [
    ];
 ---
 
-<section id="education" class="relative overflow-hidden py-12">
+<section id="education" class="relative overflow-hidden pt-4 pb-12">
 
   <div class="max-w-5xl mx-auto relative z-10 education-container">
-<h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-(--primary-green)">Education</h2>
-    <div class="grid md:grid-cols-2 gap-6 mb-12">
+<h2 class="text-2xl sm:text-3xl font-semibold mb-8 text-(--primary-blue)">Education</h2>
+    <div class="grid md:grid-cols-2 gap-6 mb-14">
       {education.map((item, index) => (
         <div
           class="education-card p-6 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/30 hover:border-(--primary-green)/30 flex gap-4 items-start h-full min-h-[220px] group"
@@ -72,9 +73,9 @@ const education = [
       ))}
     </div>
 
-    <h2 class="text-2xl font-semibold mb-6 text-(--primary-green)">Certifications</h2>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <Certifications />
+    <!-- <div class="grid md:grid-cols-2 gap-6">
       {certifications.map((cert, index) => (
         <div
           class="certification-card p-6 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/30 hover:border-(--primary-green)/30 flex gap-4 items-start h-full min-h-[180px] group"
@@ -90,7 +91,7 @@ const education = [
           </div>
         </div>
       ))}
-    </div>
+    </div> -->
   </div>
 </section>
 
