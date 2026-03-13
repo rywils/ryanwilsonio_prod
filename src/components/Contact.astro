@@ -111,7 +111,7 @@ const contactInfo = [
       <div class={compact ? 'w-full mx-auto' : 'lg:col-span-3 contact-form-panel'}>
         <form id="contact-form" class="space-y-6">
           <div class="grid sm:grid-cols-2 gap-6">
-            <div class="contact-field">
+            <div class="contact-field" style="--field-delay: 0s;">
               <label for="name" class="block mb-2">Name</label>
               <input
                 id="name"
@@ -123,7 +123,7 @@ const contactInfo = [
               />
             </div>
 
-            <div class="contact-field">
+            <div class="contact-field" style="--field-delay: 0.1s;">
               <label for="email" class="block mb-2">Email</label>
               <input
                 id="email"
@@ -136,7 +136,7 @@ const contactInfo = [
             </div>
           </div>
 
-          <div class="contact-field">
+          <div class="contact-field" style="--field-delay: 0.2s;">
             <label for="reason" class="block mb-2">Reason for Contact</label>
             <select
               id="reason"
@@ -150,7 +150,7 @@ const contactInfo = [
             </select>
           </div>
 
-          <div class="contact-field">
+          <div class="contact-field" style="--field-delay: 0.3s;">
             <label for="message" class="block mb-2">Message</label>
             <textarea
               id="message"
@@ -165,6 +165,7 @@ const contactInfo = [
           
           <div
             class={`contact-submit ${compact ? 'w-full flex justify-center' : ''}`}
+            style="--submit-delay: 0s;"
           >
             <button
               type="submit"
@@ -210,6 +211,19 @@ const contactInfo = [
     
     // Observe form panel
     document.querySelectorAll('.contact-form-panel').forEach(el => observer.observe(el));
+
+    // Observe contact-container for contact-field animations (globals.css expects .in-view)
+    document.querySelectorAll('.contact-container').forEach(el => {
+      const containerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            containerObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      containerObserver.observe(el);
+    });
   }
 
   // Run on load and on astro page load
