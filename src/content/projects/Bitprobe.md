@@ -2,10 +2,10 @@
 title: "Bitprobe"
 description: "Enterprise-grade web application security scanner built for penetration testers, security engineers, and developers."
 image: "/posts/bitprobe.png"
-tags: ["python", "html"]
+tags: ["python", "go", "rust"]
 github: "https://github.com/rywils/Bitprobe"
 category: ["Cybersecurity", "Development" ]
-technologies: ["Python"]
+technologies: ["Python", "Go", "Rust", "YAML", "HTML", "Javascript"]
 featured: true
 publishDate: 2025-12-11T00:00:00.000Z
 ---

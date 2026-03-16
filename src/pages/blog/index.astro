@@ -72,7 +72,7 @@ function getPreview(content: string, wordCount: number = 50): string {
           <button
             id="category-dropdown-btn"
             type="button"
-            class="flex items-center gap-3 px-6 py-3 rounded-full border-2 border-[var(--primary-green)] text-[var(--primary-green)] hover:bg-[var(--primary-green)]/10 transition-all hover:scale-105 active:scale-95 font-semibold w-full justify-between"
+            class="flex items-center gap-3 px-6 py-3 rounded-sm border-2 border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-green)]/10 hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-all hover:scale-105 active:scale-95 font-semibold w-60 justify-between"
           >
             <span id="selected-category">All Categories</span>
             <ChevronDown size={20} id="dropdown-icon" />
@@ -80,12 +80,12 @@ function getPreview(content: string, wordCount: number = 50): string {
           
           <div
             id="category-dropdown-menu"
-            class="dropdown-menu absolute top-full mt-2 left-0 right-0 bg-[#0a0a0a] border border-[var(--primary-green)]/30 rounded-xl overflow-hidden shadow-xl z-50"
+            class="dropdown-menu absolute top-full mt-2 left-0 right-0 bg-[#0a0a0a] border border-[var(--primary-blue)]/30 rounded-sm overflow-hidden shadow-xl z-50"
           >
             {categories.map((category) => (
               <button
                 type="button"
-                class="category-option w-full px-6 py-3 text-left hover:bg-[var(--primary-green)]/10 transition-colors border-b border-[var(--primary-green)]/10 last:border-b-0 text-[var(--primary-green)]"
+                class="category-option mx-auto w-60 px-6 py-3 text-left hover:bg-[var(--primary-green)]/10 transition-colors border-b border-[var(--primary-blue)]/10 last:border-b-0 text-[var(--primary-blue)] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)]"
                 data-category={category}
               >
                 {category === 'All' ? 'All Categories' : category}

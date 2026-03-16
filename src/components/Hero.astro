@@ -172,6 +172,7 @@ const heroContent = [
 /* Social link pop-on-hover — mirrors the orbital icon pop effect */
 .social__link {
 transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s ease;
+
 }
 
 .social__link:hover {
@@ -182,7 +183,7 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
 .social__link:not(:hover) {
   transition: filter 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease;
   filter: brightness(1);
-  box-shadow: none;
+  box-shadow: 0 0 8px var(--secondary-purple);
 }
 
 .social__link:hover .social-icon {
