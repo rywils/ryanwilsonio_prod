@@ -26,7 +26,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-blue)] font-bold">
           All Projects
         </h1>
-        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-green)] mx-auto rounded-full mt-4"></div>
+        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-purple)] mx-auto rounded-full mt-4"></div>
         <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
           Explore my collection of projects spanning web development, cloud infrastructure, and cybersecurity
         </p>
@@ -36,7 +36,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="flex flex-wrap justify-center gap-3 mb-12">
         {categories.map((category) => (
           <button
-            class="category-btn px-6 py-2 rounded-full border border-[var(--primary-blue)]/30 hover:border-[var(--primary-green)] transition-all hover:scale-105 active:scale-95"
+            class="category-btn px-6 py-2 rounded-full border border-[var(--primary-blue)]/30 hover:border-[var(--primary-purple)] transition-all hover:scale-105 active:scale-95"
             data-category={category}
           >
             {category}
@@ -54,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         {projects.map((project, index) => (
           <a
             href={`/projects/${project.slug}`}
-            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-green)]/50 transition-all hover:scale-[1.02] flex flex-col h-full"
+            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-purple)]/50 transition-all hover:scale-[1.02] flex flex-col h-full"
             data-category={JSON.stringify(project.data.category)}
             style={`--project-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch
@@ -70,7 +70,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </div>
 
             <div class="p-6 flex flex-col flex-1">
-  <h3 class="text-2xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
+  <h3 class="text-2xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-colors font-semibold">
     {project.data.title}
   </h3>
 

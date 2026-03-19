@@ -1,0 +1,45 @@
+---
+import { skillData } from "../data/skillData";
+
+const coreSkillNames = [
+  "C Programming",
+  "Go",
+  "Rust",
+  "TypeScript",
+  "Next.js",
+  "Astro",
+  "Laravel",
+  "Cisco",
+  "Docker",
+  "Ansible",
+  "AWS",
+  "Fortinet",
+  "Burpsuite",
+  "Nmap",
+];
+
+const allSkills = skillData.flatMap((category) => category.skills);
+const coreSkills = coreSkillNames
+  .map((name) => allSkills.find((skill) => skill.name === name))
+  .filter(Boolean);
+---
+
+<section id="skills" class="mx-auto ml-24 mt-12" >
+    <h2 class="text-2xl font-semibold mb-6 text-(--primary-blue)">A few of my favorites</h2>
+
+    <div class="flex flex-wrap gap-4 pb-2 pt-4 justify-center md:justify-normal max-w-2xl">
+      {coreSkills.map((skill: any) => (
+        <div class="flex flex-col items-center text-center w-14">
+          <iconify-icon
+            icon={skill.icon}
+            class="text-4xl opacity-80 hover:opacity-100 transition"
+          ></iconify-icon>
+          <span class="text-xs mt-1 text-gray-400">
+            {skill.name}
+          </span>
+        </div>
+      ))}
+    </div>
+</div>
+</div>
+</section>

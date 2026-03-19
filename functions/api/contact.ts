@@ -23,6 +23,16 @@ export const onRequestPost = async ({
   };
 }) => {
   try {
+    if (!env.SENDGRID_API_KEY || !env.SENDGRID_FROM_EMAIL) {
+      return json(
+        {
+          error: "Missing required server configuration",
+          details: "SENDGRID_API_KEY and/or SENDGRID_FROM_EMAIL is not set",
+        },
+        500,
+      );
+    }
+
     let body: ContactBody;
 
     const contentType = request.headers.get("content-type") ?? "";
@@ -55,10 +65,10 @@ export const onRequestPost = async ({
         personalizations: [
           {
             to: [{ email: env.SENDGRID_FROM_EMAIL }],
-            reply_to: { email },
           },
         ],
         from: { email: env.SENDGRID_FROM_EMAIL },
+        reply_to: { email },
         subject: `Contact: ${reason.toUpperCase()}`,
         content: [
           {
@@ -71,7 +81,10 @@ export const onRequestPost = async ({
 
     if (!sg.ok) {
       const text = await sg.text();
-      return json({ error: "SendGrid error", details: text }, 500);
+      return json(
+        { error: "SendGrid error", details: text, status: sg.status },
+        500,
+      );
     }
 
     return json({ success: true });

@@ -60,7 +60,7 @@ function getPreview(content: string, wordCount: number = 50): string {
         <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-blue)] font-bold">
           All Blog Posts
         </h1>
-        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-green)] to-[var(--primary-blue)] mx-auto rounded-full mt-4"></div>
+        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-purple)] to-[var(--primary-blue)] mx-auto rounded-full mt-4"></div>
         <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
           Insights, tutorials, and thoughts on web development, cyber security, linux, cloud, and all things tech.
         </p>
@@ -72,7 +72,7 @@ function getPreview(content: string, wordCount: number = 50): string {
           <button
             id="category-dropdown-btn"
             type="button"
-            class="flex items-center gap-3 px-6 py-3 rounded-sm border-2 border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-green)]/10 hover:text-[var(--primary-green)] hover:border-[var(--primary-green)] transition-all hover:scale-105 active:scale-95 font-semibold w-60 justify-between"
+            class="flex items-center gap-3 px-6 py-3 rounded-sm border-2 border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-purple)]/10 hover:text-[var(--primary-purple)] hover:border-[var(--primary-purple)] transition-all hover:scale-105 active:scale-95 font-semibold w-60 justify-between"
           >
             <span id="selected-category">All Categories</span>
             <ChevronDown size={20} id="dropdown-icon" />
@@ -85,7 +85,7 @@ function getPreview(content: string, wordCount: number = 50): string {
             {categories.map((category) => (
               <button
                 type="button"
-                class="category-option mx-auto w-60 px-6 py-3 text-left hover:bg-[var(--primary-green)]/10 transition-colors border-b border-[var(--primary-blue)]/10 last:border-b-0 text-[var(--primary-blue)] hover:text-[var(--primary-green)] hover:border-[var(--primary-green)]"
+                class="category-option mx-auto w-60 px-6 py-3 text-left hover:bg-[var(--primary-purple)]/10 transition-colors border-b border-[var(--primary-blue)]/10 last:border-b-0 text-[var(--primary-blue)] hover:text-[var(--primary-purple)] hover:border-[var(--primary-purple)]"
                 data-category={category}
               >
                 {category === 'All' ? 'All Categories' : category}
@@ -96,7 +96,7 @@ function getPreview(content: string, wordCount: number = 50): string {
       </div>
 
       
-      <h3 id="comingSoon" class="hidden text-center text-3xl text-[var(--primary-green)] col-span-full py-20">
+      <h3 id="comingSoon" class="hidden text-center text-3xl text-[var(--primary-purple)] col-span-full py-20">
         Coming Soon!
       </h3>
 
@@ -105,7 +105,7 @@ function getPreview(content: string, wordCount: number = 50): string {
           {sortedPosts.map((post, index) => (
           <a
             href={`/blog/${post.slug}`}
-            class="blog-card group rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-green)]/50 transition-all hover:scale-[1.01] block"
+            class="blog-card group rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-purple)]/50 transition-all hover:scale-[1.01] block"
             data-category={JSON.stringify(post.data.category)}
             style={`--blog-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch
@@ -135,7 +135,7 @@ function getPreview(content: string, wordCount: number = 50): string {
     </div>
   </div>
 
-  <h3 class="text-base mb-1 text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-colors font-semibold">
+  <h3 class="text-base mb-1 text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-colors font-semibold">
     {post.data.title}
   </h3>
 
@@ -149,7 +149,7 @@ function getPreview(content: string, wordCount: number = 50): string {
       {post.data.author}
     </span>
 
-    <span class="flex items-center gap-1 text-xs text-[var(--primary-blue)] group-hover:text-[var(--primary-green)] transition-all font-medium">
+    <span class="flex items-center gap-1 text-xs text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-all font-medium">
       Read More
       <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform" />
     </span>
@@ -300,7 +300,7 @@ function getPreview(content: string, wordCount: number = 50): string {
   }
 
   .dropdown-menu::-webkit-scrollbar-thumb {
-    background: var(--primary-green);
+    background: var(--primary-purple);
     border-radius: 3px;
   }
 

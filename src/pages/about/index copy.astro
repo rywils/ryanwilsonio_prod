@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { skillData } from "../../data/skillData";
 import me from "../../assets/me.png";
 import WorkExperience from "@/components/WorkExperience.astro";
  import wguIcon from '../assets/wgu.png';
@@ -7,13 +8,27 @@ import WorkExperience from "@/components/WorkExperience.astro";
    import dmaccIcon from '../../assets/dmacc.jpg'; 
    import { GraduationCap, Award, Calendar } from '@lucide/astro';
 import Education from "@/components/Education.astro";
-import SkillsSection from "@/components/SkillsSection.astro";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 
 
 
-
+const coreSkillNames = [
+  "C Programming",
+  "Go",
+  "Rust",
+  "TypeScript",
+  "Next.js",
+  "Astro",
+  "Laravel",
+  "Cisco",
+  "Docker",
+  "Ansible",
+  "AWS",
+  "Fortinet",
+  "Burpsuite",
+  "Nmap",
+];
 
 const education = [
   
@@ -39,21 +54,20 @@ const education = [
   },
 ];
 
+const allSkills = skillData.flatMap((category) => category.skills);
+const coreSkills = coreSkillNames
+  .map((name) => allSkills.find((skill) => skill.name === name))
+  .filter(Boolean);
 
   
 ---
 
 <Layout title="About Me" description="About me page. Skills, work history, and what I do outside of tech.">
 
-  <div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center md:justify-center sm:overflow-visible">
-  <div class="p-4 mx-auto relative z-10 w-full pt-10 md:pt-0">
-
-    <section id="aboutme" class="flex flex-col justify-center relative py-6 overflow-visible">
-
-      <!-- <div class="max-w-5xl mx-auto px-8 sm:px-12 lg:px-16 relative z-50 h-full flex justify-center"> -->
-    <div class="flex flex-col lg:flex-row justify-center gap-12 lg:gap-20 relative z-50 w-full max-w-5xl mx-auto p-4">
-<div class="mx-auto max-w-4xl px-6 pt-16 text-gray-300">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-5 gap-8">
+<section class="">
+<div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+<div class="mx-auto max-w-4xl px-6 py-16 text-gray-300">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-8">
 <img 
         src={me.src ?? me}
         alt="Ryan Wilson"
@@ -77,16 +91,24 @@ const education = [
       />
 
     </div>
-    <!-- </div> -->
-     
-      </section>
-      
-      </div>
 
-      </div>
-      <SkillsSection />
+    <h2 class="text-2xl font-semibold mb-6 text-(--primary-blue)">A few of my favorites</h2>
 
-
+    <div class="flex flex-wrap gap-4 pb-2 pt-4 justify-center md:justify-normal max-w-2xl">
+      {coreSkills.map((skill: any) => (
+        <div class="flex flex-col items-center text-center w-14">
+          <iconify-icon
+            icon={skill.icon}
+            class="text-4xl opacity-80 hover:opacity-100 transition"
+          ></iconify-icon>
+          <span class="text-xs mt-1 text-gray-400">
+            {skill.name}
+          </span>
+        </div>
+      ))}
+    </div>
+</div>
+</div>
 <div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
 <div class="mx-auto max-w-4xl px-6 py-12 text-gray-300">
 
@@ -98,7 +120,7 @@ const education = [
       Outside of tech I enjoy spending time with friends, pool league, photography, and spontaneous road trips.
     </p>
 
-
+  </section>
 
   <script>
   document.querySelectorAll(".resume-row").forEach((row) => {

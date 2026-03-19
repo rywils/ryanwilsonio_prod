@@ -28,7 +28,7 @@ const { Content } = await project.render();
       
       <a 
         href="/projects"
-        class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all mb-8 group"
+        class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-purple)] transition-all mb-8 group"
         data-astro-prefetch
       >
         <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={20} />
@@ -46,7 +46,7 @@ const { Content } = await project.render();
 
       
       <div class="mb-8">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--primary-green)] mb-4">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--primary-purple)] mb-4">
           {project.data.title}
         </h1>
         
@@ -98,7 +98,7 @@ const { Content } = await project.render();
           <h2 class="text-3xl font-semibold text-[var(--primary-blue)] mb-4">Technologies Used</h2>
           <div class="flex flex-wrap gap-3">
             {project.data.technologies.map(tech => (
-              <span class="px-4 py-2 rounded-full bg-[var(--primary-green)]/10 border border-[var(--primary-green)]/30 text-base font-medium">
+              <span class="px-4 py-2 rounded-full bg-[var(--primary-purple)]/10 border border-[var(--primary-purple)]/30 text-base font-medium">
                 {tech}
               </span>
             ))}
@@ -110,7 +110,7 @@ const { Content } = await project.render();
       <div class="mt-16 pt-8 border-t border-[var(--primary-blue)]/20">
         <a 
           href="/projects"
-          class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all group font-semibold text-lg"
+          class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-purple)] transition-all group font-semibold text-lg"
           data-astro-prefetch
         >
           <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={24} />
@@ -159,14 +159,14 @@ const { Content } = await project.render();
 
   .markdown-content :global(li::before) {
     content: "▹";
-    color: var(--primary-green);
+    color: var(--primary-purple);
     font-size: 1.25rem;
     margin-top: 0.25rem;
     flex-shrink: 0;
   }
 
   .markdown-content :global(strong) {
-    color: var(--primary-green);
+    color: var(--primary-purple);
     font-weight: 600;
   }
 
@@ -177,6 +177,6 @@ const { Content } = await project.render();
   }
 
   .markdown-content :global(a:hover) {
-    color: var(--primary-green);
+    color: var(--primary-purple);
   }
 </style>

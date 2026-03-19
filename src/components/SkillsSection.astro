@@ -1,0 +1,147 @@
+---
+import { skillData } from "../data/skillData";
+const getSkills = (names: string[]) => {
+  const all = skillData.flatMap((c) => c.skills);
+  return names
+    .map((name) => all.find((s) => s.name === name))
+    .filter(Boolean);
+};
+
+// ✅ ALL programming languages (make sure names match your dataset)
+const languageNames = [
+  "C",
+  "C#",
+  "Go",
+  "Python",
+  "Rust",
+  "TypeScript",
+  "JavaScript",
+  "PHP",
+  "Elixir",
+];
+
+const languages = getSkills(languageNames);
+
+const cards = [
+  {
+    title: "Vulnerability Assessment",
+    icon: "mdi:shield-search",
+    description:
+      "Identifying attack surface through scanning, enumeration, and analysis of web apps, network services, and TLS configurations. Building Bitprobe for CVE detection and exposure mapping.",
+    tools: getSkills(["Nmap", "Burpsuite", "Wireshark", "Snort"]),
+  },
+  {
+    title: "Threat Detection",
+    icon: "mdi:radar",
+    description:
+      "Monitoring and correlating events across endpoints, networks, and cloud systems. Experience with SIEM pipelines, IDS tuning, and enterprise telemetry.",
+    tools: getSkills(["Splunk", "Snort"]),
+  },
+  {
+    title: "Incident Response",
+    icon: "mdi:alarm-light",
+    description:
+      "Responding to incidents across enterprise environments—from endpoint compromise to infrastructure-level failures. Focused on containment and recovery.",
+    tools: getSkills(["Linux/SELinux", "Microsoft Windows"]),
+  },
+  {
+    title: "Penetration Testing",
+    icon: "mdi:lock-open-variant",
+    description:
+      "Offensive testing across web apps and networks—recon, exploitation, and reporting. Combining industry tools with custom tooling built in Go and Python.",
+    tools: getSkills(["Burpsuite", "Nmap", "Python", "Go"]),
+  },
+  {
+    title: "Defense & Hardening",
+    icon: "mdi:shield-lock",
+    description:
+      "Implementing layered defenses including firewalls, segmentation, endpoint protection, and hardened system configurations.",
+    tools: getSkills(["Fortinet", "Cisco"]),
+  },
+  {
+    title: "Web Application Security",
+    icon: "mdi:web-check",
+    description:
+      "Finding and exploiting web vulnerabilities including injection, auth flaws, and misconfigurations through manual testing and automated pipelines.",
+    tools: getSkills(["Next.js", "Node.js", "Postgresql"]),
+  },
+  {
+    title: "Web Development",
+    icon: "mdi:code-braces",
+    description:
+      "Full-stack application development from API design to deployment. Building secure, scalable systems with modern frameworks, authentication, and cloud-native architecture.",
+    tools: getSkills([
+      "Next.js",
+      "React",
+      "Node.js",
+      "Postgresql",
+      "Laravel",
+    ]),
+  },
+  {
+    title: "Network Engineering",
+    icon: "mdi:lan",
+    description:
+      "Designing and operating enterprise networks—routing, switching, VPNs, and segmentation across distributed environments.",
+    tools: getSkills(["Cisco", "Juniper", "Aruba"]),
+  },
+  {
+    title: "Cloud & Infrastructure",
+    icon: "mdi:cloud-outline",
+    description:
+      "Building scalable cloud systems using infrastructure-as-code, containers, and hybrid environments across AWS and Azure.",
+    tools: getSkills(["AWS", "Azure", "Docker", "Terraform", "Kubernetes"]),
+  },
+];
+---
+
+<section id="skills" class="mx-auto max-w-5xl px-6 py-16 border-b border-[#10191d] shadow-md shadow-[#0a0a0a] ">
+
+  <!-- 🔥 Programming Languages (icons only, centered) -->
+  <div class="flex justify-center flex-wrap gap-8 mb-16">
+    {languages.map((skill: any) => (
+      <iconify-icon
+        icon={skill.icon}
+        class="text-5xl opacity-90 hover:opacity-100 hover:scale-110 hover:brightness-110 transition duration-200"
+        title={skill.name}
+      ></iconify-icon>
+    ))}
+  </div>
+
+  <!-- 🔥 Cards -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {cards.map((card) => (
+      <div class="group p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 hover:border-(--primary-blue)/30 transition duration-200 flex flex-col shadow-md hover:shadow-lg group">
+
+        <!-- Bigger Icon -->
+        <iconify-icon
+          icon={card.icon}
+          class="text-3xl mb-3 text-(--primary-blue) opacity-80 group-hover:opacity-100 transition mx-auto"
+        ></iconify-icon>
+
+        <!-- Centered Title -->
+        <h3 class="text-base font-semibold text-white mb-3 text-center group-hover:text-(--primary-blue) transition">
+          {card.title}
+        </h3>
+
+        <!-- Description -->
+        <p class="text-xs text-gray-400 leading-relaxed mb-4 flex-grow text-center">
+          {card.description}
+        </p>
+
+        <!-- Tool Icons -->
+        <div class="hidden md:flex flex-wrap items-center gap-3 mt-auto pt-3 border-t border-white/5">
+          {card.tools.map((tool: any) => (
+            <iconify-icon
+              icon={tool.icon}
+              class={`text-lg opacity-70 hover:opacity-100 hover:scale-110 transition duration-200 ${tool.colorClass || ""}`}
+              title={tool.name}
+            ></iconify-icon>
+          ))}
+        </div>
+
+      </div>
+    ))}
+  </div>
+
+</section>

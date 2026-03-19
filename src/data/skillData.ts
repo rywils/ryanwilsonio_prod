@@ -9,20 +9,28 @@ export interface SkillCategory {
   skills: SkillItem[];
 }
 
+
 export const skillData: SkillCategory[] = [
   {
     category: "Programming Languages",
     skills: [
-      { name: "C Programming", icon: "devicon:c" },
-      { name: "C#", icon: "devicon:csharp" },
-      { name: "Python", icon: "logos:python" },
-      { name: "PHP", icon: "logos:php" },
-      { name: "TypeScript", icon: "logos:typescript-icon" },
-      { name: "SQL", icon: "devicon:mysql" },
-      { name: "Bash", icon: "devicon:bash" },
-      { name: "PowerShell", icon: "devicon:powershell" },
-      { name: "Go", icon: "devicon:go" },
-      { name: "Rust", icon: "simple-icons:rust" },
+      { name: "C", icon: "skill-icons:c" },
+      { name: "C#", icon: "skill-icons:cs" },
+      { name: "Python", icon: "skill-icons:python-dark" },
+      { name: "PHP", icon: "skill-icons:php-dark" },
+      { name: "HTML", icon: "skill-icons:html" },
+      { name: "CSS", icon: "skill-icons:css" },
+      { name: "SASS", icon: "skill-icons:sass" },
+      { name: "TailwindCSS", icon: "skill-icons:tailwindcss-dark" },
+      { name: "JavaScript", icon: "skill-icons:javascript" },
+      { name: "TypeScript", icon: "skill-icons:typescript" },
+      { name: "SQL", icon: "skill-icons:mysql-dark" },
+      { name: "Bash", icon: "skill-icons:bash-dark" },
+      { name: "PowerShell", icon: "skill-icons:powershell-dark" },
+      { name: "Go", icon: "skill-icons:golang" },
+      { name: "Rust", icon: "skill-icons:rust" },
+      { name: "Java", icon: "skill-icons:java-dark" },
+      { name: "Elixir", icon: "skill-icons:elixir-dark" },
     ],
   },
   {

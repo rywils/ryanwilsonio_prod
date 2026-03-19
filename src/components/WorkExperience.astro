@@ -27,7 +27,7 @@ import microsoftIcon from '../assets/experience/microsoft.svg';
               />
               
               <div>
-                <div class="font-medium text-[15px] text-(--primary-blue) group-hover:text-(--primary-green)">{job.title}</div>
+                <div class="font-medium text-[15px] text-(--primary-blue) group-hover:text-(--primary-purple)">{job.title}</div>
                 <div class="text-sm text-neutral-400">{job.company}</div>
               </div>
             </div>
@@ -49,11 +49,11 @@ import microsoftIcon from '../assets/experience/microsoft.svg';
 
           <td class="align-top text-right whitespace-nowrap text-[14px]" @click="open = !open">
             <div class="flex items-center justify-end gap-2">
-              <span class="text-(--primary-blue) group-hover:text-(--primary-green)">{job.period}</span>
+              <span class="text-(--primary-blue) group-hover:text-(--primary-purple)">{job.period}</span>
 
               <svg
                 x-bind:class="open ? 'rotate-90' : ''"
-                class="h-4 w-4 transition-transform fill-(--primary-blue) group-hover:fill-(--primary-green)"
+                class="h-4 w-4 transition-transform fill-(--primary-blue) group-hover:fill-(--primary-purple)"
                 viewBox="0 0 20 20"
               >
                 <path

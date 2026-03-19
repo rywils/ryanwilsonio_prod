@@ -1,0 +1,25 @@
+---
+
+const { className } = Astro.props;
+
+---
+
+
+
+
+
+
+ <div class:list={['relative isolate', {className}]}>
+        <div class="rounded-xl cardgradient z-1">
+         
+        <slot />
+        </div>
+      </div>
+    </div>
+
+
+<style>
+    .cardgradient {
+        background: linear-gradient(135deg, #1e1e24 10%, #050505 60%);
+    }
+</style>

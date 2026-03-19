@@ -41,7 +41,7 @@ const categories = Array.isArray(post.data.category)
     <div class="max-w-4xl mx-auto">
       <a
         href="/blog"
-        class="inline-flex items-center gap-2 text-[var(--primary-green)] hover:text-[var(--primary-blue)] transition-colors mb-8"
+        class="inline-flex items-center gap-2 text-[var(--primary-purple)] hover:text-[var(--primary-blue)] transition-colors mb-8"
         data-astro-prefetch
       >
         <ArrowLeft size={20} />
@@ -57,12 +57,12 @@ const categories = Array.isArray(post.data.category)
       )}
 
      
-      <h1 class="text-4xl md:text-5xl font-bold text-[var(--primary-green)] mb-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-[var(--primary-purple)] mb-6">
         {post.data.title}
       </h1>
 
     
-      <div class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6 pb-6 border-b border-[var(--primary-green)]/20">
+      <div class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6 pb-6 border-b border-[var(--primary-purple)]/20">
         {post.data.date && (
           <span class="flex items-center gap-2">
             <Calendar size={16} />
@@ -100,13 +100,13 @@ const categories = Array.isArray(post.data.category)
         <Content />
       </div>
 
-      <div class="mt-12 pt-8 border-t border-[var(--primary-green)]/20">
+      <div class="mt-12 pt-8 border-t border-[var(--primary-purple)]/20">
         <h3 class="text-xl font-semibold text-[var(--primary-blue)] mb-4">
           Enjoyed this article?
         </h3>
         <a
           href="/blog"
-          class="inline-block px-6 py-3 rounded-full border border-[var(--primary-green)] text-[var(--primary-green)] hover:bg-[var(--primary-green)]/10 transition-all"
+          class="inline-block px-6 py-3 rounded-full border border-[var(--primary-purple)] text-[var(--primary-purple)] hover:bg-[var(--primary-purple)]/10 transition-all"
           data-astro-prefetch
         >
           Read More Articles
@@ -120,7 +120,7 @@ const categories = Array.isArray(post.data.category)
   .markdown-content :global(h1) {
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--primary-green);
+    color: var(--primary-purple);
     margin-top: 3rem;
     margin-bottom: 1.25rem;
   }
@@ -162,7 +162,7 @@ const categories = Array.isArray(post.data.category)
 
   .markdown-content :global(li::before) {
     content: "▹";
-    color: var(--primary-green);
+    color: var(--primary-purple);
     font-size: 1.25rem;
     margin-top: 0.25rem;
     flex-shrink: 0;
@@ -196,7 +196,7 @@ const categories = Array.isArray(post.data.category)
   }
 
   .markdown-content :global(strong) {
-    color: var(--primary-green);
+    color: var(--primary-purple);
     font-weight: 600;
   }
 
@@ -207,11 +207,11 @@ const categories = Array.isArray(post.data.category)
   }
 
   .markdown-content :global(a:hover) {
-    color: var(--primary-green);
+    color: var(--primary-purple);
   }
 
   .markdown-content :global(blockquote) {
-    border-left: 4px solid var(--primary-green);
+    border-left: 4px solid var(--primary-purple);
     padding-left: 1rem;
     margin-left: 0;
     margin-bottom: 1.25rem;
