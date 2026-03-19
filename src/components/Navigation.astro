@@ -222,6 +222,10 @@ const navLinks = [
   
   function setupSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      const el = anchor as HTMLAnchorElement;
+      if (el.dataset.smoothScrollBound === 'true') return;
+      el.dataset.smoothScrollBound = 'true';
+
       anchor.addEventListener('click', function(this: HTMLAnchorElement, e) {
         const href = this.getAttribute('href');
         
@@ -245,7 +249,7 @@ const navLinks = [
   
   function init() {
     if (initialized) {
-      
+      setupSmoothScroll();
       updateActiveLinks();
       return;
     }
@@ -265,5 +269,9 @@ const navLinks = [
   
   
   document.addEventListener('astro:after-swap', updateActiveLinks);
-  document.addEventListener('astro:page-load', updateActiveLinks);
+  document.addEventListener('astro:after-swap', setupSmoothScroll);
+  document.addEventListener('astro:page-load', () => {
+    setupSmoothScroll();
+    updateActiveLinks();
+  });
 </script>

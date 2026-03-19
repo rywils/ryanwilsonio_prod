@@ -5,7 +5,7 @@ import { GraduationCap, Award, Calendar } from '@lucide/astro';
    import isc2Icon from '../assets/isc2.jpeg';
    import wguIcon from '../assets/wgu.png';
    import sansIcon from '../assets/sans.jpg'
-   import dmaccIcon from '../assets/dmacc.jpg'; 
+   import dmaccIcon from '../assets/dmaccfit.png'; 
    import { Image } from 'astro:assets';
    import isuIcon from '../assets/isu.png';
 import Certifications from './Certifications.astro';
@@ -60,8 +60,8 @@ const education = [
           class="education-card p-6 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--secondary-purple)/10 border border-(--primary-blue)/30 hover:border-(--primary-purple)/30 flex gap-4 items-start h-full min-h-[220px] group"
           style={`--edu-delay: ${0.2 + index * 0.1}s`}
         >
-          <div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border border-(--primary-blue)/40 group-hover:border-(--primary-purple)/40 bg-transparent">
-            <Image src={item.icon} alt={item.institution} width={64} height={64} class="w-full h-full object-cover" />
+          <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-white overflow-hidden border border-(--primary-blue)/40 group-hover:border-(--primary-purple)/40 bg-transparent">
+            <Image src={item.icon} alt={item.institution} width={64} height={64} class="w-full h-full object-contain" />
           </div>
           <div class="flex-1 flex flex-col justify-start">
             <h4 class="mb-1 font-semibold text-(--primary-blue) group-hover:text-(--primary-purple)">{item.degree}</h4>

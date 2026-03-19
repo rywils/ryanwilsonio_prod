@@ -11,6 +11,7 @@
   --primary-blue: #00BFFF;
   --primary-cyan: #00eaff;
   --primary-purple: #9125f5;
+  --secondary-purple: var(--primary-purple);
   /* --secondary-purple: #8A2BE2; */
   --secondary-pink: #FF007F;
   --background: #0a0a0a;
