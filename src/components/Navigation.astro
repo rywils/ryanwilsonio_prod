@@ -10,7 +10,7 @@ const navLinks = [
   { name: 'About', href: '/about' },
   { name: 'Projects', href: '/projects' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contact', href: '/#contact' },
   { name: 'Resume', href: '/resume', id: 'resume'},
 ];
 ---
@@ -151,10 +151,12 @@ const navLinks = [
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
       if (!href) return;
+
+      const hrefPath = href.split('#')[0];
       
-      const isActive = href === '/' 
+      const isActive = hrefPath === '/' 
         ? currentPath === '/' 
-        : currentPath.startsWith(href);
+        : currentPath.startsWith(hrefPath);
       
       if (isActive) {
         link.classList.add('active-link');
@@ -221,7 +223,7 @@ const navLinks = [
 
   
   function setupSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach(anchor => {
       const el = anchor as HTMLAnchorElement;
       if (el.dataset.smoothScrollBound === 'true') return;
       el.dataset.smoothScrollBound = 'true';
@@ -233,8 +235,16 @@ const navLinks = [
           e.preventDefault();
           return;
         }
+
+        const hashIndex = href.indexOf('#');
+        const hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
+        const path = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+        const isSamePage = !path || path === window.location.pathname || (path === '/' && window.location.pathname === '/');
+        if (!hash || !isSamePage) {
+          return;
+        }
         
-        const target = document.querySelector(href);
+        const target = document.querySelector(hash);
         if (target) {
           e.preventDefault();
           target.scrollIntoView({
@@ -246,11 +256,22 @@ const navLinks = [
     });
   }
 
+  function handleHashScroll() {
+    const hash = window.location.hash;
+    if (!hash || hash === '#') return;
+    const target = document.querySelector(hash);
+    if (!target) return;
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
   
   function init() {
     if (initialized) {
       setupSmoothScroll();
       updateActiveLinks();
+      handleHashScroll();
       return;
     }
     
@@ -258,6 +279,7 @@ const navLinks = [
     setupSmoothScroll();
     handleNavPosition();
     updateActiveLinks();
+    handleHashScroll();
     
     window.addEventListener('scroll', handleNavPosition, { passive: true });
     window.addEventListener('resize', handleNavPosition);
@@ -270,8 +292,10 @@ const navLinks = [
   
   document.addEventListener('astro:after-swap', updateActiveLinks);
   document.addEventListener('astro:after-swap', setupSmoothScroll);
+  document.addEventListener('astro:after-swap', handleHashScroll);
   document.addEventListener('astro:page-load', () => {
     setupSmoothScroll();
     updateActiveLinks();
+    handleHashScroll();
   });
 </script>
