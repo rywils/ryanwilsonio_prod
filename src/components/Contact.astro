@@ -2,9 +2,7 @@
 
 export const prerender = false;
 
-import { Mail, Send } from '@lucide/astro';
-
-
+import { Mail } from '@lucide/astro';
 
 const { compact = false } = Astro.props;
 
@@ -24,341 +22,156 @@ const contactInfo = [
 >
   <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary-blue/5 to-transparent pointer-events-none"></div>
 
-  <div >
-
-    
-   
-      <div class="text-center mb-8 contact-header">
-        <h2
-          class="text-4xl sm:text-5xl md:text-6xl mb-4 text-(--primary-blue) contact-title"
-        >
-          Get In Touch
-        </h2>
-        <div
-          class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-purple)] mx-auto rounded-full mt-4 contact-underline"
-        ></div>
-        <p
-          class="text-muted-foreground max-w-2xl mx-auto pt-4 contact-subtitle"
-        >
-          Have a project in mind or want to collaborate? Feel free to reach out!
-        </p>
-      </div>
-    
+  <div class:list={['contact-container relative z-10 mx-auto', compact ? 'max-w-3xl' : 'max-w-6xl']}>
+    <div class="text-center mb-8 contact-header">
+      <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4 text-(--primary-blue) contact-title">
+        Get In Touch
+      </h2>
+      <div
+        class="contact-underline h-[3px] bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-purple)] mx-auto rounded-full mt-4"
+        aria-hidden="true"
+      ></div>
+      <p class="text-muted-foreground max-w-2xl mx-auto pt-4 contact-subtitle">
+        Have a project in mind or want to collaborate? Feel free to reach out!
+      </p>
+    </div>
 
     <div class="flex justify-center items-center">
-
-      
-      
-        <div class="flex flex-col space-y-6">
-          <div class="max-w-2xl">
-            <h3 class="text-2xl mb-4 font-semibold text-(--primary-blue) text-center">
-              Let's Connect
-            </h3>
-            <p
-              class="text-muted-foreground mb-6 text-center"
-            >
-              I'm always interested in hearing about new projects and opportunities.
-              Whether you have a question or just want to say hi, I'll try my best to
-              get back to you!
-            </p>
-          </div>
-
-          <div class="space-y-12">
-            {contactInfo.map((info, index) => {
-              const Icon = info.icon;
-              return (
-                <>
-          <div class="justify-center flex">
-                  <a
-                    href={info.href}
-                    class="contact-card flex items-center gap-4 px-8 py-4 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--primary-purple)/10 border border-(--primary-blue)/20 hover:border-primary-blue/50 transition-all hover:translate-x-1 group"
-                  >
-                    <div class="p-3 rounded-full bg-(--primary-blue)/10 border border-(--primary-blue)/30 group-hover:bg-(--primary-blue)/20 transition-colors">
-                      <Icon class="w-5 h-5 text-primary-blue" />
-                    </div>
-                    <div>
-                      <p class="text-sm text-muted-foreground">{info.label}</p>
-                      <p class="group-hover:text-(--primary-blue) transition-colors">
-                        {info.value}
-                      </p>
-                    </div>
-                  </a>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-
-          
+      <div class="flex flex-col space-y-6 contact-info">
+        <div class="max-w-2xl">
+          <h3 class="text-2xl mb-4 font-semibold text-(--primary-blue) text-center">
+            Let's Connect
+          </h3>
+          <p class="text-muted-foreground mb-6 text-center">
+            I'm always interested in hearing about new projects and opportunities.
+            Whether you have a question or just want to say hi, I'll try my best to
+            get back to you!
+          </p>
         </div>
-    
 
-    
+        <div class="space-y-12">
+          {contactInfo.map((info) => {
+            const Icon = info.icon;
+            return (
+              <div class="justify-center flex">
+                <a
+                  href={info.href}
+                  class="contact-info-card flex items-center gap-4 px-8 py-4 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--primary-purple)/10 border border-(--primary-blue)/20 hover:border-primary-blue/50 transition-all hover:translate-x-1 group"
+                  style="--info-delay: 0s"
+                >
+                  <div class="p-3 rounded-full bg-(--primary-blue)/10 border border-(--primary-blue)/30 group-hover:bg-(--primary-blue)/20 transition-colors">
+                    <Icon class="w-5 h-5 text-primary-blue" />
+                  </div>
+                  <div>
+                    <p class="text-sm text-muted-foreground">{info.label}</p>
+                    <p class="group-hover:text-(--primary-blue) transition-colors">
+                      {info.value}
+                    </p>
+                  </div>
+                </a>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <script is:inline>
-  // Simple scroll animation using IntersectionObserver
-  function initContactAnimations() {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
+  function initContactScroll() {
+    document.querySelectorAll("#contact .contact-container").forEach(function (container) {
+      if (container.dataset.contactScrollBound === "1") return;
+      container.dataset.contactScrollBound = "1";
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // Observe header elements
-    document.querySelectorAll('.contact-title').forEach(el => observer.observe(el));
-    document.querySelectorAll('.contact-underline').forEach(el => observer.observe(el));
-    document.querySelectorAll('.contact-subtitle').forEach(el => observer.observe(el));
-    
-    // Observe info panel
-    document.querySelectorAll('.contact-info-panel').forEach(el => observer.observe(el));
-    
-    // Observe form panel
-    document.querySelectorAll('.contact-form-panel').forEach(el => observer.observe(el));
-
-    // Observe contact-container for contact-field animations (globals.css expects .in-view)
-    document.querySelectorAll('.contact-container').forEach(el => {
-      const containerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+      var opts = { threshold: 0.12, rootMargin: "0px 0px -32px 0px" };
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            containerObserver.unobserve(entry.target);
+            entry.target.classList.add("in-view");
+            obs.unobserve(entry.target);
           }
         });
-      }, observerOptions);
-      containerObserver.observe(el);
+      }, opts);
+
+      obs.observe(container);
     });
   }
 
-  // Run on load and on astro page load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initContactAnimations);
-  } else {
-    initContactAnimations();
-  }
-  
-  document.addEventListener('astro:page-load', initContactAnimations);
+  document.addEventListener("DOMContentLoaded", initContactScroll);
+  document.addEventListener("astro:page-load", initContactScroll);
 
-  // Form handling
   function showToast(message, type) {
-    const container = document.getElementById('toast-container');
-    if (!container) return;
-    const toast = document.createElement('div');
-    toast.className = `px-6 py-3 rounded-lg shadow-lg ${
-      type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-    }`;
+    var toastContainer = document.getElementById("toast-container");
+    if (!toastContainer) return;
+    var toast = document.createElement("div");
+    toast.className =
+      "px-6 py-3 rounded-lg shadow-lg " +
+      (type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white");
     toast.textContent = message;
-    container.appendChild(toast);
-    setTimeout(() => container.removeChild(toast), 4000);
+    toastContainer.appendChild(toast);
+    setTimeout(function () {
+      toastContainer.removeChild(toast);
+    }, 4000);
   }
 
   function setupForm() {
-    const form = document.getElementById('contact-form');
+    var form = document.getElementById("contact-form");
     if (!form) return;
 
-    if (form.dataset.bound === 'true') return;
-    form.dataset.bound = 'true';
+    if (form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
 
-    const submitButton = document.getElementById('submit-button');
-    const buttonText = document.getElementById('button-text');
+    var submitButton = document.getElementById("submit-button");
+    var buttonText = document.getElementById("button-text");
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
       submitButton.disabled = true;
-      buttonText.textContent = 'Sending...';
+      buttonText.textContent = "Sending...";
 
       try {
-        const response = await fetch('/api/contact', {
-          method: 'POST',
+        var response = await fetch("/api/contact", {
+          method: "POST",
           body: new FormData(form),
         });
 
         if (response.ok) {
-          showToast("Message sent! I'll get back to you soon.", 'success');
+          showToast("Message sent! I'll get back to you soon.", "success");
           form.reset();
         } else {
-          let message = 'Failed to send message. Please try again.';
-          const contentType = response.headers.get('content-type') ?? '';
-          if (contentType.includes('application/json')) {
+          var message = "Failed to send message. Please try again.";
+          var contentType = response.headers.get("content-type") || "";
+          if (contentType.includes("application/json")) {
             try {
-              const data = await response.json();
-              if (data?.error) {
+              var data = await response.json();
+              if (data && data.error) {
                 message = String(data.error);
-                if (data?.details) message = `${message}: ${String(data.details)}`;
+                if (data.details) message = message + ": " + String(data.details);
               }
-            } catch {
-              // ignore
-            }
+            } catch (ignore) {}
           } else {
             try {
-              const text = await response.text();
+              var text = await response.text();
               if (text) message = text;
-            } catch {
-              // ignore
-            }
+            } catch (ignore2) {}
           }
-          showToast(message, 'error');
+          showToast(message, "error");
         }
-      } catch {
-        showToast('Network error. Please try again.', 'error');
+      } catch (err) {
+        showToast("Network error. Please try again.", "error");
       } finally {
         submitButton.disabled = false;
-        buttonText.textContent = 'Send Message';
+        buttonText.textContent = "Send Message";
       }
     });
   }
 
-  // Setup form
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupForm);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupForm);
   } else {
     setupForm();
   }
-  
-  document.addEventListener('astro:page-load', setupForm);
-</script>
 
-<style>
-  /* ===== SCROLL ANIMATIONS ===== */
-  
-  /* Header elements */
-  .contact-title {
-    opacity: 1;
-  }
-  
-  .contact-title.animate-in {
-    animation: titleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  @keyframes titleReveal {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-      filter: blur(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-  }
-  
-  /* Underline draw animation */
-  .contact-underline {
-    position: relative;
-  }
-  
-  .contact-underline::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    border-radius: inherit;
-    transform: scaleX(0);
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .contact-underline.animate-in::after {
-    transform: scaleX(1);
-  }
-  
-  /* Subtitle */
-  .contact-subtitle {
-    opacity: 1;
-  }
-  
-  .contact-subtitle.animate-in {
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Info panel slide in from left */
-  .contact-info-panel {
-    opacity: 1;
-  }
-  
-  .contact-info-panel.animate-in {
-    animation: slideFromLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  @keyframes slideFromLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  /* Form panel slide in from right */
-  .contact-form-panel {
-    opacity: 1;
-  }
-  
-  .contact-form-panel.animate-in {
-    animation: slideFromRight 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  @keyframes slideFromRight {
-    from {
-      opacity: 0;
-      transform: translateX(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  /* Contact cards */
-  .contact-card {
-    opacity: 1;
-  }
-  
-  /* Glow effect for submit button */
-  .glow-primary-blue {
-    box-shadow: 0 0 20px rgba(0, 191, 255, 0.2);
-    transition: all 0.3s ease;
-  }
-  
-  .glow-primary-blue:hover {
-    box-shadow: 0 0 30px rgba(0, 191, 255, 0.4);
-  }
-  
-  @media (prefers-reduced-motion: reduce) {
-    .contact-title.animate-in,
-    .contact-underline.animate-in::after,
-    .contact-subtitle.animate-in,
-    .contact-info-panel.animate-in,
-    .contact-form-panel.animate-in {
-      animation: none;
-      opacity: 1;
-      transform: none;
-      filter: none;
-    }
-    
-    .contact-underline::after {
-      transform: scaleX(1);
-    }
-  }
-</style>
+  document.addEventListener("astro:page-load", setupForm);
+</script>

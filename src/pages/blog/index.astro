@@ -67,25 +67,25 @@ function getPreview(content: string, wordCount: number = 50): string {
       </div>
 
       
-      <div class="flex justify-center mb-12">
-        <div class="relative inline-block w-full max-w-xs">
+      <div class="mb-12 flex w-full justify-center px-2 sm:px-0">
+        <div class="relative w-full max-w-[11.5rem] sm:max-w-[12.5rem]">
           <button
             id="category-dropdown-btn"
             type="button"
-            class="flex items-center gap-3 px-6 py-3 rounded-sm border-2 border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-purple)]/10 hover:text-[var(--primary-purple)] hover:border-[var(--primary-purple)] transition-all hover:scale-105 active:scale-95 font-semibold w-60 justify-between"
+            class="flex w-full min-w-0 items-center justify-between gap-2 rounded-sm border-2 border-[var(--primary-blue)] px-3 py-2 text-sm font-semibold text-[var(--primary-blue)] transition-all hover:scale-[1.02] hover:border-[var(--primary-purple)] hover:bg-[var(--primary-purple)]/10 hover:text-[var(--primary-purple)] active:scale-[0.98] sm:px-4"
           >
-            <span id="selected-category">All Categories</span>
-            <ChevronDown size={20} id="dropdown-icon" />
+            <span id="selected-category" class="truncate text-left">All Categories</span>
+            <ChevronDown size={16} class="shrink-0" id="dropdown-icon" />
           </button>
-          
+
           <div
             id="category-dropdown-menu"
-            class="dropdown-menu absolute top-full mt-2 left-0 right-0 bg-[#0a0a0a] border border-[var(--primary-blue)]/30 rounded-sm overflow-hidden shadow-xl z-50"
+            class="dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-sm border border-[var(--primary-blue)]/30 bg-[#0a0a0a] shadow-xl"
           >
             {categories.map((category) => (
               <button
                 type="button"
-                class="category-option mx-auto w-60 px-6 py-3 text-left hover:bg-[var(--primary-purple)]/10 transition-colors border-b border-[var(--primary-blue)]/10 last:border-b-0 text-[var(--primary-blue)] hover:text-[var(--primary-purple)] hover:border-[var(--primary-purple)]"
+                class="category-option w-full px-3 py-2 text-left text-sm text-[var(--primary-blue)] transition-colors last:border-b-0 hover:border-[var(--primary-purple)] hover:bg-[var(--primary-purple)]/10 hover:text-[var(--primary-purple)] border-b border-[var(--primary-blue)]/10 sm:px-4"
                 data-category={category}
               >
                 {category === 'All' ? 'All Categories' : category}

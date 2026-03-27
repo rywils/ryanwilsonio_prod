@@ -1,13 +1,7 @@
 ---
-import { GraduationCap, Award, Calendar } from '@lucide/astro';
-   import fortinetIcon from '../assets/fortinet.png';
-   import riverbedIcon from '../assets/riverbed.jpeg';
-   import isc2Icon from '../assets/isc2.jpeg';
-   import wguIcon from '../assets/wgu.png';
-   import sansIcon from '../assets/sans.jpg'
-   import dmaccIcon from '../assets/dmaccfit.png'; 
-   import { Image } from 'astro:assets';
-   import isuIcon from '../assets/isu.png';
+import wguIcon from '../assets/wgu.png';
+import dmaccIcon from '../assets/dmaccfit.png';
+import { Image } from 'astro:assets';
 import Certifications from './Certifications.astro';
 
 const education = [
@@ -27,33 +21,16 @@ const education = [
     icon: dmaccIcon,
   },
 ];
-
- const certifications = [
-    {
-       name: 'ISC2 Certified in Cybersecurity',
-       issuer: 'ISC2',
-       date: '2025',
-       icon: isc2Icon,
-     },
-     {
-       name: 'Riverbed Accredited Associate (RCPE) - WAN Optimization',
-       issuer: 'Riverbed Technology',
-       date: '2020',
-       icon: riverbedIcon,
-     },
-   {
-       name: 'Fortinet Network Security Expert (NSE) 3',
-       issuer: 'Fortinet',
-       date: '2019',
-       icon: fortinetIcon,
-     }
-   ];
 ---
 
 <section id="education" class="relative overflow-hidden pt-12 pb-12">
 
   <div class="max-w-5xl mx-auto relative z-10 education-container">
-<h2 class="text-2xl sm:text-3xl font-semibold mb-8 text-(--primary-blue)">Education</h2>
+    <h2 class="education-title text-2xl sm:text-3xl font-semibold mb-2 text-(--primary-blue)">Education</h2>
+    <div
+      class="education-underline h-0.5 rounded-full bg-gradient-to-r from-(--primary-blue) to-(--primary-purple) mb-8 max-w-[5rem]"
+      aria-hidden="true"
+    />
     <div class="grid md:grid-cols-2 gap-6 mb-14">
       {education.map((item, index) => (
         <div
@@ -94,31 +71,3 @@ const education = [
     </div> -->
   </div>
 </section>
-
-<script>
-  if (typeof window !== 'undefined') {
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    function setupObserver() {
-      const section = document.querySelector('#education .education-container');
-      if (section) {
-        observer.observe(section);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', setupObserver);
-    document.addEventListener('astro:page-load', setupObserver);
-  }
-</script>
