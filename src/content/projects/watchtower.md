@@ -1,7 +1,7 @@
 ---
 title: "Watchtower"
 description: "monitors your LAN and reports meaningful changes"
-image: "/noimage.png"
+image: "/posts/watchtower.jpg"
 tags: ["go"]
 github: "https://github.com/rywils/watchtower"
 category: ["Systems/Cloud", "Development" ]
@@ -9,8 +9,6 @@ technologies: ["Go"]
 featured: true
 publishDate: 2025-12-18T00:00:00.000Z
 ---
-
-## Watchtower
 
 Watchtower is a passive local network watcher.
 It monitors your LAN and reports meaningful changes — best when used on untrusted networks to monitor for evil twin attacks, etc
