@@ -34,6 +34,7 @@
     "ogl": "^1.0.11",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "sharp": "^0.34.5",
     "simple-icons": "^15.19.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",

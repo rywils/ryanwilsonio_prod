@@ -26,6 +26,8 @@ export default defineConfig({
 
   },
 
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: 'compile'
+  }),
   integrations: [react(), sitemap()],
 });
