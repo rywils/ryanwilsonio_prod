@@ -12,8 +12,21 @@ import troll from '@/assets/Trollface.jpg'
         
      
         
-        <img src="/Trollface.png" width={300} height={300} class="rounded-lg"/>
+        <img id="troll" src="/Trollface.png" width={300} height={300} class="rounded-lg "/>
         <h1 class="text-9xl">Nice try</h1>
         <h2 class="text-[3rem]">That is not allowed here.</h2>
     </div>
+
+    <script>
+        const pageImage = document.getElementById('troll');
+        let inverted = false;
+
+        if(pageImage){
+            setInterval(() => {
+                    pageImage.classList.toggle("invert");
+                
+        }, 1500);
+
+    }
+    </script>
 </Layout>

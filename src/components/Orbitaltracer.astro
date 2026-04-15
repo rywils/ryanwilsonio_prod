@@ -1,7 +1,5 @@
 ---
-// OrbitalTracer.astro
-// Drop this component inside your avatar container div, after the skill icons div.
-// Usage: <OrbitalTracer />
+
 ---
 
 <canvas id="orbital-tracer" class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50"></canvas>
@@ -20,18 +18,8 @@
   const ctx = canvas.getContext('2d')!;
   const cx = SIZE / 2;
   const cy = SIZE / 2;
-  const RADIUS = 117; // matches your --y: -117px orbit radius
-
-  // Icons in clockwise order starting from C (top, angle = -90deg = -PI/2)
-  // Angles derived from your x/y positions:
-  // C:      x:0,    y:-117  → angle = -PI/2        ≈ -1.5708
-  // Rust:   x:91,   y:-73   → angle ≈ -0.6747
-  // Python: x:114,  y:26    → angle ≈  0.2239
-  // Go:     x:51,   y:105   → angle ≈  1.1olean
-  // PHP:    x:-51,  y:105   → angle ≈  2.0344
-  // C#:     x:-114, y:26    → angle ≈  2.9177
-  // Elixir: x:-91,  y:-73   → angle ≈ -2.4669  (= 3.8163 - 2PI)
-
+  const RADIUS = 117;
+  
   const icons = [
     { name: 'C',      angle: Math.atan2(-117, 0),   dotColor: '#504bb7', bgColor: '#504bb7' },
     { name: 'Rust',   angle: Math.atan2(-73,  91),  dotColor: '#504bb7', bgColor: '#df372a' },
@@ -42,33 +30,18 @@
     { name: 'Elixir', angle: Math.atan2(-73,  -91), dotColor: '#953cad', bgColor: '#2f2a44' },
   ];
 
-  // Normalize all angles to [0, 2PI], travelling clockwise (increasing angle)
-  // atan2 gives counter-clockwise angles in standard math, but canvas Y is flipped
-  // so increasing angle = clockwise visually. We want to go from C → Elixir → C (counter-clockwise visually)
-  // Let's check: C is at top (-PI/2), Elixir is upper-left (-PI*2/3 ish)
-  // Going C → Elixir means decreasing angle (counter-clockwise in math = clockwise on screen? no...)
-  // Canvas: x right, y DOWN. atan2(y,x) where y is DOWN.
-  // C: atan2(-117, 0) = -PI/2.  Elixir: atan2(-73, -91) ≈ -2.47.
-  // Going from -PI/2 to -2.47 means decreasing = going left (counter-clockwise on screen).
-  // The user says start at C, move toward Elixir (left side). That's counter-clockwise on screen.
-  // So we travel in direction of DECREASING angle (or equivalently increasing negative direction).
-
-  // Let's just work in raw atan2 angles and travel CCW (decreasing angle, wrapping through -PI)
-  // Speed: slow. Let's do one full revolution in ~16 seconds.
-  const SPEED = (2 * Math.PI) / (16 * 60); // radians per frame at 60fps, CCW so negative
-
-  // Trail: store last N positions with timestamps
-  const TRAIL_LENGTH = 60; // frames of trail
+  
+  const SPEED = (2 * Math.PI) / (16 * 60); 
+  const TRAIL_LENGTH = 60; 
   type TrailPoint = { x: number; y: number; age: number };
   const trail: TrailPoint[] = [];
 
-  let dotAngle = icons[0].angle; // start at C
-  let currentSegment = 0; // index into icons array (we go 0→6→5→4... CCW)
-  // CCW order: C(0) → Elixir(6) → C#(5) → PHP(4) → Go(3) → Python(2) → Rust(1) → C(0)
-  const CCW_ORDER = [0, 6, 5, 4, 3, 2, 1]; // indices into icons[], cycling
+  let dotAngle = icons[0].angle; 
+  let currentSegment = 0; 
+  const CCW_ORDER = [0, 6, 5, 4, 3, 2, 1]; 
 
   let segmentIdx = 0; // position in CCW_ORDER
-  let currentColor = icons[0].dotColor; // #504bb7 — beam color from C toward Elixir
+  let currentColor = icons[0].dotColor; 
 
   // Pop state per icon
   const popState: Record<string, number> = {};
@@ -87,7 +60,6 @@
 
   // Check if dot has passed the target angle (CCW travel = decreasing angle)
   function hasPassedCCW(current: number, target: number, prev: number): boolean {
-    // Normalize to -PI..PI
     const c = normalizeAngle(current);
     const t = normalizeAngle(target);
     const p = normalizeAngle(prev);
@@ -101,14 +73,13 @@
   let prevAngle = dotAngle;
   let nextIconIdx = getNextIconIndex(segmentIdx);
 
-  // Find skill DOM elements to pop
+  // Find DOM elements to pop
   function getSkillElements() {
     return document.querySelectorAll<HTMLElement>('.skill');
   }
 
   function triggerPop(iconName: string) {
     popState[iconName] = 1.0;
-    // Also brighten the actual DOM skill icon
     const skills = getSkillElements();
     const nameMap: Record<string, number> = {
       'C': 0, 'Rust': 1, 'Python': 2, 'Go': 3, 'PHP': 4, 'C#': 5, 'Elixir': 6
@@ -132,7 +103,6 @@
     // Move dot CCW (decreasing angle)
     prevAngle = dotAngle;
     dotAngle -= SPEED;
-    // Keep in -PI..PI
     dotAngle = normalizeAngle(dotAngle);
 
     // Check if we passed next icon
@@ -140,12 +110,8 @@
     if (hasPassedCCW(dotAngle, targetAngle, prevAngle)) {
       // Snap to icon
       dotAngle = targetAngle;
-      // Trigger pop on the icon we just hit
       triggerPop(icons[nextIconIdx].name);
-      // Update color to the dotColor of the NEXT segment
-      // After hitting nextIconIdx, the new beam color = dotColor of that icon (which = bgColor leading into it)
       currentColor = icons[nextIconIdx].dotColor;
-      // Advance segment
       segmentIdx = (segmentIdx + 1) % CCW_ORDER.length;
       nextIconIdx = getNextIconIndex(segmentIdx);
     }

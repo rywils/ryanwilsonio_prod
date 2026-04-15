@@ -28,7 +28,6 @@ if (!post) {
 
 const { Content } = await post.render();
 
-// Handle both single category and array of categories
 const categories = Array.isArray(post.data.category) 
   ? post.data.category 
   : post.data.category 
