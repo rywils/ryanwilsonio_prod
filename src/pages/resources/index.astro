@@ -1,0 +1,76 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { fetchDatabase, formatCVEItems, generatePDFReport } from '../../data/fetchDB.ts';
+import { Download } from '@lucide/astro';
+
+const nvdData = await fetchDatabase();
+const cveItems = nvdData ? formatCVEItems(nvdData) : [];
+
+// Generate PDF report HTML for client-side download
+const pdfReportHtml = nvdData ? generatePDFReport(nvdData, cveItems) : '';
+---
+
+<Layout title="Resources" description="Latest CVE vulnerabilities from NVD">
+  <div class="w-full min-h-screen pt-24 px-4 md:px-8">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold mb-2 text-(--primary-blue)">Latest CVEs</h1>
+      <p class="text-muted-foreground mb-8">
+        Recent vulnerabilities from the National Vulnerability Database
+        {nvdData && `(${nvdData.totalResults} total)`}
+      </p>
+
+      {cveItems.length > 0 && (
+        <div class="mb-6 flex justify-end">
+          <button
+            id="download-pdf-btn"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg border border-(--primary-purple) text-(--primary-purple) hover:bg-(--primary-purple)/10 transition-all hover:scale-105 active:scale-95 font-semibold"
+          >
+            <Download size={18} />
+            Download Report
+          </button>
+        </div>
+      )}
+
+      {cveItems.length === 0 ? (
+        <div class="text-center py-12">
+          <p class="text-muted-foreground">No data available. Please try again later.</p>
+        </div>
+      ) : (
+        <div class="grid gap-4">
+          {cveItems.map((cve) => (
+            <div class="p-4 rounded-lg border border-(--primary-blue)/30 bg-(--primary-blue)/5 hover:border-(--primary-purple)/50 transition-colors">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
+                <h2 class="text-lg font-semibold text-(--primary-purple)">{cve.id}</h2>
+                <span class="text-sm px-2 py-1 rounded bg-(--primary-blue)/20 text-(--primary-blue)">
+                  {cve.vulnStatus}
+                </span>
+              </div>
+              <p class="text-sm text-muted-foreground mb-2">{cve.description}</p>
+              <div class="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                <span>Published: {cve.published}</span>
+                <span>Modified: {cve.lastModified}</span>
+                <span>Source: {cve.sourceIdentifier}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+
+  {pdfReportHtml && (
+    <script is:inline define:vars={{ pdfReportHtml }}>
+      document.getElementById('download-pdf-btn')?.addEventListener('click', () => {
+        const blob = new Blob([pdfReportHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'cve-scan-report.html';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      });
+    </script>
+  )}
+</Layout>
