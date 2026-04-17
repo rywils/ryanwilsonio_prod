@@ -8,12 +8,12 @@ import troll from '@/assets/Trollface.jpg'
 ---
 
 <Layout title="Access Denied">
-    <div class="w-full h-svh flex flex-col items-center justify-center text-muted-foreground mt-12 overflow-y-hidden">
+    <div class="w-full h-screen flex flex-col items-center justify-center text-muted-foreground overflow-y-hidden">
         
      
         
         <img id="troll" src="/Trollface.png" width={300} height={300} class="rounded-lg "/>
-        <h1 class="text-9xl">Nice try</h1>
+        <h1 class="text-9xl pt-8">Nice try</h1>
         <h2 class="text-[3rem]">That is not allowed here.</h2>
     </div>
 
@@ -29,4 +29,16 @@ import troll from '@/assets/Trollface.jpg'
 
     }
     </script>
+
+    <!-- <script>
+        let inverted = false;
+        let backgroundChange = false;
+
+        setInterval(() => {
+            inverted = !inverted;
+            document.body.classList.toggle("invert", inverted);
+            
+
+        }, 1500);
+    </script> -->
 </Layout>
