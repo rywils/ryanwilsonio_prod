@@ -60,6 +60,13 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+
+.jetbrains-mono {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 #documentContainer {
   background-color: #090E10;
 }

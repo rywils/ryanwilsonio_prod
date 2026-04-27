@@ -29,3 +29,5 @@ notes
 
 .dev.vars/
 .wrangler/
+.vscode
+.wrangler.jsonc
