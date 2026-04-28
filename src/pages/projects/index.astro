@@ -36,7 +36,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="flex flex-wrap justify-center gap-3 mb-12">
         {categories.map((category) => (
           <button
-            class="category-btn px-6 py-2 rounded-full border border-[rgba(var(--primary-blue),0.30)] hover:border-[rgb(var(--primary-purple))] transition-all duration-200 ease-out hover:scale-105 active:scale-95"
+            class="category-btn px-6 py-2 rounded-lg border border-[rgba(var(--primary-blue),0.30)] hover:border-[rgb(var(--primary-purple))] transition-all duration-200 ease-out hover:scale-105 active:scale-95"
             data-category={category}
           >
             {category}
@@ -54,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         {projects.map((project, index) => (
           <a
             href={`/projects/${project.slug}`}
-            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.02] flex flex-col h-full"
+            class="project-card group relative rounded-xl overflow-hidden bg-[#0f1419] border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.02] flex flex-col h-full"
             data-category={JSON.stringify(project.data.category)}
             style={`--project-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch

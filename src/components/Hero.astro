@@ -98,6 +98,21 @@ const socialLinks = [
               <p class="text-sm leading-tight max-w-2xl mx-auto lg:mx-0 mb-16 text-muted-foreground jetbrains-mono">
                 Security-focused engineer with a background in networking, systems administration, full-stack development, and infrastructure operations.  
               </p>
+
+              <div class="mt-[-2.25rem] mb-10 flex justify-center lg:justify-end lg:pr-12">
+                <a
+                  href="/resume/resume_ryanwilsonio.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="astra-resume-btn group"
+                >
+                  <span class="astra-resume-btn__fill" aria-hidden="true"></span>
+                  <span class="relative z-10 inline-flex items-center gap-2">
+                    <Download size={18} />
+                    Resume
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -271,4 +286,79 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
   0%, 100% { translate: 0 0; }
   50% { translate: 0 -6px; }
 }
+
+.astra-resume-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(var(--primary-blue));
+  color: rgb(var(--primary-blue));
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  overflow: hidden;
+  isolation: isolate;
+  background: transparent;
+  transition: color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.2s ease-out;
+  --fill-x: 50%;
+  --fill-y: 50%;
+}
+
+.astra-resume-btn:hover {
+  color: #fff;
+  box-shadow: 0 0 30px 5px rgba(0, 191, 255, 0.45);
+  transform: scale(1.04);
+}
+
+.astra-resume-btn:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.astra-resume-btn__fill {
+  display: block;
+  position: absolute;
+  top: var(--fill-y);
+  left: var(--fill-x);
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: rgb(var(--primary-blue));
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  z-index: 0;
+  transition: transform 0.45s ease-out;
+}
+
+.astra-resume-btn:hover .astra-resume-btn__fill,
+.astra-resume-btn:focus-visible .astra-resume-btn__fill {
+  transform: translate(-50%, -50%) scale(24);
+}
 </style>
+
+<script is:inline>
+  function initAstraResumeButton() {
+    document.querySelectorAll(".astra-resume-btn").forEach((btn) => {
+      if (btn.dataset.astraBound === "1") return;
+      btn.dataset.astraBound = "1";
+
+      const updateFillOrigin = (event) => {
+        const rect = btn.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        btn.style.setProperty("--fill-x", `${x}%`);
+        btn.style.setProperty("--fill-y", `${y}%`);
+      };
+
+      btn.addEventListener("pointerenter", updateFillOrigin);
+      btn.addEventListener("pointermove", updateFillOrigin);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initAstraResumeButton);
+  document.addEventListener("astro:page-load", initAstraResumeButton);
+</script>
