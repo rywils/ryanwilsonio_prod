@@ -22,7 +22,7 @@ const navLinks = [
         
         
         <a  href="/"
-          class="nav-logo text-2xl hover:scale-105 transition-transform bg-transparent">
+          class="nav-logo text-2xl hover:scale-105 transition-transform duration-200 ease-out bg-transparent">
           <Image
             src="/images/Logo.svg"
             alt="Logo"
@@ -35,11 +35,11 @@ const navLinks = [
         <div class="hidden md:flex items-center relative h-full border-l border-white/10">
           <ul class="md:flex md:items-stretch h-full">
             {navLinks.map((link) => (
-              <li class="relative flex-shrink-0 hover:bg-[#1C1C1F] hover:brightness-110 border-l border-r border-l-black/20 border-r-white/10 shadow-xs shadow-black/30">
+              <li class="relative flex-shrink-0 hover:bg-[#1C1C1F] hover:brightness-110 transition-[background-color,filter] duration-200 ease-out border-l border-r border-l-black/20 border-r-white/10 shadow-xs shadow-black/30">
                 <a
                   id={link.id ? link.id : null}
                   href={link.href}
-                  class="nav-link relative inline-flex font-semibold items-center h-full px-4 text-(--primary-blue) transition-all font-body md:border-solid md:border-black/10 md:dark:border-white/10 md:border-l text-[11px] uppercase tracking-widest"
+                  class="nav-link relative inline-flex font-semibold items-center h-full px-4 text-[rgb(var(--primary-blue))] transition-all duration-200 ease-out font-body md:border-solid md:border-black/10 md:dark:border-white/10 md:border-l text-[11px] uppercase tracking-widest"
                 >
                   {link.name}
                 </a>
@@ -60,7 +60,7 @@ const navLinks = [
         <div class="md:hidden flex items-center space-x-2">
           <button
             id="mobile-menu-toggle"
-            class="p-2 rounded-md hover:bg-accent transition-colors"
+            class="p-2 rounded-md hover:bg-accent transition-colors duration-200 ease-out"
             aria-label="Toggle menu"
           >
             <Menu class="menu-icon" size={24} />
@@ -75,8 +75,8 @@ const navLinks = [
           {navLinks.map((link) => (
             
             <a  href={link.href}
-              class="mobile-nav-link block px-3 py-2 rounded-md hover:bg-accent transition-colors"
-              style="color: var(--primary-blue);"
+              class="mobile-nav-link block px-3 py-2 rounded-md hover:bg-accent transition-colors duration-200 ease-out"
+              style="color: rgb(var(--primary-blue))"
             >
               {link.name}
             </a>
@@ -111,7 +111,7 @@ const navLinks = [
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--primary-blue);
+    background: rgb(var(--primary-blue));
     opacity: 1;
   }
 </style>

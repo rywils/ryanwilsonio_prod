@@ -57,10 +57,10 @@ function getPreview(content: string, wordCount: number = 50): string {
     <div class="max-w-7xl mx-auto relative z-10">
       
       <div class="text-center mb-8">
-        <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-blue)] font-bold">
+        <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[rgb(var(--primary-blue))] font-bold">
           All Blog Posts
         </h1>
-        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-purple)] to-[var(--primary-blue)] mx-auto rounded-full mt-4"></div>
+        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[rgb(var(--primary-purple))] to-[rgb(var(--primary-blue))] mx-auto rounded-full mt-4"></div>
         <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
           Insights, tutorials, and thoughts on web development, cyber security, linux, cloud, and all things tech.
         </p>
@@ -72,7 +72,7 @@ function getPreview(content: string, wordCount: number = 50): string {
           <button
             id="category-dropdown-btn"
             type="button"
-            class="flex w-full min-w-0 items-center justify-between gap-2 rounded-sm border-2 border-[var(--primary-blue)] px-3 py-2 text-sm font-semibold text-[var(--primary-blue)] transition-all hover:scale-[1.02] hover:border-[var(--primary-purple)] hover:bg-[var(--primary-purple)]/10 hover:text-[var(--primary-purple)] active:scale-[0.98] sm:px-4"
+            class="flex w-full min-w-0 items-center justify-between gap-2 rounded-sm border-2 border-[rgb(var(--primary-blue))] px-3 py-2 text-sm font-semibold text-[rgb(var(--primary-blue))] transition-all duration-200 ease-out hover:scale-[1.02] hover:border-[rgb(var(--primary-purple))] hover:bg-[rgba(var(--primary-purple),0.10)] hover:text-[rgb(var(--primary-purple))] active:scale-[0.98] sm:px-4"
           >
             <span id="selected-category" class="truncate text-left">All Categories</span>
             <ChevronDown size={16} class="shrink-0" id="dropdown-icon" />
@@ -80,12 +80,12 @@ function getPreview(content: string, wordCount: number = 50): string {
 
           <div
             id="category-dropdown-menu"
-            class="dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-sm border border-[var(--primary-blue)]/30 bg-[#0a0a0a] shadow-xl"
+            class="dropdown-menu absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-sm border border-[rgba(var(--primary-blue),0.30)] bg-[#0a0a0a] shadow-xl"
           >
             {categories.map((category) => (
               <button
                 type="button"
-                class="category-option w-full px-3 py-2 text-left text-sm text-[var(--primary-blue)] transition-colors last:border-b-0 hover:border-[var(--primary-purple)] hover:bg-[var(--primary-purple)]/10 hover:text-[var(--primary-purple)] border-b border-[var(--primary-blue)]/10 sm:px-4"
+                class="category-option w-full px-3 py-2 text-left text-sm text-[rgb(var(--primary-blue))] transition-colors duration-200 ease-out last:border-b-0 hover:border-[rgb(var(--primary-purple))] hover:bg-[rgba(var(--primary-purple),0.10)] hover:text-[rgb(var(--primary-purple))] border-b border-[rgba(var(--primary-blue),0.10)] sm:px-4"
                 data-category={category}
               >
                 {category === 'All' ? 'All Categories' : category}
@@ -96,7 +96,7 @@ function getPreview(content: string, wordCount: number = 50): string {
       </div>
 
       
-      <h3 id="comingSoon" class="hidden text-center text-3xl text-[var(--primary-purple)] col-span-full py-20">
+      <h3 id="comingSoon" class="hidden text-center text-3xl text-[rgb(var(--primary-purple))] col-span-full py-20">
         Coming Soon!
       </h3>
 
@@ -105,7 +105,7 @@ function getPreview(content: string, wordCount: number = 50): string {
           {sortedPosts.map((post, index) => (
           <a
             href={`/blog/${post.slug}`}
-            class="blog-card group rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-purple)]/50 transition-all hover:scale-[1.01] block"
+            class="blog-card group rounded-xl overflow-hidden bg-card border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.01] block"
             data-category={JSON.stringify(post.data.category)}
             style={`--blog-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch
@@ -135,7 +135,7 @@ function getPreview(content: string, wordCount: number = 50): string {
     </div>
   </div>
 
-  <h3 class="text-base mb-1 text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-colors font-semibold">
+  <h3 class="text-base mb-1 text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-colors duration-200 ease-out font-semibold">
     {post.data.title}
   </h3>
 
@@ -149,9 +149,9 @@ function getPreview(content: string, wordCount: number = 50): string {
       {post.data.author}
     </span>
 
-    <span class="flex items-center gap-1 text-xs text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-all font-medium">
+    <span class="flex items-center gap-1 text-xs text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out font-medium">
       Read More
-      <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform" />
+      <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform duration-200 ease-out" />
     </span>
   </div>
 </div>
@@ -300,12 +300,12 @@ function getPreview(content: string, wordCount: number = 50): string {
   }
 
   .dropdown-menu::-webkit-scrollbar-thumb {
-    background: var(--primary-purple);
+    background: rgb(var(--primary-purple));
     border-radius: 3px;
   }
 
   .dropdown-menu::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-blue);
+    background: rgb(var(--primary-blue));
   }
 
   #dropdown-icon {

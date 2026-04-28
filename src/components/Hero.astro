@@ -37,7 +37,7 @@ const socialLinks = [
 
 ---
 
-<div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center md:justify-center sm:overflow-visible">
+<div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center pb-6 md:justify-center sm:overflow-visible">
   <div class="p-4 mx-auto relative z-10 w-full pt-10 md:pt-0">
     <section id="hero" class="flex flex-col justify-center relative py-6 overflow-visible">
       <HeroLamp />
@@ -70,7 +70,7 @@ const socialLinks = [
 
             <!-- TEXT -->
             <div class="text-center lg:text-left flex-1 max-w-2xl relative z-50">
-              <h1 class="text-3xl sm:text-5xl mb-2 mt-6 font-bold text-(--primary-blue) heading-font">
+              <h1 class="text-3xl sm:text-5xl mb-2 mt-6 font-bold text-[rgb(var(--primary-blue))] heading-font">
                 Ryan Wilson
               </h1>
 
@@ -80,15 +80,15 @@ const socialLinks = [
 
 <div class="flex justify-center lg:justify-start gap-4 mt-4 font-mono text-sm uppercase tracking-widest">
   
-  <span class="px-3 pt-1.5 pb-1 border border-pink-500/40 rounded-md hover:border-pink-500/80 jetbrains-mono">
+  <span class="px-3 pt-1.5 pb-1 border border-pink-500/40 rounded-md hover:border-pink-500/80 transition-colors duration-200 ease-out jetbrains-mono">
     <Encryptedtext text="Security"/>
   </span>
 
-  <span class="px-3 pt-1.5 pb-1 border border-purple-500/40 rounded-md hover:border-purple-500/80 jetbrains-mono">
+  <span class="px-3 pt-1.5 pb-1 border border-purple-500/40 rounded-md hover:border-purple-500/80 transition-colors duration-200 ease-out jetbrains-mono">
     <Encryptedtext text="Linux" />
   </span>
 
-  <span class="px-3 pt-1.5 pb-1 border border-cyan-500/40 rounded-md hover:border-cyan-500/80 jetbrains-mono">
+  <span class="px-3 pt-1.5 pb-1 border border-cyan-500/40 rounded-md hover:border-cyan-500/80 transition-colors duration-200 ease-out jetbrains-mono">
     <Encryptedtext text="DevOps" />
   </span>
 </div>
@@ -109,9 +109,9 @@ const socialLinks = [
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              class={`social__link social__link-${index + 1} flex h-8 w-8 items-center justify-center rounded-full border border-[var(--secondary-purple)] glow-primary-purple hover:scale-110`}
+              class={`social__link social__link-${index + 1} flex h-8 w-8 items-center justify-center rounded-full border border-[rgb(var(--secondary-purple))] glow-primary-purple hover:scale-110`}
             >
-              {isImage ? <span class="social-icon" style={`--icon-url: url(${icon});`}></span> : <Mail size={16} color="var(--secondary-purple)" />}
+              {isImage ? <span class="social-icon" style={`--icon-url: url(${icon});`}></span> : <Mail size={16} color="rgb(var(--secondary-purple))" />}
             </a>
           ))}
         </div>
@@ -148,7 +148,7 @@ const socialLinks = [
   width: 16px;
   height: 16px;
   display: inline-block;
-  background-color: var(--secondary-purple);
+  background-color: rgb(var(--secondary-purple));
   filter: drop-shadow(0 0 9px rgba(138, 43, 226, 0.7));
   -webkit-mask-image: var(--icon-url);
   -webkit-mask-repeat: no-repeat;
@@ -168,13 +168,13 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
 
 .social__link:hover {
   filter: brightness(1.6);
-  box-shadow: 0 0 18px var(--secondary-purple);
+  box-shadow: 0 0 18px rgb(var(--secondary-purple));
 }
 
 .social__link:not(:hover) {
   transition: filter 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease;
   filter: brightness(1);
-  box-shadow: 0 0 8px var(--secondary-purple);
+  box-shadow: 0 0 8px rgb(var(--secondary-purple));
 }
 
 .social__link:hover .social-icon {

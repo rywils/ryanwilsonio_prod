@@ -18,15 +18,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <Layout title="Projects - Ryan Wilson" description="Portfolio/Project showcasing of completed projects.">
   <section class="mt-10 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
     
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--neon-pink)]/5 to-transparent pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(var(--primary-purple),0.05)] to-transparent pointer-events-none"></div>
     
     <div class="max-w-7xl mx-auto relative z-10">
       
       <div class="text-center mb-12">
-        <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[var(--primary-blue)] font-bold">
+        <h1 class="text-5xl sm:text-6xl md:text-6xl mb-4 text-[rgb(var(--primary-blue))] font-bold">
           All Projects
         </h1>
-        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--secondary-purple)] to-[var(--primary-purple)] mx-auto rounded-full mt-4"></div>
+        <div class="h-[0.8px] w-20 bg-gradient-to-r from-[rgb(var(--secondary-purple))] to-[rgb(var(--primary-purple))] mx-auto rounded-full mt-4"></div>
         <p class="mt-4 text-xl text-muted-foreground max-w-2xl mx-auto">
           Explore my collection of projects spanning web development, cloud infrastructure, and cybersecurity
         </p>
@@ -36,7 +36,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="flex flex-wrap justify-center gap-3 mb-12">
         {categories.map((category) => (
           <button
-            class="category-btn px-6 py-2 rounded-full border border-[var(--primary-blue)]/30 hover:border-[var(--primary-purple)] transition-all hover:scale-105 active:scale-95"
+            class="category-btn px-6 py-2 rounded-full border border-[rgba(var(--primary-blue),0.30)] hover:border-[rgb(var(--primary-purple))] transition-all duration-200 ease-out hover:scale-105 active:scale-95"
             data-category={category}
           >
             {category}
@@ -54,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         {projects.map((project, index) => (
           <a
             href={`/projects/${project.slug}`}
-            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-purple)]/50 transition-all hover:scale-[1.02] flex flex-col h-full"
+            class="project-card group relative rounded-xl overflow-hidden bg-card border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.02] flex flex-col h-full"
             data-category={JSON.stringify(project.data.category)}
             style={`--project-delay: ${0.1 + index * 0.1}s`}
             data-astro-prefetch
@@ -66,11 +66,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-200 ease-out"></div>
             </div>
 
             <div class="p-6 flex flex-col flex-1">
-  <h3 class="text-2xl mb-2 text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-colors font-semibold">
+  <h3 class="text-2xl mb-2 text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-colors duration-200 ease-out font-semibold">
     {project.data.title}
   </h3>
 
@@ -118,11 +118,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         
         
         categoryBtns.forEach(b => {
-          b.classList.remove('border-[var(--primary-blue)]', 'bg-[var(--primary-blue)]/20');
-          b.classList.add('border-[var(--primary-blue)]/30');
+          b.classList.remove('border-[rgb(var(--primary-blue))]', 'bg-[rgba(var(--primary-blue),0.20)]');
+          b.classList.add('border-[rgba(var(--primary-blue),0.30)]');
         });
-        btn.classList.remove('border-[var(--primary-blue)]/30');
-        btn.classList.add('border-[var(--primary-blue)]', 'bg-[var(--primary-blue)]/20');
+        btn.classList.remove('border-[rgba(var(--primary-blue),0.30)]');
+        btn.classList.add('border-[rgb(var(--primary-blue))]', 'bg-[rgba(var(--primary-blue),0.20)]');
         
         
         let visibleCount = 0;
@@ -167,8 +167,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     
     const firstBtn = document.querySelector('.category-btn[data-category="All"]') as HTMLElement;
     if (firstBtn) {
-      firstBtn.classList.add('border-[var(--primary-blue)]', 'bg-[var(--primary-blue)]/20');
-      firstBtn.classList.remove('border-[var(--primary-blue)]/30');
+      firstBtn.classList.add('border-[rgb(var(--primary-blue))]', 'bg-[rgba(var(--primary-blue),0.20)]');
+      firstBtn.classList.remove('border-[rgba(var(--primary-blue),0.30)]');
     }
   }
 

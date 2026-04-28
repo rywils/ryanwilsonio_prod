@@ -6,7 +6,7 @@ import Education from "@/components/Education.astro";
 import SkillsSection from "@/components/SkillsSection.astro";
 ---
 
-<Layout title="About Me" description="About me page. Skills, work history, and what I do outside of tech.">
+<Layout title="About Me" description="Who I Am">
 
   <div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center md:justify-center sm:overflow-visible">
     <div class="p-4 mx-auto relative z-10 w-full pt-10 md:pt-0">
@@ -20,19 +20,19 @@ import SkillsSection from "@/components/SkillsSection.astro";
               class="about-image md:hidden h-32 w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
             />
             <div class="flex-1 min-w-0">
-              <h1 class="about-title text-4xl font-bold mb-2 text-(--primary-blue)">About Me</h1>
+              <h1 class="about-title text-4xl font-bold mb-2 text-[rgb(var(--primary-blue))]">About Me</h1>
               <div
-                class="about-underline h-0.5 rounded-full bg-gradient-to-r from-(--primary-blue) to-(--primary-purple) mb-6"
+                class="about-underline h-0.5 rounded-full bg-gradient-to-r from-[rgb(var(--primary-blue))] to-[rgb(var(--primary-purple))] mb-6"
                 aria-hidden="true"
               />
               <p class="about-text text-lg leading-relaxed text-gray-400 max-w-2xl">
-                Security-focused engineer with 8+ years of experience across networking, systems administration, and infrastructure operations. Specialized in enterprise networking, Linux systems, and cloud environments (AWS, Azure), with hands-on experience in Fortinet NGFW, Cisco Firepower, CrowdStrike Falcon, and Snort. Currently pursuing a B.S. in Cybersecurity and Information Assurance while developing Bitprobe, a vulnerability scanning platform for web, network, and TLS analysis. Focused on security engineering, infrastructure security, and AI-driven security systems.
+                Security-focused engineer specialized in enterprise networking, linux systems, and cloud environments (AWS, Azure), with hands-on experience in Fortinet NGFW, Cisco Firepower, CrowdStrike Falcon, and Snort. Currently pursuing a B.S. in Cybersecurity and Information Assurance. Focused on security engineering, infrastructure security, and AI-driven security systems.
               </p>
             </div>
             <img
               src={me.src ?? me}
               alt="Ryan Wilson"
-              class="about-image hidden md:inline-block h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-(--primary-blue)/60 hover:border-(--primary-purple)/60 shadow-xl opacity-90 hover:opacity-100 transition shrink-0"
+              class="about-image hidden md:inline-block h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-[rgba(var(--primary-blue),0.60)] hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition shrink-0"
             />
           </div>
         </div>
@@ -50,9 +50,9 @@ import SkillsSection from "@/components/SkillsSection.astro";
       <Education />
 
       <div class="outside-tech-reveal slide-blur-up mt-12">
-        <h2 class="text-2xl font-semibold mb-6 text-(--primary-blue)">Outside of Tech</h2>
+        <h2 class="text-2xl font-semibold mb-6 text-[rgb(var(--primary-blue))]">Outside of Tech</h2>
         <p class="text-lg text-gray-400">
-          Outside of tech I enjoy spending time with friends, pool league, photography, and spontaneous road trips.
+          Outside of tech I enjoy spending time with friends, pool league, photography, and spontaneous road trips. I used to be a big gamer, primarily PC gaming, however nowadays I spend much more time being productive and working on personal projects, working on school related tasks, or learning new skills when I have downtime.
         </p>
       </div>
 

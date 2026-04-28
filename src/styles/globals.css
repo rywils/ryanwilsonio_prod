@@ -8,14 +8,13 @@
 
 
 :root {
-  --primary-blue: #00BFFF;
-  --primary-cyan: #00eaff;
-  --primary-purple: #9125f5;
+  --primary-blue: 0, 191, 255;
+  --primary-cyan: 0, 234, 255;
+  --primary-purple: 145, 37, 245;
   --secondary-purple: var(--primary-purple);
-  /* --secondary-purple: #8A2BE2; */
-  --secondary-pink: #FF007F;
-  --background: #0a0a0a;
-  --foreground: #cacaca;
+  --secondary-pink: 255 0 127;
+  --background: 10 10 10;
+  --foreground: 202 202 202;
   --card-bg: rgba(255, 255, 255, 0.05);
   --muted-foreground: #888;
   --radius: 0.625rem;
@@ -247,21 +246,21 @@ body {
 .orb-1 {
   top: 25%;
   left: 25%;
-  background: var(--primary-blue);
+  background: rgb(var(--primary-blue));
   animation: float1 8s ease-in-out infinite;
 }
 
 .orb-2 {
   bottom: 25%;
   right: 10%;
-  background: var(--primary-green);
+  background: rgba(0, 255, 141, 1);
   animation: float2 10s ease-in-out infinite;
 }
 
 .orb-3 {
   top: 50%;
   left: 50%;
-  background: var(--secondary-purple);
+  background: rgb(var(--secondary-purple));
   animation: float3 12s ease-in-out infinite;
 }
 
@@ -703,14 +702,12 @@ body {
 
 .project-card {
   opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.5s ease-out var(--project-delay), 
-              transform 0.5s ease-out var(--project-delay);
+  will-change: transform;
 }
 
 .projects-container.in-view .project-card {
-  opacity: 1;
-  transform: scale(1);
+  animation: projectCardFadeIn 0.5s ease-out forwards;
+  animation-delay: var(--project-delay);
 }
 
 @keyframes fadeInScale {
@@ -725,6 +722,16 @@ body {
 }
 
 
+
+@keyframes projectCardFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes blogCardFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 .blog-container {
   opacity: 0;
@@ -766,14 +773,12 @@ body {
 
 .blog-card {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease-out var(--blog-delay), 
-              transform 0.6s ease-out var(--blog-delay);
+  will-change: transform;
 }
 
 .blog-container.in-view .blog-card {
-  opacity: 1;
-  transform: translateY(0);
+  animation: blogCardFadeIn 0.6s ease-out forwards;
+  animation-delay: var(--blog-delay);
 }
 
 .blog-read-more:hover {
@@ -895,6 +900,18 @@ body {
   transform: translateY(0);
 }
 
+/* Generic reveal utility for sections/cards across pages */
+.global-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.global-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 
 .mobile-menu {
@@ -923,7 +940,7 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background: var(--primary-blue);
+  background: rgb(var(--primary-blue));
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s ease;

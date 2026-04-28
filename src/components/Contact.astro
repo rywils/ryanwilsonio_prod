@@ -24,11 +24,11 @@ const contactInfo = [
 
   <div class:list={['contact-container relative z-10 mx-auto', compact ? 'max-w-3xl' : 'max-w-6xl']}>
     <div class="text-center mb-8 contact-header">
-      <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4 text-(--primary-blue) contact-title">
+      <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4 text-[rgb(var(--primary-blue))] contact-title">
         Get In Touch
       </h2>
       <div
-        class="contact-underline h-[3px] bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-purple)] mx-auto rounded-full mt-4"
+        class="contact-underline h-[3px] bg-gradient-to-r from-[rgb(var(--primary-blue))] to-[rgb(var(--primary-purple))] mx-auto rounded-full mt-4"
         aria-hidden="true"
       ></div>
       <p class="text-muted-foreground max-w-2xl mx-auto pt-4 contact-subtitle">
@@ -39,7 +39,7 @@ const contactInfo = [
     <div class="flex justify-center items-center">
       <div class="flex flex-col space-y-6 contact-info">
         <div class="max-w-2xl">
-          <h3 class="text-2xl mb-4 font-semibold text-(--primary-blue) text-center">
+          <h3 class="text-2xl mb-4 font-semibold text-[rgb(var(--primary-blue))] text-center">
             Let's Connect
           </h3>
           <p class="text-muted-foreground mb-6 text-center">
@@ -56,15 +56,15 @@ const contactInfo = [
               <div class="justify-center flex">
                 <a
                   href={info.href}
-                  class="contact-info-card flex items-center gap-4 px-8 py-4 rounded-xl bg-gradient-to-br from-(--primary-blue)/10 to-(--primary-purple)/10 border border-(--primary-blue)/20 hover:border-primary-blue/50 transition-all hover:translate-x-1 group"
+                  class="contact-info-card flex items-center gap-4 px-8 py-4 rounded-xl bg-gradient-to-br from-[rgba(var(--primary-blue),0.10)] to-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-blue),0.50)] transition-all duration-200 ease-out hover:translate-x-1 group"
                   style="--info-delay: 0s"
                 >
-                  <div class="p-3 rounded-full bg-(--primary-blue)/10 border border-(--primary-blue)/30 group-hover:bg-(--primary-blue)/20 transition-colors">
-                    <Icon class="w-5 h-5 text-primary-blue" />
+                  <div class="p-3 rounded-full bg-[rgba(var(--primary-blue),0.10)] border border-[rgba(var(--primary-blue),0.30)] group-hover:bg-[rgba(var(--primary-blue),0.20)] transition-colors duration-200 ease-out">
+                    <Icon class="w-5 h-5 text-[rgb(var(--primary-blue))]" />
                   </div>
                   <div>
                     <p class="text-sm text-muted-foreground">{info.label}</p>
-                    <p class="group-hover:text-(--primary-blue) transition-colors">
+                    <p class="group-hover:text-[rgb(var(--primary-blue))] transition-colors duration-200 ease-out">
                       {info.value}
                     </p>
                   </div>

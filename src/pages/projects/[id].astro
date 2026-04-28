@@ -22,21 +22,21 @@ const { Content } = await project.render();
 <Layout title={`${project.data.title} - Ryan Wilson`}>
   <article class="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
     
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary-blue)]/5 to-transparent pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(var(--primary-blue),0.05)] to-transparent pointer-events-none"></div>
     
     <div class="max-w-5xl mx-auto relative z-10">
       
       <a 
         href="/projects"
-        class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-purple)] transition-all mb-8 group"
+        class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out mb-8 group"
         data-astro-prefetch
       >
-        <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={20} />
+        <ArrowLeft class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={20} />
         <span class="font-semibold">Back to Projects</span>
       </a>
 
       
-      <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[var(--primary-blue)]/20">
+      <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[rgba(var(--primary-blue),0.20)]">
         <img 
           src={project.data.image} 
           alt={project.data.title}
@@ -46,7 +46,7 @@ const { Content } = await project.render();
 
       
       <div class="mb-8">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--primary-purple)] mb-4">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[rgb(var(--primary-purple))] mb-4">
           {project.data.title}
         </h1>
         
@@ -67,7 +67,7 @@ const { Content } = await project.render();
               href={project.data.github}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-blue)]/20 border border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/30 transition-all hover:scale-105 active:scale-95 font-semibold"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[rgba(var(--primary-blue),0.20)] border border-[rgb(var(--primary-blue))] text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold"
             >
               <Github size={20} />
               View Code
@@ -78,7 +78,7 @@ const { Content } = await project.render();
               href={project.data.demo}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--secondary-purple)]/20 border border-[var(--secondary-purple)] text-[var(--secondary-purple)] hover:bg-[var(--secondary-purple)]/30 transition-all hover:scale-105 active:scale-95 font-semibold"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[rgba(var(--secondary-purple),0.20)] border border-[rgb(var(--secondary-purple))] text-[rgb(var(--secondary-purple))] hover:bg-[rgba(var(--secondary-purple),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold"
             >
               <ExternalLink size={20} />
               Live Demo
@@ -95,10 +95,10 @@ const { Content } = await project.render();
       
       {project.data.technologies && project.data.technologies.length > 0 && (
         <section class="mt-8">
-          <h2 class="text-3xl font-semibold text-[var(--primary-blue)] mb-4">Technologies Used</h2>
+          <h2 class="text-3xl font-semibold text-[rgb(var(--primary-blue))] mb-4">Technologies Used</h2>
           <div class="flex flex-wrap gap-3">
             {project.data.technologies.map(tech => (
-              <span class="px-4 py-2 rounded-full bg-[var(--primary-purple)]/10 border border-[var(--primary-purple)]/30 text-base font-medium">
+              <span class="px-4 py-2 rounded-full bg-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-purple),0.30)] text-base font-medium">
                 {tech}
               </span>
             ))}
@@ -107,13 +107,13 @@ const { Content } = await project.render();
       )}
 
       
-      <div class="mt-16 pt-8 border-t border-[var(--primary-blue)]/20">
+      <div class="mt-16 pt-8 border-t border-[rgba(var(--primary-blue),0.20)]">
         <a 
           href="/projects"
-          class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-purple)] transition-all group font-semibold text-lg"
+          class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out group font-semibold text-lg"
           data-astro-prefetch
         >
-          <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={24} />
+          <ArrowLeft class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={24} />
           <span>View All Projects</span>
         </a>
       </div>
@@ -125,7 +125,7 @@ const { Content } = await project.render();
   .markdown-content :global(h2) {
     font-size: 1.875rem;
     font-weight: 600;
-    color: var(--primary-blue);
+    color: rgb(var(--primary-blue));
     margin-bottom: 1rem;
     margin-top: 2rem;
   }
@@ -133,7 +133,7 @@ const { Content } = await project.render();
   .markdown-content :global(h3) {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary-blue);
+    color: rgb(var(--primary-blue));
     margin-bottom: 0.75rem;
     margin-top: 1.5rem;
   }
@@ -159,24 +159,24 @@ const { Content } = await project.render();
 
   .markdown-content :global(li::before) {
     content: "▹";
-    color: var(--primary-purple);
+    color: rgb(var(--primary-purple));
     font-size: 1.25rem;
     margin-top: 0.25rem;
     flex-shrink: 0;
   }
 
   .markdown-content :global(strong) {
-    color: var(--primary-purple);
+    color: rgb(var(--primary-purple));
     font-weight: 600;
   }
 
   .markdown-content :global(a) {
-    color: var(--primary-blue);
+    color: rgb(var(--primary-blue));
     text-decoration: underline;
     transition: color 0.2s;
   }
 
   .markdown-content :global(a:hover) {
-    color: var(--primary-purple);
+    color: rgb(var(--primary-purple));
   }
 </style>

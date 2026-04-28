@@ -41,17 +41,17 @@ function getPreview(content: string, wordCount: number = 25): string {
   
   <div class="max-w-7xl mx-auto relative z-10 blog-container">
     <div class="text-center mb-16">
-      <h2 class="text-4xl sm:text-5xl md:text-5xl mb-4 text-[var(--primary-blue)] blog-title">
+      <h2 class="text-4xl sm:text-5xl md:text-5xl mb-4 text-[rgb(var(--primary-blue))] blog-title">
         Latest Blog Posts
       </h2>
-      <div class="h-[0.8px] w-20 bg-gradient-to-r from-[var(--primary-purple)] to-[var(--primary-blue)] mx-auto rounded-full mt-4 blog-underline"></div>
+      <div class="h-[0.8px] w-20 bg-gradient-to-r from-[rgb(var(--primary-purple))] to-[rgb(var(--primary-blue))] mx-auto rounded-full mt-4 blog-underline"></div>
     </div>
 
     <div class="flex flex-col gap-4 max-w-2xl mx-auto" id="blog-list">
       {blogPosts.slice(0, 6).map((post, index) => (
         <a
           href={`/blog/${post.slug}`}
-          class="group rounded-xl overflow-hidden bg-card border border-[var(--primary-blue)]/20 hover:border-[var(--primary-purple)]/50 transition-all hover:scale-[1.01] block blog-card"
+          class="group rounded-xl overflow-hidden bg-card border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.01] block blog-card"
           data-astro-prefetch
           style={`--blog-delay: ${index * 0.1}s`}
         >
@@ -80,7 +80,7 @@ function getPreview(content: string, wordCount: number = 25): string {
               </div>
             </div>
 
-              <h3 class="text-base mb-1 text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-colors font-semibold">
+              <h3 class="text-base mb-1 text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-colors duration-200 ease-out font-semibold">
                 {post.data.title}
               </h3>
 
@@ -94,9 +94,9 @@ function getPreview(content: string, wordCount: number = 25): string {
                 {post.data.author}
               </span>
               
-              <span class="flex items-center gap-1 text-xs text-[var(--primary-blue)] group-hover:text-[var(--primary-purple)] transition-all font-medium">
+              <span class="flex items-center gap-1 text-xs text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out font-medium">
                 Read More
-                <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform duration-200 ease-out" />
               </span>
             </div>
           </div>
@@ -108,7 +108,7 @@ function getPreview(content: string, wordCount: number = 25): string {
       <div class="text-center mt-12">
         <a
           href="/blog"
-          class="inline-block px-8 py-3 border border-[var(--primary-purple)] rounded-full hover:bg-[var(--primary-purple)]/10 transition-all hover:scale-105 active:scale-95 blog-cta"
+          class="inline-block px-8 py-3 border border-[rgb(var(--primary-purple))] rounded-full hover:bg-[rgba(var(--primary-purple),0.10)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 blog-cta"
         >
           View All Posts
         </a>

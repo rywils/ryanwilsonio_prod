@@ -4,12 +4,12 @@ import { Download } from "@lucide/astro";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<Layout title="Resume" description="Resume for Ryan Wilson, Infrastructure Security Engineer & Security Analyst">
+<Layout title="Resume" description="Resume for Ryan Wilson, Security Engineer">
   
   <div class="max-w-4xl mx-auto px-6 flex justify-end">
     <a href="/resume/resume_ryanwilsonio.pdf">
       <button
-        class="relative top-25 flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-[var(--primary-purple)] text-[var(--primary-purple)] hover:bg-[var(--primary-purple)]/10 transition-all hover:scale-105 active:scale-95 font-semibold"
+        class="relative top-25 flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-[rgb(var(--primary-purple))] text-[rgb(var(--primary-purple))] hover:bg-[rgba(var(--primary-purple),0.10)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold"
       >
         Download
         <Download size={18} />
@@ -19,35 +19,178 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
   <article class="mx-auto max-w-4xl px-6 py-12 text-gray-300">
     
+    <!-- Header -->
     <section class="mb-12">
       <h1 class="text-4xl font-bold text-white">Ryan Wilson</h1>
       <p class="text-lg text-gray-400 mt-1">Security Engineer</p>
-      <p class="text-sm text-gray-500">Des Moines, IA (Open to Remote)</p>
 
       <div class="mt-3 text-sm text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
-        <a href="https://ryanwilson.io" class="hover:text-white">
-          ryanwilson.io
-        </a>
+        <span>ryan@ryanwilson.io</span>
         <span>|</span>
-        <a href="https://github.com/rywils" class="hover:text-white">
-          github.com/rywils
-        </a>
+        <a href="https://ryanwilson.io" class="hover:text-white transition-colors duration-200 ease-out">ryanwilson.io</a>
         <span>|</span>
-        <a href="https://linkedin.com/in/rywils" class="hover:text-white">
-          linkedin.com/in/rywils
-        </a>
+        <a href="https://github.com/rywils" class="hover:text-white transition-colors duration-200 ease-out">github.com/rywils</a>
+        <span>|</span>
+        <a href="https://linkedin.com/in/rywils" class="hover:text-white transition-colors duration-200 ease-out">linkedin.com/in/rywils</a>
       </div>
     </section>
 
-    
+    <!-- Summary -->
     <section class="mb-12">
       <h2 class="text-xl font-semibold mb-3 text-white">Summary</h2>
       <p class="text-gray-400 leading-relaxed">
-        Security-focused engineer with 8+ years of experience across networking, systems administration, and infrastructure operations. Specialized in enterprise networking, Linux systems, and cloud environments (AWS, Azure), with hands-on experience in Fortinet NGFW, Cisco Firepower, CrowdStrike Falcon, and Snort. Currently pursuing a B.S. in Cybersecurity and Information Assurance while developing Bitprobe, a vulnerability scanning platform for web, network, and TLS analysis. Focused on security engineering, infrastructure security, and AI-driven security systems. 
+        Security-focused engineer with experience across networking, systems administration, and infrastructure operations.
+        Specialized in enterprise networking, Linux systems, and cloud environments, with hands-on experience in FortiGate NGFW,
+        Cisco Firepower, CrowdStrike Falcon, and Snort. Currently pursuing a B.S. in Cybersecurity and Information Assurance.
+        Focused on security engineering, infrastructure security, and AI-driven security systems.
       </p>
     </section>
 
-    
+    <!-- Technical Skills -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4 text-white">Technical Skills</h2>
+
+      <div class="space-y-3 text-sm text-gray-400">
+        <div>
+          <strong class="text-gray-300">Security:</strong>
+          <p>
+            Vulnerability assessment, threat detection, incident response, network segmentation,
+            Fortinet NGFW, Cisco Firepower, Snort, CrowdStrike Falcon, Splunk, Wireshark, Nmap, Burp Suite
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Systems:</strong>
+          <p>
+            Linux administration, Windows Server, Active Directory, system hardening, VMware, Proxmox,
+            Hyper-V, Ubuntu, RHEL, Debian, Kali, AlmaLinux, SELinux
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Development:</strong>
+          <p>
+            JavaScript/TypeScript, Python, Go, C, C#, PHP, Node.js, React, REST APIs,
+            GraphQL, Supabase, PostgreSQL, MySQL, MariaDB
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Networking:</strong>
+          <p>
+            TCP/IP, VLANs, VPNs, routing & switching, DNS, DHCP, Cisco,
+            Juniper, Aruba, pfSense, Riverbed, Talari SD-WAN
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Cloud / Infrastructure:</strong>
+          <p>
+            AWS, Azure, GCP, Terraform, Ansible, Docker, Kubernetes,
+            VPC networking, WAF, CloudFront/CDN, CloudWatch
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-6 text-white">Professional Experience</h2>
+
+      <div class="space-y-8 text-sm text-gray-400">
+
+        <div>
+          <div class="font-semibold text-white">Freelance Developer</div>
+          <div class="text-gray-500">ryanwilson.io | Nov 2024 – Present</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Develop web applications using React and Next.js, along with WordPress sites for small business clients</li>
+            <li>Project specific, full-stack applications using Next.js, Vue/Nuxt, SvelteKit, and Laravel</li>
+            <li>Build backend APIs and services using Node.js, Express, GraphQL, tRPC, and Supabase</li>
+            <li>Deploy applications across AWS, Vercel, Netlify, Linode, and DigitalOcean</li>
+            <li>Implement CI/CD pipelines, CDN distribution, and Redis caching with Upstash</li>
+            <li>Design application data layers using PostgreSQL, SQLite, MongoDB, and MariaDB</li>
+            <li>Manage full project lifecycle including client onboarding, architecture, deployment, and support</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Systems Engineer</div>
+          <div class="text-gray-500">DH Pace | Jul 2023 – Aug 2024</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Administered VMware vSphere infrastructure (vCenter, ESXi) across hybrid environments</li>
+            <li>Managed AWS workloads and Cisco Meraki cloud-managed networking</li>
+            <li>Deployed and maintained Fortinet NGFW policies and site-to-site VPN infrastructure</li>
+            <li>Supported Cisco and Aruba networking equipment across enterprise locations</li>
+            <li>Implemented CrowdStrike Falcon endpoint protection across enterprise endpoints</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Freelance Consultant</div>
+          <div class="text-gray-500">RYIO Consulting | Mar 2022 – Jun 2023</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Provided IT consulting and infrastructure support for small and mid-sized businesses</li>
+            <li>Managed Windows Server and Linux environments including Active Directory and Group Policy</li>
+            <li>Supported AWS and Microsoft Azure infrastructure deployments</li>
+            <li>Performed infrastructure troubleshooting, system upgrades, and maintenance</li>
+            <li>Assisted clients with network configuration, system administration, and operational support</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Systems Administrator</div>
+          <div class="text-gray-500">BlueAlly | Oct 2019 – Dec 2021</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Managed Fortinet Security Fabric deployments, Cisco ASA, and Cisco Firepower firewalls</li>
+            <li>Implemented Riverbed SteelHead WAN optimization appliances</li>
+            <li>Deployed Talari SD-WAN solutions</li>
+            <li>Administered Linux servers and automation scripts</li>
+            <li>Maintained strict SLA requirements</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Help Desk Specialist (Contract)</div>
+          <div class="text-gray-500">Casey's General Stores | Jul 2019 – Oct 2019</div>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Datacenter Technician (Contract)</div>
+          <div class="text-gray-500">Microsoft | Nov 2017 – Dec 2018</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Security Projects -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-6 text-white">Security Projects</h2>
+
+      <div class="mb-8">
+        <div class="font-semibold text-white">Kitscan — Code Analysis Tool</div>
+        <div class="text-sm text-gray-500">Personal Project | Nov 2025 – Apr 2026</div>
+        <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
+          <li>Built static analysis and dependency vulnerability scanner</li>
+          <li>Implemented multi-phase scanning to reduce false positives</li>
+          <li>Integrated OSV.dev for CVE detection</li>
+          <li>Detected insecure patterns, secrets, and misconfigurations</li>
+          <li>Generated structured findings aligned to OWASP and CWE</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-semibold text-white">Bitprobe — Vulnerability Scanner</div>
+        <div class="text-sm text-gray-500">Personal Project | 2025 – Present</div>
+        <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
+          <li>Modular scanner for web, network, and TLS analysis</li>
+          <li>Service discovery and attack surface enumeration</li>
+          <li>Detection of CVEs and misconfigurations</li>
+          <li>Reporting for vulnerability tracking and remediation</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
     <section class="mb-12">
       <h2 class="text-xl font-semibold mb-4 text-white">Education</h2>
 
@@ -64,241 +207,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </div>
     </section>
 
-    
-    <section class="mb-12">
-      <h2 class="text-xl font-semibold mb-4 text-white">Technical Skills</h2>
-
-      <div class="space-y-3 text-sm text-gray-400">
-        <div>
-          <strong class="text-gray-300">Security:</strong>
-          <p>
-            Vulnerability assessment, threat detection, incident response, network segmentation, Fortinet NGFW, Cisco 
-            Firepower, Snort, CrowdStrike Falcon, Splunk, Wireshark, Nmap, Burp Suite
-          </p>
-        </div>
-
-        <div>
-          <strong class="text-gray-300">Networking:</strong>
-          <p>
-            TCP/IP, VLANs, VPNs, routing & switching, DNS, DHCP, Cisco, Juniper, Aruba, pfSense, Riverbed
-          </p>
-        </div>
-
-        <div>
-          <strong class="text-gray-300">Systems:</strong>
-          <p>
-            Linux administration, Windows Server, Active Directory, system hardening, VMware, Proxmox, Hyper-V, 
-            Ubuntu, RHEL, Debian, Kali, AlmaLinux, SELinux
-          </p>
-        </div>
-
-        <div>
-          <strong class="text-gray-300">Cloud / Infrastructure:</strong>
-          <p>
-            AWS, Azure, GCP, Terraform, Ansible, Docker, Kubernetes, VPC networking, WAF, 
-            CloudFront/CDN, CloudWatch
-          </p>
-        </div>
-
-        <div>
-          <strong class="text-gray-300">Development:</strong>
-          <p>
-            JavaScript/TypeScript, Python, Go, C, C#, PHP, Node.js, React, REST APIs, GraphQL, Supabase, PostgreSQL, 
-            MySQL, MariaDB
-          </p>
-        </div>
-      </div>
-    </section>
-
-    
-    <section class="mb-12">
-      <h2 class="text-xl font-semibold mb-6 text-white">Security Projects</h2>
-
-      <div class="mb-8">
-        <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-          <span class="font-semibold text-white">Bitprobe</span>
-          <span class="text-gray-400">— Vulnerability Scanning Platform</span>
-        </div>
-        <div class="text-sm text-gray-500">Personal Project | 2025 – Present</div>
-        <div class="text-sm text-gray-500 mt-1">Tech: Python, Go, TypeScript, Node.js</div>
-        <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
-          <li>
-            Building a modular vulnerability scanner for web applications, network services, and TLS configurations.
-          </li>
-          <li>
-            Developing scanning modules to detect exposed services, TLS misconfigurations, and known CVE vulnerabilities.
-          </li>
-          <li>
-            Implementing service discovery and attack surface enumeration.
-          </li>
-          <li>
-            Building reporting output for vulnerability tracking and remediation.
-          </li>
-          <li>
-            Designed for security research, automated analysis, and penetration testing workflows.
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    
-    <section class="mb-12">
-      <h2 class="text-xl font-semibold mb-6 text-white">Professional Experience</h2>
-
-      <div class="space-y-8 text-sm text-gray-400">
-        <div>
-          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span class="font-semibold text-white">Freelance Developer</span>
-            <span class="text-gray-500">— ryanwilson.io</span>
-          </div>
-          <div class="text-gray-500">Nov 2024 – Present</div>
-          <ul class="mt-2 list-disc pl-5 space-y-1">
-            <li>
-              Develop web applications using React and Next.js, along with WordPress sites for small business clients.
-            </li>
-            <li>
-              Project specific, full-stack applications using Next.js, Vue/Nuxt, SvelteKit, and Laravel.
-            </li>
-            <li>
-              Build backend APIs and services using Node.js, Express, GraphQL, tRPC, and Supabase.
-            </li>
-            <li>
-              Deploy applications across AWS, Vercel, Netlify, Linode, and DigitalOcean.
-            </li>
-            <li>
-              Implement CI/CD pipelines, CDN distribution, and Redis caching with Upstash.
-            </li>
-            <li>
-              Design application data layers using PostgreSQL, SQLite, MongoDB, and MariaDB.
-            </li>
-            <li>
-              Manage full project lifecycle including client onboarding, architecture, deployment, and support.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span class="font-semibold text-white">Systems Engineer</span>
-            <span class="text-gray-500">— DH Pace</span>
-          </div>
-          <div class="text-gray-500">Jul 2023 – Aug 2024</div>
-          <ul class="mt-2 list-disc pl-5 space-y-1">
-            <li>
-              Administered VMware vSphere infrastructure (vCenter, ESXi) across hybrid environments.
-            </li>
-            <li>
-              Managed AWS workloads and Cisco Meraki cloud-managed networking.
-            </li>
-            <li>
-              Deployed and maintained Fortinet NGFW policies and site-to-site VPN infrastructure.
-            </li>
-            <li>
-              Supported Cisco and Aruba networking equipment across enterprise locations.
-            </li>
-            <li>
-              Implemented CrowdStrike Falcon endpoint protection across enterprise endpoints.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span class="font-semibold text-white">Freelance Consultant</span>
-            <span class="text-gray-500">— RYIO Consulting</span>
-          </div>
-          <div class="text-gray-500">Mar 2022 – Jun 2023</div>
-          <ul class="mt-2 list-disc pl-5 space-y-1">
-            <li>
-              Provided IT consulting and infrastructure support for small and mid-sized businesses.
-            </li>
-            <li>
-              Managed Windows Server and Linux environments including Active Directory and Group Policy.
-            </li>
-            <li>
-              Supported AWS and Microsoft Azure infrastructure deployments.
-            </li>
-            <li>
-              Performed infrastructure troubleshooting, system upgrades, and maintenance.
-            </li>
-            <li>
-              Assisted clients with network configuration, system administration, and operational support.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span class="font-semibold text-white">Systems Administrator</span>
-            <span class="text-gray-500">— BlueAlly</span>
-          </div>
-          <div class="text-gray-500">Oct 2019 – Dec 2021</div>
-          <ul class="mt-2 list-disc pl-5 space-y-1">
-            <li>
-              Managed Fortinet Security Fabric deployments, Cisco ASA, and Cisco Firepower firewalls.
-            </li>
-            <li>
-              Implemented Riverbed SteelHead WAN optimization appliances.
-            </li>
-            <li>
-              Deployed Talari SD-WAN solutions to improve connectivity across distributed sites.
-            </li>
-            <li>
-              Administered Linux servers, including package management, services, and automation scripts.
-            </li>
-            <li>
-              Maintained strict SLA requirements across managed enterprise environments.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span class="font-semibold text-white">Help Desk Specialist (Contract)</span>
-            <span class="text-gray-500">— Casey's General Stores</span>
-          </div>
-          <div class="text-gray-500">Jul 2019 – Oct 2019</div>
-          <ul class="mt-2 list-disc pl-5 space-y-1">
-            <li>
-              Supported rollout of Casey's online ordering platform across retail locations.
-            </li>
-            <li>
-              Assisted with incident triage, ticket resolution, and remote troubleshooting.
-            </li>
-            <li>
-              Provided technical support for store systems and retail infrastructure.
-            </li>
-            <li>
-              Worked with deployment teams during rollout of new ordering systems.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span class="font-semibold text-white">Datacenter Technician (Contract)</span>
-            <span class="text-gray-500">— Microsoft</span>
-          </div>
-          <div class="text-gray-500">Nov 2017 – Dec 2018</div>
-          <ul class="mt-2 list-disc pl-5 space-y-1">
-            <li>
-              Diagnosed and triaged server and hardware failures across datacenter clusters.
-            </li>
-            <li>
-              Performed Cisco Nexus switch configuration and network troubleshooting.
-            </li>
-            <li>
-              Assisted with rack deployments and server cluster provisioning.
-            </li>
-            <li>
-              Maintained compliance with strict Microsoft SLAs for outages and hardware failures.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    
+    <!-- Certifications -->
     <section class="mb-12">
       <h2 class="text-xl font-semibold mb-3 text-white">Certifications</h2>
       <ul class="text-sm text-gray-400 list-disc pl-5 space-y-1">
@@ -308,5 +217,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <li>Fortinet NSE3 (Expired)</li>
       </ul>
     </section>
+
   </article>
 </Layout>

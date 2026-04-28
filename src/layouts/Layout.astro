@@ -102,6 +102,39 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
       </main>
       <Footer/>
     </div>
-+     <SimpleAnalytics />
+    <script is:inline>
+      function initGlobalReveal() {
+        var root = document.getElementById("main-content");
+        if (!root) return;
+
+        var revealTargets = root.querySelectorAll("section, article, .education-card, .experience-card, .contact-info-card");
+        revealTargets.forEach(function (el) {
+          if (el.closest("#hero")) return;
+          if (el.dataset.globalRevealBound === "1") return;
+          el.dataset.globalRevealBound = "1";
+          el.classList.add("global-reveal");
+        });
+
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -32px 0px" }
+        );
+
+        root.querySelectorAll(".global-reveal").forEach(function (el) {
+          if (!el.classList.contains("in-view")) observer.observe(el);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", initGlobalReveal);
+      document.addEventListener("astro:page-load", initGlobalReveal);
+    </script>
+    <SimpleAnalytics />
   </body>
 </html>

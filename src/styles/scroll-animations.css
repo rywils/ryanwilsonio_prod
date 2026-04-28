@@ -62,11 +62,11 @@
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    var(--primary-blue) 0%,
-    var(--primary-purple) 25%,
-    var(--secondary-purple) 50%,
-    var(--primary-purple) 75%,
-    var(--primary-blue) 100%
+    rgb(var(--primary-blue)) 0%,
+    rgb(var(--primary-purple)) 25%,
+    rgb(var(--secondary-purple)) 50%,
+    rgb(var(--primary-purple)) 75%,
+    rgb(var(--primary-blue)) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -101,10 +101,10 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+  background: linear-gradient(90deg, rgb(var(--primary-blue)), rgb(var(--primary-purple)));
   transform: translateX(-50%);
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 10px var(--primary-blue);
+  box-shadow: 0 0 10px rgb(var(--primary-blue));
 }
 
 .underline-draw.in-view::after {
@@ -282,7 +282,7 @@
   content: '';
   position: absolute;
   inset: -2px;
-  background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple), var(--secondary-purple));
+  background: linear-gradient(90deg, rgb(var(--primary-blue)), rgb(var(--primary-purple)), rgb(var(--secondary-purple)));
   border-radius: inherit;
   opacity: 0;
   filter: blur(15px);
@@ -376,7 +376,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--primary-blue);
+  background: rgb(var(--primary-blue));
   transform: translateX(-101%);
 }
 
@@ -456,7 +456,7 @@
   inset: 0;
   border: 1px solid transparent;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple)) border-box;
+  background: linear-gradient(90deg, rgb(var(--primary-blue)), rgb(var(--primary-purple))) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
