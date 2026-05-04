@@ -52,7 +52,7 @@ const navLinks = [
         
         <div class="hidden md:flex items-center h-full justify-center border-l border-r border-[#2C2C2F]">
           <div class="h-full border-l border-r border-black/20"></div>
-          <PagePosition client:load/>
+          <PagePosition client:visible/>
           <div class="h-full border-l border-black/20"></div>
         </div>
 
@@ -268,6 +268,7 @@ const navLinks = [
 
   
   function init() {
+    if (document.documentElement.classList.contains("page-loader-active")) return;
     if (initialized) {
       setupSmoothScroll();
       updateActiveLinks();
@@ -287,9 +288,13 @@ const navLinks = [
     initialized = true;
   }
 
-  init();
-  
-  
+  const w = window as typeof window & { whenPageRevealed?: (fn: () => void) => void };
+  if (typeof w.whenPageRevealed === "function") {
+    w.whenPageRevealed(() => init());
+  } else {
+    init();
+  }
+
   document.addEventListener('astro:after-swap', updateActiveLinks);
   document.addEventListener('astro:after-swap', setupSmoothScroll);
   document.addEventListener('astro:after-swap', handleHashScroll);

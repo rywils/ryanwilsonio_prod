@@ -7,6 +7,8 @@ import react from "@astrojs/react";
 
 import sitemap from '@astrojs/sitemap';
 
+import sentry from '@sentry/astro';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ryanwilson.io',
@@ -29,5 +31,5 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: 'compile'
   }),
-  integrations: [react(), sitemap()],
+  integrations: [react(), sitemap(), sentry()],
 });

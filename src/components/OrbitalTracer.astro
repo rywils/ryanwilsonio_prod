@@ -168,8 +168,11 @@ ctx.shadowBlur  = 10;
     requestAnimationFrame(animate);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', animate);
+  const w = window as typeof window & { whenPageRevealed?: (fn: () => void) => void };
+  if (typeof w.whenPageRevealed === "function") {
+    w.whenPageRevealed(animate);
+  } else if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", animate, { once: true });
   } else {
     animate();
   }

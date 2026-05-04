@@ -1,0 +1,172 @@
+---
+/** Pie slices mimic “each piece” of the mark; rwlogo.svg is a single raster inside SVG, not separate paths. */
+const SEGMENTS = 6;
+
+function wedgeClipPath(index: number, total: number): string {
+  const startDeg = (index / total) * 360 - 90;
+  const endDeg = ((index + 1) / total) * 360 - 90;
+  const r = 76;
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const x1 = 50 + r * Math.cos(rad(startDeg));
+  const y1 = 50 + r * Math.sin(rad(startDeg));
+  const x2 = 50 + r * Math.cos(rad(endDeg));
+  const y2 = 50 + r * Math.sin(rad(endDeg));
+  return `polygon(50% 50%, ${x1}% ${y1}%, ${x2}% ${y2}%)`;
+}
+
+const clips = Array.from({ length: SEGMENTS }, (_, i) => wedgeClipPath(i, SEGMENTS));
+---
+
+<div
+  id="page-loader"
+  class="hidden fixed inset-0 z-[10000] flex cursor-wait items-center justify-center bg-[#0a0a0a]"
+  aria-hidden="true"
+>
+  <div class="loader-logo-square relative h-[min(24vw,120px)] w-[min(24vw,120px)] shrink-0">
+    {
+      clips.map((clip, i) => (
+        <div
+          class="loader-segment absolute inset-0 bg-[url('/rwlogo.svg')] bg-contain bg-center bg-no-repeat will-change-transform"
+          style={{ clipPath: clip }}
+          data-loader-segment={i}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+
+  const INTRO_SESSION_KEY = "rw-intro-completed";
+
+  function shouldSkipIntroLoader(): boolean {
+    try {
+      const nav = performance.getEntriesByType(
+        "navigation"
+      )[0] as PerformanceNavigationTiming | undefined;
+      const typ = nav?.type ?? "navigate";
+      if (typ !== "navigate") return true;
+      if (sessionStorage.getItem(INTRO_SESSION_KEY) === "1") return true;
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  function prefersReducedMotion(): boolean {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function unlockMainContent(): void {
+    document.documentElement.classList.remove("page-loader-active");
+    document.dispatchEvent(new CustomEvent("rw-page-loader-dismissed"));
+  }
+
+  function dismissLoader(immediate: boolean): void {
+    const root = document.getElementById("page-loader");
+    document.body.style.overflow = "";
+    if (!root) {
+      unlockMainContent();
+      return;
+    }
+    if (immediate) {
+      unlockMainContent();
+      root.remove();
+      return;
+    }
+    /* Reveal shell + run deferred inits while overlay fades so client:visible / layout see the real page */
+    unlockMainContent();
+    gsap.to(root, {
+      opacity: 0,
+      duration: 0.15,
+      ease: "power2.out",
+      onComplete: () => root.remove(),
+    });
+  }
+
+  function runLoader(): void {
+    const root = document.getElementById("page-loader");
+    if (!root) return;
+
+    // Loader is only allowed when the head gate is explicitly enabled.
+    if (!document.documentElement.classList.contains("page-loader-active")) {
+      root.remove();
+      return;
+    }
+
+    if (prefersReducedMotion()) {
+      dismissLoader(true);
+      return;
+    }
+
+    if (shouldSkipIntroLoader()) {
+      root.remove();
+      return;
+    }
+
+    root.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+
+    const segments = root.querySelectorAll<HTMLElement>("[data-loader-segment]");
+    gsap.set(root, { opacity: 1, clearProps: "transform" });
+    gsap.set(segments, {
+      scale: 1,
+      rotation: 0,
+      rotationX: 0,
+      rotationY: 0,
+      skewX: 0,
+      skewY: 0,
+      transformOrigin: "50% 50%",
+      force3D: false,
+      clearProps: "x,y,xPercent,yPercent",
+    });
+
+    const master = gsap.timeline({
+      onComplete: () => {
+        try {
+          sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+        } catch {
+          /* private mode etc. */
+        }
+        dismissLoader(false);
+      },
+    });
+
+    /* Slower per-wedge motion; stagger shrinks so total motion length stays ~same */
+    const motionTotalSec = 1.5;
+    const scaleUp = 0.14;
+    const spin = 0.38;
+    const scaleDown = 0.14;
+    const segmentLen = scaleUp + spin + scaleDown;
+    const stagger =
+      segments.length > 1
+        ? Math.max(0.06, (motionTotalSec - segmentLen) / (segments.length - 1))
+        : 0;
+
+    const segmentTween = (el: Element) =>
+      gsap
+        .timeline()
+        .set(el, { rotation: 0, rotateZ: 0 })
+        .to(el, { scale: 1.1, duration: scaleUp, ease: "power1.out" })
+        .to(el, { rotateZ: 360, duration: spin, ease: "sine.inOut" })
+        .to(el, { scale: 1, duration: scaleDown, ease: "power1.inOut" })
+        .set(el, { rotation: 0, rotateZ: 0 });
+
+    let pos = 0;
+    segments.forEach((seg) => {
+      master.add(segmentTween(seg), pos);
+      pos += stagger;
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runLoader, { once: true });
+  } else {
+    runLoader();
+  }
+
+  // Astro view transitions swap page content without full reload.
+  // Re-run loader lifecycle on each page-load so home navigation cannot leave a static overlay.
+  document.addEventListener("astro:page-load", runLoader);
+</script>

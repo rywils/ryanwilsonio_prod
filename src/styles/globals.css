@@ -52,6 +52,11 @@ html {
   color-scheme: dark;
 }
 
+/* PageLoader: main shell not laid out as visible until intro ends (hydration/IO wait too) */
+html.page-loader-active #documentContainer {
+  display: none !important;
+}
+
 
 body {
   background-color: var(--background);

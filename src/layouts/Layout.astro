@@ -10,7 +10,8 @@ import '../styles/globals.css';
 import Navigation from '../components/Navigation.astro';
 import ContentBarLeft from '../components/ui/ContentBarLeft.astro';
 import ContentBarRight from '../components/ui/ContentBarRight.astro';
-import Footer from '../components/Footer.astro'; 
+import Footer from '../components/Footer.astro';
+import PageLoader from '../components/PageLoader.astro';
 import { SEO } from 'astro-seo';
 const { title } = Astro.props;
 const { description } = Astro.props; 
@@ -29,6 +30,48 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
 </script>
 
     <meta charset="utf-8" />
+    <!-- Intro loader: first full navigate only (per tab session) -->
+    <script is:inline>
+      try {
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var navEntry = performance.getEntriesByType("navigation")[0];
+          var navType = navEntry && navEntry.type ? navEntry.type : "navigate";
+          var introDone = sessionStorage.getItem("rw-intro-completed") === "1";
+          var skipIntro = navType !== "navigate" || introDone;
+          if (!skipIntro) {
+            document.documentElement.classList.add("page-loader-active");
+          }
+        }
+      } catch (e) {}
+    </script>
+    <script is:inline>
+      window.whenPageRevealed = function (fn) {
+        if (typeof fn !== "function") return;
+        if (document.documentElement.classList.contains("page-loader-active")) {
+          document.addEventListener(
+            "rw-page-loader-dismissed",
+            function onReady() {
+              document.removeEventListener("rw-page-loader-dismissed", onReady);
+              fn();
+            }
+          );
+          return;
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener(
+            "DOMContentLoaded",
+            function onDcl() {
+              document.removeEventListener("DOMContentLoaded", onDcl);
+              fn();
+            }
+          );
+        } else {
+          requestAnimationFrame(function () {
+            fn();
+          });
+        }
+      };
+    </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -92,6 +135,7 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
   </head>
   
   <body class="bg-[#0a0a0a] overflow-x-hidden">
+    <PageLoader />
     <div id="documentContainer" class="max-w-2xl md:max-w-5xl h-full glow-grey mx-auto border-l border-r border-[#0a0a0a]/20 ">
       <!-- <ContentBarLeft/> -->
       <!-- <ContentBarRight/> -->
@@ -104,6 +148,7 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
     </div>
     <script is:inline>
       function initGlobalReveal() {
+        if (document.documentElement.classList.contains("page-loader-active")) return;
         var root = document.getElementById("main-content");
         if (!root) return;
 
@@ -132,7 +177,7 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
         });
       }
 
-      document.addEventListener("DOMContentLoaded", initGlobalReveal);
+      window.whenPageRevealed(initGlobalReveal);
       document.addEventListener("astro:page-load", initGlobalReveal);
     </script>
     <SimpleAnalytics />
