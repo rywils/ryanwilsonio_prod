@@ -52,9 +52,170 @@ html {
   color-scheme: dark;
 }
 
-/* PageLoader: main shell not laid out as visible until intro ends (hydration/IO wait too) */
+/* PageLoader: use existing DOM as the skeleton (shape matches real layout). */
 html.page-loader-active #documentContainer {
+  position: relative;
+  isolation: isolate;
+  pointer-events: none;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+@keyframes page-skeleton-shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+html.page-loader-active #documentContainer * {
+  animation-play-state: paused !important;
+  transition: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Kill decorative pseudo-elements (gradient lines/glows) while loader is active. */
+html.page-loader-active #documentContainer *::before,
+html.page-loader-active #documentContainer *::after {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border-color: transparent !important;
+}
+
+html.page-loader-active #documentContainer img,
+html.page-loader-active #documentContainer video,
+html.page-loader-active #documentContainer svg,
+html.page-loader-active #documentContainer iconify-icon,
+html.page-loader-active #documentContainer canvas {
+  opacity: 0 !important;
+}
+
+html.page-loader-active #documentContainer h1,
+html.page-loader-active #documentContainer h2,
+html.page-loader-active #documentContainer h3,
+html.page-loader-active #documentContainer h4,
+html.page-loader-active #documentContainer h5,
+html.page-loader-active #documentContainer h6,
+html.page-loader-active #documentContainer p,
+html.page-loader-active #documentContainer li,
+html.page-loader-active #documentContainer a,
+html.page-loader-active #documentContainer button,
+html.page-loader-active #documentContainer label,
+html.page-loader-active #documentContainer span,
+html.page-loader-active #documentContainer small,
+html.page-loader-active #documentContainer strong,
+html.page-loader-active #documentContainer em,
+html.page-loader-active #documentContainer code,
+html.page-loader-active #documentContainer input,
+html.page-loader-active #documentContainer textarea,
+html.page-loader-active #documentContainer select {
+  color: transparent !important;
+  border-color: transparent !important;
+  text-shadow: none !important;
+  position: relative;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(255, 255, 255, 0.03) 100%
+  ) !important;
+  background-size: 340px 100% !important;
+  background-repeat: no-repeat !important;
+  animation: skeleton-bg-shimmer 2.1s linear infinite !important;
+  border-radius: 0.35rem;
+}
+
+html.page-loader-active #documentContainer .card,
+html.page-loader-active #documentContainer .project-card,
+html.page-loader-active #documentContainer article,
+html.page-loader-active #documentContainer section,
+html.page-loader-active #documentContainer form,
+html.page-loader-active #documentContainer .education-card,
+html.page-loader-active #documentContainer .experience-card,
+html.page-loader-active #documentContainer .contact-info-card {
+  position: relative;
+  overflow: hidden;
+  box-shadow: none !important;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  ) !important;
+  background-size: 420px 100% !important;
+  background-repeat: no-repeat !important;
+  animation: skeleton-bg-shimmer 2.4s linear infinite !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Loader-state exclusions: keep hero glows/socials out of skeleton pass */
+html.page-loader-active #hero .social-link,
+html.page-loader-active #hero .orb,
+html.page-loader-active #hero [class*="glow-"] {
+  opacity: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html.page-loader-active #documentContainer [class*="glow-"] {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Extra subtle nav skeleton only */
+html.page-loader-active #main-nav,
+html.page-loader-active #main-nav * {
+  background-image: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+html.page-loader-active #main-nav .nav-inner,
+html.page-loader-active #main-nav .nav-link,
+html.page-loader-active #main-nav .mobile-nav-link,
+html.page-loader-active #main-nav li,
+html.page-loader-active #main-nav button,
+html.page-loader-active #main-nav #mobile-menu {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: rgba(255, 255, 255, 0.035) !important;
+  color: transparent !important;
+}
+
+html.page-loader-active #main-nav .nav-link::after,
+html.page-loader-active #main-nav .active-link::after {
   display: none !important;
+}
+
+/* Hard-stop global decorative layers that can leak above skeleton (hero lamp/glow bars). */
+html.page-loader-active .vertical-glow-bar,
+html.page-loader-active .lamp-glow-down,
+html.page-loader-active .lamp-glow-intense,
+html.page-loader-active .lamp-glow-sides,
+html.page-loader-active .glow-card-border,
+html.page-loader-active .glow-card-border::before,
+html.page-loader-active [class*="glow-primary"],
+html.page-loader-active [class*="glow-secondary"],
+html.page-loader-active [class*="bg-gradient-to-"],
+html.page-loader-active [class*="from-"][class*="to-"] {
+  opacity: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+@keyframes skeleton-bg-shimmer {
+  from {
+    background-position: -260px 0;
+  }
+  to {
+    background-position: calc(100% + 260px) 0;
+  }
 }
 
 
@@ -1066,6 +1227,16 @@ body {
 
   .skills-marquee,
   .skills-marquee-reverse {
+    animation: none !important;
+  }
+
+  .card::before,
+  .project-card::before,
+  article::before,
+  form::before,
+  .education-card::before,
+  .experience-card::before,
+  .contact-info-card::before {
     animation: none !important;
   }
 

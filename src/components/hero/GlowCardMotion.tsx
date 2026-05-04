@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   children: ReactNode;
@@ -26,6 +27,23 @@ export default function GlowCardMotion({
   children,
   className = "",
 }: Props) {
+  const [isPageReady, setIsPageReady] = useState(() => {
+    if (typeof document === "undefined") return true;
+    return !document.documentElement.classList.contains("page-loader-active");
+  });
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (!document.documentElement.classList.contains("page-loader-active")) {
+      setIsPageReady(true);
+      return;
+    }
+
+    const onReady = () => setIsPageReady(true);
+    document.addEventListener("rw-page-loader-dismissed", onReady, { once: true });
+    return () => document.removeEventListener("rw-page-loader-dismissed", onReady);
+  }, []);
+
   return (
  <div 
   className={`relative isolate ${className}`}
@@ -34,22 +52,26 @@ export default function GlowCardMotion({
     willChange: "opacity, transform"
   }}
 >
-      {/* blur/glow */}
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.65 }}
-        transition={{ duration: 1.1, ease: "easeOut", delay: 0.2 }}
-        style={{
-          position: "absolute",
-          inset: -2,
-          borderRadius: 0,
-          background: GRAD_H,
-          filter: "blur(22px)",
-          zIndex: -2,
-          pointerEvents: "none",
-        }}
-      />
+      {isPageReady && (
+        <>
+          {/* blur/glow */}
+          <motion.div
+            aria-hidden
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.65 }}
+            transition={{ duration: 1.1, ease: "easeOut", delay: 0.2 }}
+            style={{
+              position: "absolute",
+              inset: -2,
+              borderRadius: 0,
+              background: GRAD_H,
+              filter: "blur(22px)",
+              zIndex: -2,
+              pointerEvents: "none",
+            }}
+          />
+        </>
+      )}
 
       <div
         className="relative rounded-xl"
@@ -59,83 +81,85 @@ export default function GlowCardMotion({
           background: "transparent",
         }}
       >
-        <motion.div
-          aria-hidden
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2, ease: "easeOut", delay: 0.15 }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: 0,
-            pointerEvents: "none",
-            zIndex: 2,
-          }}
-        >
-          {/* TOP */}
+        {isPageReady && (
           <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.25 }}
+            aria-hidden
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, ease: "easeOut", delay: 0.15 }}
             style={{
               position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              height: 1,
-              transformOrigin: "center",
-              background: GRAD_H,
+              inset: 0,
+              borderRadius: 0,
+              pointerEvents: "none",
+              zIndex: 2,
             }}
-          />
+          >
+            {/* TOP */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, ease: "easeOut", delay: 0.25 }}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                height: 1,
+                transformOrigin: "center",
+                background: GRAD_H,
+              }}
+            />
 
-          {/* BOTTOM */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.1, ease: "easeOut", delay: 0.25 }}
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 1,
-              transformOrigin: "center",
-              background: GRAD_H,
-            }}
-          />
+            {/* BOTTOM */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.1, ease: "easeOut", delay: 0.25 }}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: 1,
+                transformOrigin: "center",
+                background: GRAD_H,
+              }}
+            />
 
-          {/* LEFT */}
-          <motion.div
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 1.0, ease: "easeOut", delay: 0.35 }}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              width: 1,
-              transformOrigin: "center",
-              background: GRAD_V,
-            }}
-          />
+            {/* LEFT */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 1.0, ease: "easeOut", delay: 0.35 }}
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                width: 1,
+                transformOrigin: "center",
+                background: GRAD_V,
+              }}
+            />
 
-          {/* RIGHT */}
-          <motion.div
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 1.0, ease: "easeOut", delay: 0.35 }}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              right: 0,
-              width: 1,
-              transformOrigin: "center",
-              background: GRAD_V,
-            }}
-          />
-        </motion.div>
+            {/* RIGHT */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 1.0, ease: "easeOut", delay: 0.35 }}
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                right: 0,
+                width: 1,
+                transformOrigin: "center",
+                background: GRAD_V,
+              }}
+            />
+          </motion.div>
+        )}
 
         {/* INNER CARD PANEL (THIS STOPS THE “GLOW GLOB”) */}
         <div

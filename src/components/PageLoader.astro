@@ -1,5 +1,4 @@
 ---
-/** Pie slices mimic “each piece” of the mark; rwlogo.svg is a single raster inside SVG, not separate paths. */
 const SEGMENTS = 6;
 
 function wedgeClipPath(index: number, total: number): string {
@@ -19,7 +18,7 @@ const clips = Array.from({ length: SEGMENTS }, (_, i) => wedgeClipPath(i, SEGMEN
 
 <div
   id="page-loader"
-  class="hidden fixed inset-0 z-[10000] flex cursor-wait items-center justify-center bg-[#0a0a0a]"
+  class="hidden fixed inset-0 z-[10000] flex cursor-wait items-center justify-center bg-[#0a0a0a]/75 backdrop-blur-[1px]"
   aria-hidden="true"
 >
   <div class="loader-logo-square relative h-[min(24vw,120px)] w-[min(24vw,120px)] shrink-0">
@@ -75,7 +74,7 @@ const clips = Array.from({ length: SEGMENTS }, (_, i) => wedgeClipPath(i, SEGMEN
       root.remove();
       return;
     }
-    /* Reveal shell + run deferred inits while overlay fades so client:visible / layout see the real page */
+    //client:visible / layout see the real page  
     unlockMainContent();
     gsap.to(root, {
       opacity: 0,
@@ -133,11 +132,11 @@ const clips = Array.from({ length: SEGMENTS }, (_, i) => wedgeClipPath(i, SEGMEN
       },
     });
 
-    /* Slower per-wedge motion; stagger shrinks so total motion length stays ~same */
-    const motionTotalSec = 1.5;
-    const scaleUp = 0.14;
-    const spin = 0.38;
-    const scaleDown = 0.14;
+    // Slower per-wedge motion; stagger shrinks 
+    const motionTotalSec = 2.5;
+    const scaleUp = 0.28;
+    const spin = 0.76;
+    const scaleDown = 0.28;
     const segmentLen = scaleUp + spin + scaleDown;
     const stagger =
       segments.length > 1
