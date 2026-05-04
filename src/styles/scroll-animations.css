@@ -1,11 +1,3 @@
-/* ============================================
-   ADVANCED SCROLL ANIMATIONS
-   Wow-factor animations for home page sections
-   ============================================ */
-
-/* ----------------------------------------
-   1. TEXT REVEAL ANIMATIONS
-   ---------------------------------------- */
 
 /* Character-by-character text reveal */
 .text-reveal {
@@ -85,9 +77,6 @@
   }
 }
 
-/* ----------------------------------------
-   2. UNDERLINE DRAW ANIMATIONS
-   ---------------------------------------- */
 
 .underline-draw {
   position: relative;
@@ -115,9 +104,7 @@
   height: 1px;
 }
 
-/* ----------------------------------------
-   3. 3D CARD FLIP REVEALS
-   ---------------------------------------- */
+/* 3d card flip  */
 
 .perspective-container {
   perspective: 1000px;
@@ -176,9 +163,7 @@
     0 0 30px rgba(0, 191, 255, 0.1);
 }
 
-/* ----------------------------------------
-   4. SLIDE & BLUR REVEALS
-   ---------------------------------------- */
+/* slide blur */
 
 .slide-blur-left {
   opacity: 0;
@@ -234,9 +219,6 @@
   }
 }
 
-/* ----------------------------------------
-   5. SCALE & FADE REVEALS
-   ---------------------------------------- */
 
 .scale-fade {
   opacity: 0;
@@ -270,9 +252,7 @@
   }
 }
 
-/* ----------------------------------------
-   6. GLOW PULSE ANIMATIONS
-   ---------------------------------------- */
+
 
 .glow-pulse {
   position: relative;
@@ -305,9 +285,6 @@
   }
 }
 
-/* ----------------------------------------
-   7. STAGGER CASCADE
-   ---------------------------------------- */
 
 .stagger-cascade > * {
   opacity: 0;
@@ -325,9 +302,7 @@
   }
 }
 
-/* ----------------------------------------
-   8. SPLIT REVEAL (for contact section)
-   ---------------------------------------- */
+
 
 /* .split-left {
   opacity: 0;
@@ -363,9 +338,6 @@
   }
 } */
 
-/* ----------------------------------------
-   9. IMAGE REVEAL MASK
-   ---------------------------------------- */
 
 .image-reveal {
   position: relative;
@@ -412,9 +384,7 @@
   }
 }
 
-/* ----------------------------------------
-   10. FLOATING ANIMATION (continuous)
-   ---------------------------------------- */
+/* FLOATING ANIMATION (continuous) */
 
 .float-gentle {
   animation: floatGentle 4s ease-in-out infinite;
@@ -434,17 +404,12 @@
 .float-delay-3 { animation-delay: 1s; }
 .float-delay-4 { animation-delay: 1.5s; }
 
-/* ----------------------------------------
-   11. MAGNETIC HOVER EFFECT
-   ---------------------------------------- */
+
 
 .magnetic {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ----------------------------------------
-   12. BORDER DRAW ANIMATION
-   ---------------------------------------- */
 
 .border-draw {
   position: relative;
@@ -474,9 +439,6 @@
   }
 }
 
-/* ----------------------------------------
-   13. ROTATE IN ANIMATION
-   ---------------------------------------- */
 
 .rotate-in {
   opacity: 0;
@@ -494,9 +456,7 @@
   }
 }
 
-/* ----------------------------------------
-   14. PROGRESSIVE REVEAL (for lists)
-   ---------------------------------------- */
+
 
 .progressive-reveal > *:nth-child(1) { animation-delay: 0s; }
 .progressive-reveal > *:nth-child(2) { animation-delay: 0.1s; }
@@ -508,9 +468,6 @@
 .progressive-reveal > *:nth-child(8) { animation-delay: 0.7s; }
 .progressive-reveal > *:nth-child(9) { animation-delay: 0.8s; }
 
-/* ----------------------------------------
-   15. REDUCED MOTION SUPPORT
-   ---------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
   .text-reveal.in-view span,

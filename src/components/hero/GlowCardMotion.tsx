@@ -39,9 +39,13 @@ export default function GlowCardMotion({
       return;
     }
 
-    const onReady = () => setIsPageReady(true);
+    const onReady = () => {
+      setIsPageReady(true);
+    };
     document.addEventListener("rw-page-loader-dismissed", onReady, { once: true });
-    return () => document.removeEventListener("rw-page-loader-dismissed", onReady);
+    return () => {
+      document.removeEventListener("rw-page-loader-dismissed", onReady);
+    };
   }, []);
 
   return (

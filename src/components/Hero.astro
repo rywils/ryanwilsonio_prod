@@ -39,7 +39,7 @@ const socialLinks = [
 
 <div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center pb-6 md:justify-center sm:overflow-visible">
   <div class="p-4 mx-auto relative z-10 w-full pt-10 md:pt-0">
-    <section id="hero" class="flex flex-col justify-center relative py-6 overflow-visible">
+    <section id="hero" class="hero-anim-pending flex flex-col justify-center relative py-6 overflow-visible">
       <HeroLamp />
 
       <GlowCardMotion className="mt-10 max-w-4xl mx-auto" client:visible>
@@ -70,36 +70,64 @@ const socialLinks = [
 
             <!-- TEXT -->
             <div class="text-center lg:text-left flex-1 max-w-2xl relative z-50">
-              <h1 class="text-3xl sm:text-5xl mb-2 mt-6 font-bold text-[rgb(var(--primary-blue))] heading-font">
+              <h1
+                data-hero-anim
+                style="--hero-delay: 0.12s;"
+                class="text-3xl sm:text-5xl mb-2 mt-6 font-bold text-[rgb(var(--primary-blue))] heading-font"
+              >
                 Ryan Wilson
               </h1>
 
-              <p class="flex flex-row items-center text-sm md:text-md lg:text-lg text-muted-foreground subheading-font text-nowrap">
+              <p
+                data-hero-anim
+                style="--hero-delay: 0.2s;"
+                class="flex flex-row items-center text-sm md:text-md lg:text-lg text-muted-foreground subheading-font text-nowrap"
+              >
                 Security Engineer · Network Engineer · Developer 
                 </p>
 
 <div class="flex justify-center lg:justify-start gap-4 mt-4 font-mono text-sm uppercase tracking-widest">
   
-  <span class="px-3 pt-1.5 pb-1 border border-pink-500/40 rounded-md hover:border-pink-500/80 transition-colors duration-200 ease-out jetbrains-mono">
+  <span
+    data-hero-anim
+    style="--hero-delay: 0.3s;"
+    class="px-3 pt-1.5 pb-1 border border-pink-500/40 rounded-md hover:border-pink-500/80 transition-colors duration-200 ease-out jetbrains-mono"
+  >
     <Encryptedtext text="Security"/>
   </span>
 
-  <span class="px-3 pt-1.5 pb-1 border border-purple-500/40 rounded-md hover:border-purple-500/80 transition-colors duration-200 ease-out jetbrains-mono">
+  <span
+    data-hero-anim
+    style="--hero-delay: 0.38s;"
+    class="px-3 pt-1.5 pb-1 border border-purple-500/40 rounded-md hover:border-purple-500/80 transition-colors duration-200 ease-out jetbrains-mono"
+  >
     <Encryptedtext text="Linux" />
   </span>
 
-  <span class="px-3 pt-1.5 pb-1 border border-cyan-500/40 rounded-md hover:border-cyan-500/80 transition-colors duration-200 ease-out jetbrains-mono">
+  <span
+    data-hero-anim
+    style="--hero-delay: 0.46s;"
+    class="px-3 pt-1.5 pb-1 border border-cyan-500/40 rounded-md hover:border-cyan-500/80 transition-colors duration-200 ease-out jetbrains-mono"
+  >
     <Encryptedtext text="DevOps" />
   </span>
 </div>
 
               <GradientBorder />
 
-              <p class="text-sm leading-tight max-w-2xl mx-auto lg:mx-0 mb-16 text-muted-foreground jetbrains-mono">
+              <p
+                data-hero-anim
+                style="--hero-delay: 0.56s;"
+                class="text-sm leading-tight max-w-2xl mx-auto lg:mx-0 mb-16 text-muted-foreground jetbrains-mono"
+              >
                 Security-focused engineer with a background in networking, systems administration, full-stack development, and infrastructure operations.  
               </p>
 
-              <div class="mt-[-2.25rem] mb-10 flex justify-center lg:justify-end lg:pr-12">
+              <div
+                data-hero-anim
+                style="--hero-delay: 0.66s;"
+                class="mt-[-2.25rem] mb-10 flex justify-center lg:justify-end lg:pr-12"
+              >
                 <a
                   href="/resume/resume_ryanwilsonio.pdf"
                   target="_blank"
@@ -257,10 +285,38 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
   animation-delay: calc(var(--social-delay, 2.2s) + 0.65s);
 }
 
+#hero.hero-anim-pending [data-hero-anim] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+#hero.hero-anim-ready [data-hero-anim] {
+  animation: heroTextEnter 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--hero-delay, 0s);
+}
+
+@keyframes heroTextEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .social__link {
     animation: none;
     transform: none;
+  }
+
+  #hero.hero-anim-pending [data-hero-anim],
+  #hero.hero-anim-ready [data-hero-anim] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -341,6 +397,24 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
 </style>
 
 <script is:inline>
+  function initHeroTextAnimations() {
+    const hero = document.getElementById("hero");
+    if (!hero || hero.dataset.heroAnimBound === "1") return;
+    hero.dataset.heroAnimBound = "1";
+
+    const reveal = () => {
+      hero.classList.remove("hero-anim-pending");
+      hero.classList.add("hero-anim-ready");
+    };
+
+    if (document.documentElement.classList.contains("page-loader-active")) {
+      document.addEventListener("rw-page-loader-dismissed", reveal, { once: true });
+      return;
+    }
+
+    requestAnimationFrame(reveal);
+  }
+
   function initAstraResumeButton() {
     if (document.documentElement.classList.contains("page-loader-active")) return;
     document.querySelectorAll(".astra-resume-btn").forEach((btn) => {
@@ -360,6 +434,8 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
     });
   }
 
+  window.whenPageRevealed(initHeroTextAnimations);
+  document.addEventListener("astro:page-load", initHeroTextAnimations);
   window.whenPageRevealed(initAstraResumeButton);
   document.addEventListener("astro:page-load", initAstraResumeButton);
 </script>

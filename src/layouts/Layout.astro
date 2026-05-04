@@ -146,39 +146,94 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
       </main>
       <Footer/>
     </div>
-    <script is:inline>
-      function initGlobalReveal() {
+    <script>
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      function initGsapScrollEffects() {
         if (document.documentElement.classList.contains("page-loader-active")) return;
-        var root = document.getElementById("main-content");
+
+        const root = document.getElementById("main-content");
         if (!root) return;
 
-        var revealTargets = root.querySelectorAll("section, article, .education-card, .experience-card, .contact-info-card");
-        revealTargets.forEach(function (el) {
-          if (el.closest("#hero")) return;
-          if (el.dataset.globalRevealBound === "1") return;
-          el.dataset.globalRevealBound = "1";
-          el.classList.add("global-reveal");
-        });
+        // Reset previous triggers on Astro view transitions before rebuilding.
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-        var observer = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("in-view");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.12, rootMargin: "0px 0px -32px 0px" }
+        const revealTargets = root.querySelectorAll<HTMLElement>(
+          "section:not(#hero), article, .project-card, .blog-card, .education-card, .experience-card, .contact-info-card",
         );
 
-        root.querySelectorAll(".global-reveal").forEach(function (el) {
-          if (!el.classList.contains("in-view")) observer.observe(el);
+        revealTargets.forEach((el, i) => {
+          const noStagger = Boolean(el.closest(".experience-container"));
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 24, filter: "blur(4px)" },
+            {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.65,
+              delay: noStagger ? 0 : Math.min(i * 0.02, 0.12),
+              ease: "power2.out",
+              overwrite: "auto",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 86%",
+                once: true,
+              },
+            },
+          );
+        });
+
+        const titleTargets = root.querySelectorAll<HTMLElement>(
+          ".about-title, .skills-title, .experience-title, .education-title, .projects-title, .blog-title, .contact-title",
+        );
+
+        titleTargets.forEach((el) => {
+          gsap.fromTo(
+            el,
+            { y: 18, opacity: 0.86 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 88%",
+                once: true,
+              },
+            },
+          );
+        });
+
+        const sectionParallax = root.querySelectorAll<HTMLElement>(
+          "#projects, #blog, #contact, #about, #skills",
+        );
+
+        sectionParallax.forEach((section) => {
+          gsap.to(section, {
+            yPercent: -3,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.45,
+            },
+          });
         });
       }
 
-      window.whenPageRevealed(initGlobalReveal);
-      document.addEventListener("astro:page-load", initGlobalReveal);
+      const onPageRevealed = (window as any).whenPageRevealed;
+      if (typeof onPageRevealed === "function") {
+        onPageRevealed(initGsapScrollEffects);
+      } else {
+        initGsapScrollEffects();
+      }
+      document.addEventListener("astro:page-load", initGsapScrollEffects);
     </script>
     <SimpleAnalytics />
   </body>
