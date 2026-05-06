@@ -1,4 +1,4 @@
-import { defineConfig, sessionDrivers, svgoOptimizer } from "astro/config";
+import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
 import react from "@astrojs/react";
@@ -14,20 +14,32 @@ export default defineConfig({
     format: 'file'
   },
   output: 'static',
-  // In-memory sessions (no Cloudflare KV SESSION binding) for static + adapter builds
-  session: {
-    driver: sessionDrivers.lruCache({ max: 500 }),
-  },
-
-  experimental: {
-    svgOptimizer: svgoOptimizer(),
-  },
 
   vite: {
     plugins: [tailwindcss()],
-        assetsInclude: ['**/*.glb', '**/*.gltf'],
-
+    assetsInclude: ['**/*.glb', '**/*.gltf'],
+    // Pre-warm deps so the first dev-server scan doesn’t re-optimize, reload, and
+    // briefly 404 stale hashed chunks (e.g. audit-*.js under node_modules/.vite/deps).
+    optimizeDeps: {
+      include: [
+        '@sentry/astro',
+        'gsap',
+        'gsap/ScrollTrigger',
+        'astro/virtual-modules/transitions-router.js',
+        'astro/virtual-modules/transitions-types.js',
+        'astro/virtual-modules/transitions-events.js',
+        'astro/virtual-modules/transitions-swap-functions.js',
+      ],
+    },
   },
 
-  integrations: [react(), sitemap(), sentry()],
+  integrations: [
+    react(),
+    sitemap(),
+    sentry({
+      project: 'ryanwilsonio-astro',
+      org: 'ryanwilsonio-sy',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
+  ],
 });
