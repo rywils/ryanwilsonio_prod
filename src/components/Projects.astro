@@ -14,9 +14,9 @@ const displayProjects = featuredProjects.length > 0 ? featuredProjects : allProj
 
 const projectsWithContent = await Promise.all(
   displayProjects.map(async (project) => {
-    const { Content } = await project.render();
-    const bodyText = project.body.slice(0, 400);
-    return { project, Content, bodyText };
+    const slug = project.id.replace(/\.md$/, '');
+    const bodyText = (project.body ?? '').slice(0, 400);
+    return { project, slug, bodyText };
   })
 );
 ---
@@ -33,7 +33,7 @@ const projectsWithContent = await Promise.all(
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
       {displayProjects.map((project, index) => (
         <ProjectCard
-          slug={project.slug}
+          slug={project.id.replace(/\.md$/, '')}
           title={project.data.title}
           description={project.data.description}
           image={project.data.image}
@@ -102,7 +102,7 @@ const projectsWithContent = await Promise.all(
     if (!modal || !modalBody) return;
 
     const projectContents = {};
-    projectsWithContent.forEach(({ project, bodyText }) => {
+    projectsWithContent.forEach(({ project, slug, bodyText }) => {
       const p = project.data;
       const techs = project.data.technologies || [];
       const cleanText = bodyText
@@ -112,7 +112,7 @@ const projectsWithContent = await Promise.all(
         .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
         .trim();
       
-      projectContents[project.slug] = `
+      projectContents[slug] = `
         <div class="max-w-4xl mx-auto">
           <img src="${p.image}" alt="${p.title}" class="w-full h-64 md:h-96 object-cover rounded-xl mb-6" />
           <h2 class="text-4xl md:text-5xl font-bold text-[rgb(var(--primary-purple))] mb-4">${p.title}</h2>
@@ -123,7 +123,7 @@ const projectsWithContent = await Promise.all(
           </div>
           <div class="text-muted-foreground mb-6"><p class="text-lg leading-relaxed">${cleanText}...</p></div>
           ${techs.length > 0 ? `<div class="mt-8"><h3 class="text-2xl font-semibold text-[rgb(var(--primary-blue))] mb-3">Technologies Used</h3><div class="flex flex-wrap gap-2">${techs.map(tech => `<span class="px-3 py-1 rounded-full bg-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-purple),0.30)] text-sm">${tech}</span>`).join('')}</div></div>` : ''}
-          <div class="mt-8 pt-6 border-t border-[rgba(var(--primary-blue),0.20)] text-center"><a href="/projects/${project.slug}" class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[rgb(var(--primary-blue))] text-white hover:bg-[rgb(var(--primary-purple))] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold">Read Full Project<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+          <div class="mt-8 pt-6 border-t border-[rgba(var(--primary-blue),0.20)] text-center"><a href="/projects/${slug}" class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[rgb(var(--primary-blue))] text-white hover:bg-[rgb(var(--primary-purple))] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold">Read Full Project<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
         </div>
       `;
     });

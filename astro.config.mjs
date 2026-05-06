@@ -1,6 +1,5 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, sessionDrivers, svgoOptimizer } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import cloudflare from "@astrojs/cloudflare";
 
 import react from "@astrojs/react";
 
@@ -15,9 +14,13 @@ export default defineConfig({
     format: 'file'
   },
   output: 'static',
-  // Disable Cloudflare KV-backed sessions (not used) to avoid requiring a SESSION binding
+  // In-memory sessions (no Cloudflare KV SESSION binding) for static + adapter builds
   session: {
-    driver: 'memory',
+    driver: sessionDrivers.lruCache({ max: 500 }),
+  },
+
+  experimental: {
+    svgOptimizer: svgoOptimizer(),
   },
 
   vite: {
@@ -26,8 +29,5 @@ export default defineConfig({
 
   },
 
-  adapter: cloudflare({
-    imageService: 'compile'
-  }),
   integrations: [react(), sitemap(), sentry()],
 });

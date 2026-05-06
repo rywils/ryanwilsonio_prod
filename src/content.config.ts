@@ -1,7 +1,9 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -11,16 +13,16 @@ const projects = defineCollection({
     demo: z.string().optional(),
     category: z.union([
       z.enum(['Development', 'Systems/Cloud', 'Cybersecurity']),
-      z.array(z.enum(['Development', 'Systems/Cloud', 'Cybersecurity']))
+      z.array(z.enum(['Development', 'Systems/Cloud', 'Cybersecurity'])),
     ]),
     technologies: z.array(z.string()).optional(),
     featured: z.boolean().optional(),
-    publishDate: z.date(),
+    publishDate: z.coerce.date(),
   }),
 });
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     excerpt: z.string(),
@@ -28,10 +30,7 @@ const blog = defineCollection({
     date: z.string(),
     readTime: z.string(),
     author: z.string(),
-    category: z.union([
-      z.string(),
-      z.array(z.string())
-    ]),
+    category: z.union([z.string(), z.array(z.string())]),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional(),
   }),
