@@ -209,6 +209,25 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
           );
         });
 
+        const heroCtas = root.querySelectorAll<HTMLElement>("#hero .hero-cta");
+
+        if (heroCtas.length > 0) {
+          gsap.fromTo(
+            heroCtas,
+            { opacity: 0, y: 16, scale: 0.96 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.52,
+              ease: "power2.out",
+              stagger: 0.08,
+              delay: 0.72,
+              overwrite: "auto",
+            },
+          );
+        }
+
         const sectionParallax = root.querySelectorAll<HTMLElement>(
           "#projects, #blog, #contact, #about, #skills",
         );

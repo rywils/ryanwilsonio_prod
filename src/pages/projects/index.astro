@@ -51,7 +51,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
         {projects.map((project, index) => (
           <a
-            href={`/projects/${project.slug}`}
+            href={`/projects/${project.id.replace(/\.md$/, '')}`}
             class="project-card group relative rounded-xl overflow-hidden bg-[#0f1419] border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.02] flex flex-col h-full"
             data-category={JSON.stringify(project.data.category)}
             style={`--project-delay: ${0.1 + index * 0.1}s`}

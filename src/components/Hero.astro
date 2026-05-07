@@ -1,6 +1,6 @@
 ---
 import '/src/styles/globals.css';
-import { Mail, Download, ArrowUpRight } from '@lucide/astro';
+import { Mail, Download, Github } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import myBitmoji from '../assets/bitmoji.png';
 import Encryptedtext from './Encryptedtext.astro';
@@ -30,7 +30,7 @@ const logos = [
 const socialLinks = [
   { icon: 'https://api.iconify.design/simple-icons:github.svg', link: 'https://github.com/rywils', isImage: true },
   { icon: 'https://api.iconify.design/simple-icons:linkedin.svg', link: 'https://linkedin.com/in/rywils', isImage: true },
-  { icon: 'https://api.iconify.design/simple-icons:bluesky.svg', link: 'https://bsky.app/rywils', isImage: true },
+  { icon: 'https://api.iconify.design/simple-icons:bluesky.svg', link: 'https://bsky.app/profile/ryanwilson.io', isImage: true },
   { Icon: Mail, link: 'mailto:ryan@ryanwilson.io', isImage: false },
 ];
 
@@ -126,18 +126,40 @@ const socialLinks = [
               <div
                 data-hero-anim
                 style="--hero-delay: 0.66s;"
-                class="mt-[-2.25rem] mb-10 flex justify-center lg:justify-end lg:pr-12"
+                class="mt-[-2.25rem] mb-10 flex w-full max-w-2xl flex-wrap justify-evenly gap-3 mx-auto lg:mx-0"
               >
                 <a
                   href="/resume/resume_ryanwilsonio.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="astra-resume-btn group"
+                  class="astra-resume-btn hero-cta group"
                 >
                   <span class="astra-resume-btn__fill" aria-hidden="true"></span>
                   <span class="relative z-10 inline-flex items-center gap-2">
                     <Download size={18} />
                     Resume
+                  </span>
+                </a>
+                <a
+                  href="mailto:ryan@ryanwilson.io"
+                  class="astra-resume-btn astra-resume-btn--secondary hero-cta group"
+                >
+                  <span class="astra-resume-btn__fill" aria-hidden="true"></span>
+                  <span class="relative z-10 inline-flex items-center gap-2">
+                    <Mail size={18} />
+                    Email Me
+                  </span>
+                </a>
+                <a
+                  href="https://github.com/rywils"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="astra-resume-btn astra-resume-btn--github hero-cta group"
+                >
+                  <span class="astra-resume-btn__fill" aria-hidden="true"></span>
+                  <span class="relative z-10 inline-flex items-center gap-2">
+                    <Github size={18} />
+                    Github
                   </span>
                 </a>
               </div>
@@ -362,11 +384,28 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
   transition: color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.2s ease-out;
   --fill-x: 50%;
   --fill-y: 50%;
+  --cta-color: rgb(var(--primary-blue));
+  --cta-shadow: rgba(0, 191, 255, 0.45);
+}
+
+.astra-resume-btn--secondary {
+  --cta-color: rgb(var(--secondary-purple));
+  --cta-shadow: rgba(var(--secondary-purple), 0.42);
+}
+
+.astra-resume-btn--github {
+  --cta-color: #F98A3C;
+  --cta-shadow: rgba(249, 138, 60, 0.42);
+}
+
+.astra-resume-btn {
+  border-color: var(--cta-color);
+  color: var(--cta-color);
 }
 
 .astra-resume-btn:hover {
   color: #fff;
-  box-shadow: 0 0 30px 5px rgba(0, 191, 255, 0.45);
+  box-shadow: 0 0 30px 5px var(--cta-shadow);
   transform: scale(1.04);
 }
 
@@ -383,7 +422,7 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
   width: 16px;
   height: 16px;
   border-radius: 9999px;
-  background: rgb(var(--primary-blue));
+  background: var(--cta-color);
   transform: translate(-50%, -50%) scale(0);
   transform-origin: center;
   z-index: 0;

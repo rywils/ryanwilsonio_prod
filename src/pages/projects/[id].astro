@@ -10,13 +10,13 @@ export const prerender = true;
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map(project => ({
-    params: { id: project.slug },
+    params: { id: project.id.replace(/\.md$/, '') },
     props: { project },
   }));
 }
 
 const { project } = Astro.props;
-const { Content } = await project.render();
+const projectHtml = project.rendered?.html ?? '';
 ---
 
 <Layout title={`${project.data.title} - Ryan Wilson`}>
@@ -87,7 +87,7 @@ const { Content } = await project.render();
 
       
       <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
-        <Content />
+        <Fragment set:html={projectHtml} />
       </div>
 
       
@@ -140,6 +140,49 @@ const { Content } = await project.render();
     font-size: 1.125rem;
     line-height: 1.75;
     margin-bottom: 1rem;
+  }
+
+  .markdown-content :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border: 1px solid rgba(var(--primary-blue), 0.18);
+    border-radius: 0.75rem;
+  }
+
+  .markdown-content :global(thead) {
+    background: rgba(var(--primary-blue), 0.10);
+  }
+
+  .markdown-content :global(th),
+  .markdown-content :global(td) {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(var(--primary-blue), 0.14);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+
+  .markdown-content :global(th) {
+    color: rgb(var(--primary-blue));
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .markdown-content :global(td) {
+    min-width: 9rem;
+  }
+
+  .markdown-content :global(td code) {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .markdown-content :global(tr:last-child td) {
+    border-bottom: 0;
   }
 
   .markdown-content :global(ul) {
