@@ -2,7 +2,7 @@
 
 import Layout from '../../layouts/Layout.astro';
 import { ArrowLeft, ExternalLink, Github } from '@lucide/astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import LangBadge from '@/components/ui/LangBadge.astro';
 
 export const prerender = true;
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const projectHtml = project.rendered?.html ?? '';
+const { Content: ProjectContent } = await render(project);
 ---
 
 <Layout title={`${project.data.title} - Ryan Wilson`}>
@@ -87,7 +87,7 @@ const projectHtml = project.rendered?.html ?? '';
 
       
       <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
-        <Fragment set:html={projectHtml} />
+        <ProjectContent />
       </div>
 
       
