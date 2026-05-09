@@ -1,7 +1,7 @@
 ---
 
 import Layout from '../../layouts/Layout.astro';
-import { ArrowLeft, ExternalLink, Github } from '@lucide/astro';
+import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { getCollection, render } from 'astro:content';
 import LangBadge from '@/components/ui/LangBadge.astro';
 
@@ -29,7 +29,7 @@ const { Content: ProjectContent } = await render(project);
         class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out mb-8 group"
         data-astro-prefetch
       >
-        <ArrowLeft class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={20} />
+        <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={20} />
         <span class="font-semibold">Back to Projects</span>
       </a>
 

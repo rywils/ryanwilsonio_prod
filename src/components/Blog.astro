@@ -1,6 +1,6 @@
 ---
 
-import { Calendar, Clock, ArrowRight, User } from '@lucide/astro';
+import { Calendar, Clock, ArrowRight, User } from 'lucide-react';
 import { getCollection } from 'astro:content';
 import CategoryMarker from './ui/CategoryMarker.astro';
 import TagBadge from './ui/BlogTagBadge.astro';
@@ -96,7 +96,7 @@ function getPreview(content: string, wordCount: number = 25): string {
               
               <span class="flex items-center gap-1 text-xs text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out font-medium">
                 Read More
-                <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform duration-200 ease-out" />
+                <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform duration-200 ease-out" />
               </span>
             </div>
           </div>

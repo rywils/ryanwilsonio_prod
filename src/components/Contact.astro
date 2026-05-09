@@ -2,7 +2,7 @@
 
 export const prerender = false;
 
-import { Mail } from '@lucide/astro';
+import { Mail } from 'lucide-react';
 
 const { compact = false } = Astro.props;
 
@@ -60,7 +60,7 @@ const contactInfo = [
                   style="--info-delay: 0s"
                 >
                   <div class="p-3 rounded-full bg-[rgba(var(--primary-blue),0.10)] border border-[rgba(var(--primary-blue),0.30)] group-hover:bg-[rgba(var(--primary-blue),0.20)] transition-colors duration-200 ease-out">
-                    <Icon class="w-5 h-5 text-[rgb(var(--primary-blue))]" />
+                    <Icon className="w-5 h-5 text-[rgb(var(--primary-blue))]" />
                   </div>
                   <div>
                     <p class="text-sm text-muted-foreground">{info.label}</p>
