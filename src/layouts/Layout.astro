@@ -15,7 +15,6 @@ import PageLoader from '../components/PageLoader.astro';
 import { SEO } from 'astro-seo';
 const { title } = Astro.props;
 const { description } = Astro.props; 
-import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
 
 ---
 <html lang="en">
@@ -254,6 +253,7 @@ import { SimpleAnalytics } from 'astro-simpleanalytics-plugin';
       }
       document.addEventListener("astro:page-load", initGsapScrollEffects);
     </script>
-    <SimpleAnalytics />
+    <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </body>
 </html>

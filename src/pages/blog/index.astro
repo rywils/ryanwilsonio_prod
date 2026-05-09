@@ -104,7 +104,7 @@ function getPreview(content: string, wordCount: number = 50): string {
 <div class="flex flex-col gap-6" id="blog-grid">
           {sortedPosts.map((post, index) => (
           <a
-            href={`/blog/${post.slug}`}
+            href={`/blog/${post.id.replace(/\.md$/, '')}`}
             class="blog-card group rounded-xl overflow-hidden bg-card border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.01] block"
             data-category={JSON.stringify(post.data.category)}
             style={`--blog-delay: ${0.1 + index * 0.1}s`}

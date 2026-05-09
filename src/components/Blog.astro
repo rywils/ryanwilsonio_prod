@@ -50,7 +50,7 @@ function getPreview(content: string, wordCount: number = 25): string {
     <div class="flex flex-col gap-4 max-w-2xl mx-auto" id="blog-list">
       {blogPosts.slice(0, 6).map((post, index) => (
         <a
-          href={`/blog/${post.slug}`}
+          href={`/blog/${post.id.replace(/\.md$/, '')}`}
           class="group rounded-xl overflow-hidden bg-card border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-purple),0.50)] transition-all duration-300 ease-out hover:scale-[1.01] block blog-card"
           data-astro-prefetch
           style={`--blog-delay: ${index * 0.1}s`}

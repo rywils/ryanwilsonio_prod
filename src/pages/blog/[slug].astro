@@ -13,10 +13,12 @@ export async function getStaticPaths() {
     return data.draft !== true;
   });
   
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  return posts
+    .filter((post) => typeof post.id === 'string' && post.id.length > 0)
+    .map((post) => ({
+      params: { slug: post.id.replace(/\.md$/, '') },
+      props: { post },
+    }));
 }
 
 const { post } = Astro.props;
