@@ -23,6 +23,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <section class="mb-12">
       <h1 class="text-4xl font-bold text-white">Ryan Wilson</h1>
       <p class="text-lg text-gray-400 mt-1">Security Engineer</p>
+      <p class="text-sm text-gray-500 mt-1">Des Moines, IA (open to remote)</p>
 
       <div class="mt-3 text-sm text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
         <span>ryan@ryanwilson.io</span>
@@ -40,8 +41,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <h2 class="text-xl font-semibold mb-3 text-white">Summary</h2>
       <p class="text-gray-400 leading-relaxed">
         Security-focused engineer with experience across networking, systems administration, and infrastructure operations.
-        Specialized in enterprise networking, Linux systems, and cloud environments, with hands-on experience in FortiGate NGFW,
-        Cisco Firepower, CrowdStrike Falcon, and Snort. Currently pursuing a B.S. in Cybersecurity and Information Assurance.
+        Specialized in enterprise networking, Linux systems, and cloud environments, with hands-on experience in a variety of
+        technologies including FortiGate NGFW, Cisco Firepower, CrowdStrike Falcon, and Snort.
+        Currently pursuing a B.S. in Cybersecurity and Information Assurance.
         Focused on security engineering, infrastructure security, and AI-driven security systems.
       </p>
     </section>
@@ -152,11 +154,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <div>
           <div class="font-semibold text-white">Help Desk Specialist (Contract)</div>
           <div class="text-gray-500">Casey's General Stores | Jul 2019 – Oct 2019</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Supported rollout of Casey's online ordering platform across retail locations</li>
+            <li>Assisted with incident triage, ticket resolution, and remote troubleshooting</li>
+            <li>Provided technical support for store systems and retail infrastructure</li>
+            <li>Worked with deployment teams during rollout of new ordering systems</li>
+          </ul>
         </div>
 
         <div>
           <div class="font-semibold text-white">Datacenter Technician (Contract)</div>
           <div class="text-gray-500">Microsoft | Nov 2017 – Dec 2018</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Diagnosed and triaged server and hardware failures across datacenter clusters</li>
+            <li>Performed Cisco Nexus switch configuration and network troubleshooting</li>
+            <li>Assisted with rack deployments and server cluster provisioning</li>
+            <li>Maintained compliance with strict Microsoft SLAs for outages and hardware failures</li>
+          </ul>
         </div>
 
       </div>
@@ -167,25 +181,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <h2 class="text-xl font-semibold mb-6 text-white">Security Projects</h2>
 
       <div class="mb-8">
-        <div class="font-semibold text-white">Kitscan — Code Analysis Tool</div>
-        <div class="text-sm text-gray-500">Personal Project | Nov 2025 – Apr 2026</div>
+        <div class="font-semibold text-white">Kitscan — Web application for code analysis</div>
+        <div class="text-sm text-gray-500">Personal Project | November 2025 – April 2026</div>
         <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
-          <li>Built static analysis and dependency vulnerability scanner</li>
-          <li>Implemented multi-phase scanning to reduce false positives</li>
-          <li>Integrated OSV.dev for CVE detection</li>
-          <li>Detected insecure patterns, secrets, and misconfigurations</li>
-          <li>Generated structured findings aligned to OWASP and CWE</li>
+          <li>Built a local static analysis and dependency vulnerability scanning tool for identifying security issues in source code</li>
+          <li>Implemented multi-phase scanning (baseline + deep analysis) to refine findings and reduce false positives</li>
+          <li>Integrated dependency vulnerability lookups using OSV.dev to detect known CVEs in project dependencies</li>
+          <li>Developed rule-based detection for insecure coding patterns, exposed secrets, and misconfigurations</li>
+          <li>Generated structured findings with severity, file location, and remediation guidance aligned to OWASP and CWE standards</li>
         </ul>
       </div>
 
       <div>
-        <div class="font-semibold text-white">Bitprobe — Vulnerability Scanner</div>
+        <div class="font-semibold text-white">BitSentry — Security Assessment Platform</div>
         <div class="text-sm text-gray-500">Personal Project | 2025 – Present</div>
         <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
-          <li>Modular scanner for web, network, and TLS analysis</li>
-          <li>Service discovery and attack surface enumeration</li>
-          <li>Detection of CVEs and misconfigurations</li>
-          <li>Reporting for vulnerability tracking and remediation</li>
+          <li>Released a modular CLI-based security assessment suite for attack-surface discovery, vulnerability scanning, and reporting workflows</li>
+          <li>Built and integrated multiple products including BitScope (asset discovery), BitProbe (web vulnerability scanning), BitReport (report aggregation), and BitAI (verification tooling)</li>
+          <li>Developed plugin-based scanning pipelines for web application analysis, TLS misconfiguration detection, exposed service discovery, and CVE identification</li>
+          <li>Implemented automated crawl and attack-surface enumeration workflows with scoped target handling and service fingerprinting</li>
+          <li>Designed CI/CD- and Docker-compatible execution paths for portable security testing and automation workflows</li>
+          <li>Built multi-format reporting outputs (JSON, Markdown, PDF, HTML) for remediation tracking and operational analysis</li>
+          <li>Structured the platform around extensible orchestration to support future offensive security and monitoring modules</li>
         </ul>
       </div>
     </section>
