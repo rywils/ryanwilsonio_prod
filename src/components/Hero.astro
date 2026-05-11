@@ -17,14 +17,15 @@ const linkedin = "data:image/svg+xml;base64,...";
 const bluesky = "data:image/svg+xml;base64,...";
 
 
+/** Orbit icons: startX/startY/startScale = fly-in from “past the camera”; larger = farther / huger before landing */
 const logos = [
-  { icon: 'skill-icons:c', color: '#4d4ab4', x: 0, y: -117, startX: 600, startY: 0, startScale: 6.8, enterDelay: 0.4, floatDelay: 2 },
-  { icon: 'skill-icons:rust', color: '#df372a', x: 91, y: -73, startX: 120, startY: 20, startScale: 6.2, enterDelay: 0.4, floatDelay: 1.6 },
-  { icon: 'skill-icons:python-dark', color: '#ffd94a', x: 114, y: 26, startX: 650, startY: 0, startScale: 6.2, enterDelay: 0.3, floatDelay: 3.2 },
-  { icon: 'skill-icons:golang', color: '#00b4e0', x: 51, y: 105, startX: 600, startY: 0, startScale: 6.8, enterDelay: 0.2, floatDelay: 2.1 },
-  { icon: 'skill-icons:php-dark', color: '#edeef0', x: -51, y: 105, startX: 650, startY: 0, startScale: 6.2, enterDelay: 0.4, floatDelay: 1.5 },
-  { icon: 'skill-icons:cs', color: '#953cad', x: -114, y: 26, startX: 140, startY: -10, startScale: 6.2, enterDelay: 0.2, floatDelay: 1.3 },
-  { icon: 'skill-icons:elixir-dark', color: '#6a4d7a', x: -91, y: -73, startX: 650, startY: 0, startScale: 6.2, enterDelay: 0.2, floatDelay: 2.1 },
+  { icon: 'skill-icons:c', color: '#4d4ab4', x: 0, y: -117, startX: 930, startY: 0, startScale: 13.2, enterDelay: 0.4, floatDelay: 2 },
+  { icon: 'skill-icons:rust', color: '#df372a', x: 91, y: -73, startX: 186, startY: 32, startScale: 12.2, enterDelay: 0.4, floatDelay: 1.6 },
+  { icon: 'skill-icons:python-dark', color: '#ffd94a', x: 114, y: 26, startX: 1008, startY: 0, startScale: 12.2, enterDelay: 0.3, floatDelay: 3.2 },
+  { icon: 'skill-icons:golang', color: '#00b4e0', x: 51, y: 105, startX: 930, startY: 0, startScale: 13.2, enterDelay: 0.2, floatDelay: 2.1 },
+  { icon: 'skill-icons:php-dark', color: '#edeef0', x: -51, y: 105, startX: 1008, startY: 0, startScale: 12.2, enterDelay: 0.4, floatDelay: 1.5 },
+  { icon: 'skill-icons:cs', color: '#953cad', x: -114, y: 26, startX: 218, startY: -16, startScale: 12.2, enterDelay: 0.2, floatDelay: 1.3 },
+  { icon: 'skill-icons:elixir-dark', color: '#6a4d7a', x: -91, y: -73, startX: 1008, startY: 0, startScale: 12.2, enterDelay: 0.2, floatDelay: 2.1 },
 ];
 
 const socialLinks = [
@@ -199,7 +200,7 @@ const socialLinks = [
   opacity: 0;
   transform: translate(-50%, -50%) translate(var(--x), var(--y));
   animation:
-    from-right 1.3s ease-in-out forwards var(--enter-delay),
+    skill-enter 1.45s cubic-bezier(0.18, 0.82, 0.25, 1) forwards var(--enter-delay),
     floating 5s ease-in-out var(--float-delay) infinite;
 }
 
@@ -334,6 +335,13 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
     transform: none;
   }
 
+  .skill {
+    animation: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: translate(-50%, -50%) translate(var(--x), var(--y)) scale(1) !important;
+  }
+
   #hero.hero-anim-pending [data-hero-anim],
   #hero.hero-anim-ready [data-hero-anim] {
     animation: none !important;
@@ -342,21 +350,27 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
   }
 }
 
-@keyframes from-right {
-  from {
+@keyframes skill-enter {
+  0% {
     opacity: 0;
     transform:
       translate(-50%, -50%)
       translate(var(--x), var(--y))
       translate(var(--start-x), var(--start-y))
       scale(var(--start-scale));
+    filter: blur(2px);
   }
-  to {
+  18% {
+    opacity: 0.35;
+    filter: blur(1px);
+  }
+  100% {
     opacity: 1;
     transform:
       translate(-50%, -50%)
       translate(var(--x), var(--y))
       scale(1);
+    filter: blur(0);
   }
 }
 
