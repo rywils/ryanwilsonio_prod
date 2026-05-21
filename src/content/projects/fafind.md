@@ -1,7 +1,7 @@
 ---
 title: "fafind"
 description: "A fast file finder. Zero allocations, lock-free output, and optimized byte-level matching."
-image: "/posts/fafind.png"
+image: "/posts/fafind.webp"
 tags: ["rust"]
 github: "https://github.com/rywils/fafind"
 category: ["Development" ]

@@ -1,7 +1,7 @@
 ---
 title: "Spigot"
 description: "A simple, hackable HTTP server written in C"
-image: "/posts/spigot.png"
+image: "/posts/spigot.webp"
 tags: ["C"]
 github: "https://github.com/rywils/"
 category: ["Development" ]

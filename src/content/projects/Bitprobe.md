@@ -1,7 +1,7 @@
 ---
 title: "Bitprobe"
 description: "Enterprise-grade web application security scanner built for penetration testers, security engineers, and developers."
-image: "/posts/bitprobe.png"
+image: "/posts/bitprobe.webp"
 tags: ["Legacy"]
 github: "https://github.com/rywils/Bitprobe"
 category: ["Cybersecurity", "Development" ]

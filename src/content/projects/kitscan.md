@@ -1,7 +1,7 @@
 ---
 title: "Kitscan"
 description: "A local, web-based security scanning tool for source code"
-image: "/posts/kitscan.png"
+image: "/posts/kitscan.webp"
 tags: ["typescript", "svelte", "sqlite"]
 github: "https://github.com/rywils/kitscan"
 category: ["Cybersecurity", "Development" ]
