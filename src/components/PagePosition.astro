@@ -1,0 +1,74 @@
+---
+/** Vanilla scroll controls — avoids React hydration in the nav. */
+---
+
+<div class="page-position flex items-center gap-2" data-page-position>
+  <button
+    type="button"
+    class="page-position-btn p-2 rounded-full hover:bg-accent/50 transition-transform hover:scale-110 active:scale-90 flex items-center justify-center disabled:cursor-not-allowed"
+    data-scroll="top"
+    aria-label="Scroll to top"
+    disabled
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
+  <button
+    type="button"
+    class="page-position-btn p-2 rounded-full hover:bg-accent/50 transition-transform hover:scale-110 active:scale-90 flex items-center justify-center disabled:cursor-not-allowed"
+    data-scroll="bottom"
+    aria-label="Scroll to bottom"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M12 5v14M5 12l7 7 7-7" />
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  (function () {
+    const ACTIVE = "#00BFFF";
+    const MUTED = "#6B7280";
+
+    function bind() {
+      const root = document.querySelector("[data-page-position]");
+      if (!root || root.dataset.bound === "1") return;
+      root.dataset.bound = "1";
+
+      const topBtn = root.querySelector('[data-scroll="top"]');
+      const bottomBtn = root.querySelector('[data-scroll="bottom"]');
+      if (!topBtn || !bottomBtn) return;
+
+      const setStroke = (btn, color) => {
+        btn.querySelectorAll("path").forEach((p) => p.setAttribute("stroke", color));
+      };
+
+      const update = () => {
+        const y = window.scrollY;
+        const h = window.innerHeight;
+        const doc = document.documentElement.scrollHeight;
+        const atTop = y < 50;
+        const atBottom = y + h >= doc - 50;
+
+        topBtn.disabled = atTop;
+        bottomBtn.disabled = atBottom;
+        setStroke(topBtn, atTop ? MUTED : ACTIVE);
+        setStroke(bottomBtn, atBottom ? MUTED : ACTIVE);
+      };
+
+      topBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      bottomBtn.addEventListener("click", () => {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+      });
+
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+    }
+
+    bind();
+    document.addEventListener("astro:page-load", bind);
+  })();
+</script>

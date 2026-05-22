@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { getCollection, render } from 'astro:content';
 import LangBadge from '@/components/ui/LangBadge.astro';
+import ProjectImage from '@/components/ProjectImage.astro';
 
 export const prerender = true;
 
@@ -35,10 +36,11 @@ const { Content: ProjectContent } = await render(project);
 
       
       <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[rgba(var(--primary-blue),0.20)]">
-        <img 
-          src={project.data.image} 
+        <ProjectImage
+          src={project.data.image}
           alt={project.data.title}
           class="w-full h-full object-cover"
+          variant="hero"
         />
       </div>
 

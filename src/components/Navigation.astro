@@ -3,7 +3,7 @@
 import { Menu, X } from 'lucide-react';
 import '../styles/globals.css';
 import { Image } from 'astro:assets';
-import PagePosition from './PagePosition';
+import PagePosition from './PagePosition.astro';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -21,7 +21,9 @@ const navLinks = [
       <div class="flex items-center justify-between h-16 w-full">
         
         
-        <a  href="/"
+        <a
+          href="/"
+          aria-label="Ryan Wilson home"
           class="nav-logo text-2xl hover:scale-105 transition-transform duration-200 ease-out bg-transparent">
           <Image
             src="/images/Logo.svg"
@@ -52,7 +54,7 @@ const navLinks = [
         
         <div class="hidden md:flex items-center h-full justify-center border-l border-r border-[#2C2C2F]">
           <div class="h-full border-l border-r border-black/20"></div>
-          <PagePosition client:visible/>
+          <PagePosition />
           <div class="h-full border-l border-black/20"></div>
         </div>
 

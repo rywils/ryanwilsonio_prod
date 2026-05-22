@@ -8,7 +8,6 @@ import Seperator from './Seperator.astro';
 import GradientBorder from './GradientBorder.astro';
 import GlowCard from './ui/GlowCard.astro';
 import HeroLamp from './ui/HeroLamp.astro';
-import GlowCardMotion from './hero/GlowCardMotion';
 import OrbitalTracer from './OrbitalTracer.astro';
 
 
@@ -29,10 +28,10 @@ const logos = [
 ];
 
 const socialLinks = [
-  { icon: 'https://api.iconify.design/simple-icons:github.svg', link: 'https://github.com/rywils', isImage: true },
-  { icon: 'https://api.iconify.design/simple-icons:linkedin.svg', link: 'https://linkedin.com/in/rywils', isImage: true },
-  { icon: 'https://api.iconify.design/simple-icons:bluesky.svg', link: 'https://bsky.app/profile/ryanwilson.io', isImage: true },
-  { Icon: Mail, link: 'mailto:ryan@ryanwilson.io', isImage: false },
+  { icon: 'https://api.iconify.design/simple-icons:github.svg', link: 'https://github.com/rywils', label: 'GitHub', isImage: true },
+  { icon: 'https://api.iconify.design/simple-icons:linkedin.svg', link: 'https://linkedin.com/in/rywils', label: 'LinkedIn', isImage: true },
+  { icon: 'https://api.iconify.design/simple-icons:bluesky.svg', link: 'https://bsky.app/profile/ryanwilson.io', label: 'Bluesky', isImage: true },
+  { Icon: Mail, link: 'mailto:ryan@ryanwilson.io', label: 'Email Ryan Wilson', isImage: false },
 ];
 
 
@@ -43,7 +42,7 @@ const socialLinks = [
     <section id="hero" class="hero-anim-pending flex flex-col justify-center relative py-6 overflow-visible">
       <HeroLamp />
 
-      <GlowCardMotion className="mt-10 max-w-4xl mx-auto" client:visible>
+      <GlowCard variant="hero" class="mt-10 max-w-4xl mx-auto">
         <div class="max-w-5xl mx-auto px-8 sm:px-12 lg:px-16 relative z-50 h-full flex justify-center">
           <div class="flex flex-col lg:flex-row justify-center gap-12 lg:gap-20 relative z-50 w-full max-w-5xl mx-auto p-4">
 
@@ -51,7 +50,18 @@ const socialLinks = [
             <div class="flex justify-center flex-shrink-0 items-center">
               <div class="relative grid h-[216px] w-[216px] place-items-center sm:translate-x-0">
                 <div class="relative z-20 grid h-[200px] w-[200px] place-items-center">
-                  <Image src={myBitmoji} alt="Avatar" class="h-[200px] w-[200px] rounded-full border-4 border-[rgba(138,77,255,0.2)]" loading="eager" />
+                  <Image
+                    src={myBitmoji}
+                    alt="Avatar"
+                    width={200}
+                    height={200}
+                    widths={[200, 400]}
+                    sizes="200px"
+                    class="h-[200px] w-[200px] rounded-full border-4 border-[rgba(138,77,255,0.2)]"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                  />
                 </div>
 
                 <!-- SOFI-STYLE ICONS -->
@@ -162,18 +172,19 @@ const socialLinks = [
 
         <!-- SOCIALS -->
         <div class="absolute top-20 right-5 z-50 flex flex-col items-center gap-3" style="--social-delay: 1.4s;">
-          {socialLinks.map(({ icon, link, isImage }, index) => (
+          {socialLinks.map(({ icon, link, label, isImage }, index) => (
             <a
               href={link}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={label}
               class={`social__link social__link-${index + 1} flex h-8 w-8 items-center justify-center rounded-full border border-[rgb(var(--secondary-purple))] glow-primary-purple hover:scale-110`}
             >
               {isImage ? <span class="social-icon" style={`--icon-url: url(${icon});`}></span> : <Mail size={16} color="rgb(var(--secondary-purple))" />}
             </a>
           ))}
         </div>
-      </GlowCardMotion>
+      </GlowCard>
     </section>
   </div>
 </div>
@@ -207,7 +218,6 @@ const socialLinks = [
   height: 16px;
   display: inline-block;
   background-color: rgb(var(--secondary-purple));
-  filter: drop-shadow(0 0 9px rgba(138, 43, 226, 0.7));
   -webkit-mask-image: var(--icon-url);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -220,23 +230,16 @@ const socialLinks = [
 
 /* Social link pop-on-hover  */
 .social__link {
-transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s ease;
-
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
 }
 
 .social__link:hover {
-  filter: brightness(1.6);
-  box-shadow: 0 0 18px rgb(var(--secondary-purple));
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .social__link:not(:hover) {
-  transition: filter 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.2s ease;
-  filter: brightness(1);
-  box-shadow: 0 0 8px rgb(var(--secondary-purple));
-}
-
-.social__link:hover .social-icon {
-  filter: brightness(1.5) drop-shadow(0 0 6px var(--secondary-purple));
+  opacity: 0.92;
 }
 
 .devicon-rust-plain path {
@@ -350,11 +353,9 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
       translate(var(--x), var(--y))
       translate(var(--start-x), var(--start-y))
       scale(var(--start-scale));
-    filter: blur(2px);
   }
   18% {
     opacity: 0.35;
-    filter: blur(1px);
   }
   100% {
     opacity: 1;
@@ -362,7 +363,6 @@ transition: filter 0.08s ease-out, box-shadow 0.08s ease-out, transform 0.2s eas
       translate(-50%, -50%)
       translate(var(--x), var(--y))
       scale(1);
-    filter: blur(0);
   }
 }
 

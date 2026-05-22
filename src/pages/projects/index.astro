@@ -6,6 +6,7 @@ import { getCollection } from 'astro:content';
 import ComingSoon from "../../components/ComingSoon.astro"
 import CategoryEmpty from '@/components/CategoryEmpty.astro';
 import LangBadge from '@/components/ui/LangBadge.astro';
+import ProjectImage from '@/components/ProjectImage.astro';
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => 
   b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
@@ -58,11 +59,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             data-astro-prefetch
           >
 <div class="relative overflow-hidden h-44 md:h-48 shrink-0">
-              <img
+              <ProjectImage
                 src={project.data.image}
                 alt={project.data.title}
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
+                variant="card"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-200 ease-out"></div>
             </div>
