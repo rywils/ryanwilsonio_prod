@@ -1,7 +1,7 @@
 import type { TraversalAttemptMeta } from "./traversalAttempt";
-import skullAssetUrl from "@/assets/skull.webp";
 
 export const TRAVERSAL_PUNISHMENT_MESSAGE = "You shouldn't have done that.";
+/** Static asset in `public/` — do not import `.webp` here (breaks Wrangler esbuild). */
 export const SKULL_PUBLIC_URL = "/skull.webp";
 export const SKULL_CURSOR_URL = "/cursors/skull-cursor.png";
 
@@ -664,7 +664,7 @@ export function showTraversalPunishment(attemptedUrl?: string): void {
   window.__rwTraversalPunishmentActive = true;
   injectStyles();
   startColorInversion();
-  applySkullTakeover(skullAssetUrl.src);
+  applySkullTakeover(SKULL_PUBLIC_URL);
 
   const { overlay, lulzStack } = createModalShell();
   document.body.appendChild(overlay);
