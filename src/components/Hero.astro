@@ -1,6 +1,6 @@
 ---
 import '/src/styles/globals.css';
-import { Mail, Download, Github } from 'lucide-react';
+import { Mail, Download, Github, ArrowRight } from 'lucide-react';
 import { Image } from 'astro:assets';
 import myBitmoji from '../assets/bitmoji.webp';
 import Encryptedtext from './Encryptedtext.astro';
@@ -129,42 +129,21 @@ const socialLinks = [
               <div
                 data-hero-anim
                 style="--hero-delay: 0.66s;"
-                class="mt-[-2.25rem] mb-10 flex w-full max-w-2xl flex-wrap justify-evenly gap-3 mx-auto lg:mx-0"
+                class="btnAnimate mt-[-2.25rem] mb-10 flex w-full max-w-2xl flex-wrap justify-evenly gap-3 mx-auto lg:mx-0"
               >
                 <a
-                  href="/resume/resume_ryanwilsonio.pdf"
+                  href="#contact"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="astra-resume-btn hero-cta group"
+                  class="astra-contact-btn hero-cta"
                 >
-                  <span class="astra-resume-btn__fill" aria-hidden="true"></span>
-                  <span class="relative z-10 inline-flex items-center gap-2">
-                    <Download size={18} />
-                    Resume
+                  <span class="astra-contact-btn__fill" aria-hidden="true"></span>
+                  <span class="btnanimate relative z-10 inline-flex items-center gap-2">
+                    Get In Touch 
+                    <span class="btnAnimate ArrowAnimate"><ArrowRight size={18} /></span>
                   </span>
                 </a>
-                <a
-                  href="mailto:ryan@ryanwilson.io"
-                  class="astra-resume-btn astra-resume-btn--secondary hero-cta group"
-                >
-                  <span class="astra-resume-btn__fill" aria-hidden="true"></span>
-                  <span class="relative z-10 inline-flex items-center gap-2">
-                    <Mail size={18} />
-                    Email Me
-                  </span>
-                </a>
-                <a
-                  href="https://github.com/rywils"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="astra-resume-btn astra-resume-btn--github hero-cta group"
-                >
-                  <span class="astra-resume-btn__fill" aria-hidden="true"></span>
-                  <span class="relative z-10 inline-flex items-center gap-2">
-                    <Github size={18} />
-                    Github
-                  </span>
-                </a>
+               
               </div>
             </div>
           </div>
@@ -190,6 +169,24 @@ const socialLinks = [
 </div>
 
 <style>
+
+.btnAnimate{
+  transition: transform 0.1s ease-in-out;
+}
+
+.btnAnimate:hover, .btnAnimate:focus-visible {
+  transform: scale(1.05);
+}
+
+.ArrowAnimate {
+  display: inline-flex;
+  transition: transform 0.5s ease;
+}
+
+.astra-contact-btn:hover .ArrowAnimate,
+.astra-contact-btn:focus-visible .ArrowAnimate {
+  transform: rotate(90deg);
+}
 .skill {
   position: absolute;
   top: 0;
@@ -371,56 +368,62 @@ const socialLinks = [
   50% { translate: 0 -6px; }
 }
 
-.astra-resume-btn {
+.astra-contact-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
   border-radius: 0.5rem;
   border: 1px solid rgb(var(--primary-blue));
   color: rgb(var(--primary-blue));
   font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   overflow: hidden;
   isolation: isolate;
   background: transparent;
-  transition: color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.2s ease-out;
+  transition:
+    color 0.25s ease-out,
+    box-shadow 0.25s ease-out,
+    transform 0.2s ease-out,
+    letter-spacing 0.35s ease-out;
   --fill-x: 50%;
   --fill-y: 50%;
   --cta-color: rgb(var(--primary-blue));
   --cta-shadow: rgba(0, 191, 255, 0.45);
 }
 
-.astra-resume-btn--secondary {
+.astra-contact-btn--secondary {
   --cta-color: rgb(var(--secondary-purple));
   --cta-shadow: rgba(var(--secondary-purple), 0.42);
 }
 
-.astra-resume-btn--github {
+.astra-contact-btn--github {
   --cta-color: #F98A3C;
   --cta-shadow: rgba(249, 138, 60, 0.42);
 }
 
-.astra-resume-btn {
+.astra-contact-btn {
   border-color: var(--cta-color);
   color: var(--cta-color);
 }
 
-.astra-resume-btn:hover {
+.astra-contact-btn:hover,
+.astra-contact-btn:focus-visible {
   color: #fff;
   box-shadow: 0 0 30px 5px var(--cta-shadow);
   transform: scale(1.04);
+  letter-spacing: 0.2em;
 }
 
-.astra-resume-btn:active {
+.astra-contact-btn:active {
   transform: scale(0.98);
   box-shadow: none;
 }
 
-.astra-resume-btn__fill {
+.astra-contact-btn__fill {
   display: block;
   position: absolute;
   top: var(--fill-y);
@@ -435,8 +438,8 @@ const socialLinks = [
   transition: transform 0.45s ease-out;
 }
 
-.astra-resume-btn:hover .astra-resume-btn__fill,
-.astra-resume-btn:focus-visible .astra-resume-btn__fill {
+.astra-contact-btn:hover .astra-contact-btn__fill,
+.astra-contact-btn:focus-visible .astra-contact-btn__fill {
   transform: translate(-50%, -50%) scale(24);
 }
 </style>
@@ -460,9 +463,9 @@ const socialLinks = [
     requestAnimationFrame(reveal);
   }
 
-  function initAstraResumeButton() {
+  function initAstracontactButton() {
     if (document.documentElement.classList.contains("page-loader-active")) return;
-    document.querySelectorAll(".astra-resume-btn").forEach((btn) => {
+    document.querySelectorAll(".astra-contact-btn").forEach((btn) => {
       if (btn.dataset.astraBound === "1") return;
       btn.dataset.astraBound = "1";
 
@@ -481,6 +484,6 @@ const socialLinks = [
 
   window.whenPageRevealed(initHeroTextAnimations);
   document.addEventListener("astro:page-load", initHeroTextAnimations);
-  window.whenPageRevealed(initAstraResumeButton);
-  document.addEventListener("astro:page-load", initAstraResumeButton);
+  window.whenPageRevealed(initAstracontactButton);
+  document.addEventListener("astro:page-load", initAstracontactButton);
 </script>
