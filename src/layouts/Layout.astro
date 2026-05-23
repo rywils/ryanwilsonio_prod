@@ -126,6 +126,12 @@ const { description } = Astro.props;
       </main>
       <Footer/>
     </div>
+    <script>
+      import { guardAgainstPathTraversal } from "@/lib/pathTraversal";
+
+      guardAgainstPathTraversal();
+      document.addEventListener("astro:page-load", guardAgainstPathTraversal);
+    </script>
     <script is:inline>
       (function () {
         function initScrollReveal() {
