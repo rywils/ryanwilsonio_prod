@@ -137,7 +137,7 @@ const clips = Array.from({ length: SEGMENTS }, (_, i) => wedgeClipPath(i, SEGMEN
       root.classList.remove("hidden");
       document.body.style.overflow = "hidden";
 
-      var motionMs = 2500;
+      var motionMs = 2000;
       window.setTimeout(function () {
         try {
           sessionStorage.setItem(INTRO_SESSION_KEY, "1");
