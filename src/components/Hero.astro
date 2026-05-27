@@ -152,15 +152,17 @@ const socialLinks = [
         <!-- SOCIALS -->
         <div class="absolute top-20 right-5 z-50 flex flex-col items-center gap-3" style="--social-delay: 1.4s;">
           {socialLinks.map(({ icon, link, label, isImage }, index) => (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              class={`social__link social__link-${index + 1} flex h-8 w-8 items-center justify-center rounded-full border border-[rgb(var(--secondary-purple))] glow-primary-purple hover:scale-110`}
-            >
-              {isImage ? <span class="social-icon" style={`--icon-url: url(${icon});`}></span> : <Mail size={16} color="rgb(var(--secondary-purple))" />}
-            </a>
+            <div class={`social__item social__link-${index + 1}`}>
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                class="social__link flex h-8 w-8 items-center justify-center rounded-full border border-[rgb(var(--secondary-purple))] glow-primary-purple"
+              >
+                {isImage ? <span class="social-icon" style={`--icon-url: url(${icon});`}></span> : <Mail size={16} color="rgb(var(--secondary-purple))" />}
+              </a>
+            </div>
           ))}
         </div>
       </GlowCard>
@@ -227,10 +229,15 @@ const socialLinks = [
 
 /* Social link pop-on-hover  */
 .social__link {
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  display: inline-flex;
+  transition: opacity 0.2s ease-out, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(1);
+  transform-origin: center;
+  will-change: transform;
 }
 
-.social__link:hover {
+.social__item:hover .social__link,
+.social__item:focus-within .social__link {
   opacity: 1;
   transform: scale(1.1);
 }
