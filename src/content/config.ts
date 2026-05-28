@@ -23,6 +23,7 @@ const projects = defineCollection({
     image: z.string().optional(),
     tags: z.array(z.string()).default([]),
     github: z.string().optional(),
+    overwrite: z.enum(['Yes', 'No']).default('No'),
     demo: z.string().optional(),
     category: z.union([z.string(), z.array(z.string())]).optional(),
     technologies: z.array(z.string()).optional().default([]),

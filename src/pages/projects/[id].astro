@@ -5,6 +5,8 @@ import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { getCollection, render } from 'astro:content';
 import LangBadge from '@/components/ui/LangBadge.astro';
 import ProjectImage from '@/components/ProjectImage.astro';
+import { getGitHubReadmeHtml } from '@/lib/githubReadme';
+import { shouldUseLocalProjectBody } from '@/lib/projectContent';
 
 export const prerender = true;
 
@@ -18,10 +20,23 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content: ProjectContent } = await render(project);
+
+const useLocalBody = shouldUseLocalProjectBody(project.data.overwrite, project.data.github);
+
+let readmeHtml: string | null = null;
+if (!useLocalBody && project.data.github) {
+  try {
+    readmeHtml = await getGitHubReadmeHtml(project.data.github);
+  } catch (e) {
+    console.error(`Failed to fetch README for ${project.data.github}:`, e);
+  }
+}
+
+const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
 ---
 
 <Layout title={`${project.data.title} - Ryan Wilson`}>
-  <article class="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
+  <article class="project-detail pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
     
     <div class="max-w-5xl mx-auto relative z-10">
       
@@ -67,9 +82,9 @@ const { Content: ProjectContent } = await render(project);
               href={project.data.github}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[rgba(var(--primary-blue),0.20)] border border-[rgb(var(--primary-blue))] text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-sm bg-[rgba(var(--primary-blue),0.20)] border border-[rgb(var(--primary-blue))] text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-medium"
             >
-              <Github size={20} />
+              <Github size={16} />
               View Code
             </a>
           )}
@@ -88,17 +103,22 @@ const { Content: ProjectContent } = await render(project);
       </div>
 
       
-      <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
-        <ProjectContent />
-      </div>
+      
+      {showGitHubReadme ? (
+        <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content" set:html={readmeHtml} />
+      ) : (
+        <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
+          <ProjectContent />
+        </div>
+      )}
 
       
       {project.data.technologies && project.data.technologies.length > 0 && (
         <section class="mt-8">
-          <h2 class="text-3xl font-semibold text-[rgb(var(--primary-blue))] mb-4">Technologies Used</h2>
-          <div class="flex flex-wrap gap-3">
+          <h2 class="text-lg font-semibold text-[rgb(var(--primary-blue))] mb-3">Technologies Used</h2>
+          <div class="flex flex-wrap gap-2">
             {project.data.technologies.map(tech => (
-              <span class="px-4 py-2 rounded-full bg-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-purple),0.30)] text-base font-medium">
+              <span class="px-2 py-0.5 text-xs rounded-sm bg-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-purple),0.30)] font-medium">
                 {tech}
               </span>
             ))}
@@ -122,6 +142,14 @@ const { Content: ProjectContent } = await render(project);
 </Layout>
 
 <style>
+  .markdown-content :global(h1) {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: rgb(var(--primary-purple));
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+  }
+
   .markdown-content :global(h2) {
     font-size: 1.875rem;
     font-weight: 600;

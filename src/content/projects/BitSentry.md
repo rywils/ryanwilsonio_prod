@@ -4,6 +4,7 @@ description: "CLI-first security assessment suite"
 image: "/posts/Bitsentry.webp"
 tags: ["python", "go", "rust","svelte"]
 github: "https://github.com/rywils/BitSentry"
+overwrite: No
 category: ["Cybersecurity", "Development" ]
 technologies: ["Python", "Go", "Rust", "YAML", "HTML", "Javascript", "Sveltekit"]
 featured: true

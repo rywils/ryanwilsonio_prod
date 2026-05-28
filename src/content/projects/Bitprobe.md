@@ -4,6 +4,7 @@ description: "Enterprise-grade web application security scanner built for penetr
 image: "/posts/bitprobe.webp"
 tags: ["Legacy"]
 github: "https://github.com/rywils/Bitprobe"
+overwrite: No
 category: ["Cybersecurity", "Development" ]
 technologies: ["Python", "Go", "Rust", "YAML", "HTML", "Javascript"]
 featured: true

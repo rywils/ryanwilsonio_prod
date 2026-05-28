@@ -10,6 +10,8 @@ const projects = defineCollection({
     image: z.string(),
     tags: z.array(z.string()),
     github: z.string().optional(),
+    /** Yes = use local markdown body; No = pull from GitHub README (default). Without github, local body is always used. */
+    overwrite: z.enum(['Yes', 'No']).default('No'),
     demo: z.string().optional(),
     category: z.union([
       z.enum(['Development', 'Systems/Cloud', 'Cybersecurity']),

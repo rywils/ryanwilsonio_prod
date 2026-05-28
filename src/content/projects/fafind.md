@@ -4,6 +4,7 @@ description: "A fast file finder. Zero allocations, lock-free output, and optimi
 image: "/posts/fafind.webp"
 tags: ["rust"]
 github: "https://github.com/rywils/fafind"
+overwrite: No
 category: ["Development" ]
 technologies: ["Rust"]
 featured: true

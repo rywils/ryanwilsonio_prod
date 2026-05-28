@@ -4,6 +4,7 @@ description: "A local, web-based security scanning tool for source code"
 image: "/posts/kitscan.webp"
 tags: ["typescript", "svelte", "sqlite"]
 github: "https://github.com/rywils/kitscan"
+overwrite: No
 category: ["Cybersecurity", "Development" ]
 technologies: ["Svelte", "Typescript", "HTML", "CSS", "SQLite"]
 featured: true

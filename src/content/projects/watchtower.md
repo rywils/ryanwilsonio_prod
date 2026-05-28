@@ -4,6 +4,7 @@ description: "monitors your LAN and reports meaningful changes"
 image: "/posts/watchtower.webp"
 tags: ["go"]
 github: "https://github.com/rywils/watchtower"
+overwrite: No
 category: ["Systems/Cloud", "Development" ]
 technologies: ["Go"]
 featured: true
