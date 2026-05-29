@@ -50,7 +50,7 @@ So in practice, my world shifted toward TypeScript, Go, and Python. High product
 
 ## 04 — The Borrow Checker: An Adversary That Becomes an Ally
 
-Nothing prepares you for the borrow checker. I'll be the first to admit it — I drew a picture of how it works just to make it make sense to me. I watched a lot of YouTube. I understand it now, but I still struggle sometimes, and that's an honest thing to say.
+Nothing prepares you for the borrow checker. I'll be the first to admit it — I drew a picture of how it works just to make it make sense to me. I did a lot of reading, and I watched a lot of YouTube. I understand it now, but I still struggle sometimes, and that's an honest thing to say.
 
 Coming from C, you think you understand memory. And you do, in a raw mechanical sense. But Rust doesn't just ask you to manage memory; it asks you to *prove* to the compiler that your management is correct, right now, at compile time, no exceptions.
 
