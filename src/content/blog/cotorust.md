@@ -61,7 +61,7 @@ let s2 = s1;
 println!("{}", s1); // Error: value moved into s2
 ```
 
-That error made me furious the first time. In C, you'd just have two pointers to the same memory and quietly introduce a race condition that you may or may not have to track down later on. In TypeScript, both variables happily reference the same object. Rust says: no. One owner. End of discussion.
+That error made me think, "wait what?" the first time I saw this. I read about it first, kinda guessed where it was heading and tried it before it was shown. In C, you'd just have two pointers to the same memory and quietly introduce a race condition that you may or may not have to track down later on. In TypeScript, both variables happily reference the same object. Rust says: no. One owner. End of discussion.
 
 The early weeks are humbling. You're writing simple things and hitting walls. But here's what I've come to believe — and I'm aware it's an unconventional take: Rust might actually be a good first programming language. If you can stick with it, you never pick up the bad habits that C and C++ programmers spend years trying to unlearn before they transfer them directly into Rust and call it "fighting the borrow checker." What they're really fighting is their own ingrained assumptions about memory. Someone who learned Rust first never has those assumptions.
 
