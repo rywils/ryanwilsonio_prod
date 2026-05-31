@@ -26,7 +26,7 @@ But the curiosity was there. By the time I was ten, cplusplus.com was where ever
 
 ## 02 — The Class I Was Sure I Would Fail
 
-Years later, after not knowing what I wanted to do with my life and going on nothing more than "I like computers", I enrolled in an Associate's program in Information Technology with a concentration in Network Administration which at the time, was the only option. First semester: electrical engineering, logic gates, breadboards, and Cisco Packet Tracer topologies. I was the first to finish every exam. Networking made sense to me in a way that felt almost instinctive.
+Years later, after not knowing what I wanted to do with my life and going on nothing more than "I like computers", I enrolled in an Associate's program in Information Technology with a concentration in Network Administration which at the time, was the only option. First semester: electrical engineering, logic gates, breadboards, and Cisco Packet Tracer topologies. Thrown into Cisco's Introduction to Networking to prepare for the CCENT was dry as it gets, but I was the first to finish every exam. Networking made sense to me in a way that felt almost instinctive.
 
 When it came time to choose a track — Microsoft or Linux — I went Linux. Partly because of a classmate, partly because a speaker from Rackspace who was a graduate from the program, came through and I hung on every word he said. I wanted exactly what he was describing.
 

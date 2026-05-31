@@ -129,13 +129,14 @@ const socialLinks = [
               <div
                 data-hero-anim
                 style="--hero-delay: 0.66s;"
-                class="btnAnimate mt-[-2.25rem] mb-10 flex w-full max-w-2xl flex-wrap justify-evenly gap-3 mx-auto lg:mx-0"
+                class="btnAnimate mt-[-2.25rem] mb-10 flex w-full max-w-2xl flex-wrap justify-evenly gap-3 mx-auto lg:mx-0 max-md:mb-3"
               >
                 <a
                   href="#contact"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="astra-contact-btn hero-cta"
+                  id="hero-get-in-touch"
                 >
                   <span class="astra-contact-btn__fill" aria-hidden="true"></span>
                   <span class="btnanimate relative z-10 inline-flex items-center gap-2">
@@ -143,16 +144,16 @@ const socialLinks = [
                     <span class="btnAnimate ArrowAnimate"><ArrowRight size={18} /></span>
                   </span>
                 </a>
-               
               </div>
             </div>
           </div>
         </div>
 
-        <!-- SOCIALS -->
+        <!-- SOCIALS: desktop = top-right of card; mobile = row under hero content -->
         <div
-          class="hero-socials absolute top-20 right-5 z-50 flex flex-col items-center gap-3 max-md:relative max-md:top-auto max-md:right-auto max-md:left-1/2 max-md:-translate-x-1/2 max-md:w-full max-md:flex-row max-md:justify-center max-md:py-5"
-          style="--social-delay: 1.4s;"
+          class="hero-socials absolute top-20 right-5 z-50 flex flex-col items-center gap-3 max-md:relative max-md:top-auto max-md:right-auto max-md:left-1/2 max-md:-translate-x-1/2 max-md:w-full max-md:flex-row max-md:justify-center max-md:gap-4 max-md:mt-3 max-md:pb-6"
+          aria-label="Social links"
+          style="--social-delay: 1.4s; --social-bounce-impact: -12px; --social-bounce-start: 84px; --social-bounce-rebound: 18px;"
         >
           {socialLinks.map(({ icon, link, label, isImage }, index) => (
             <div class={`social__item social__link-${index + 1}`}>
@@ -301,24 +302,93 @@ const socialLinks = [
   }
 }
 
+/* Mobile: rise into button underside (--social-bounce-impact), rebound down to rest (0) */
+@keyframes bounce-in-bottom {
+  0% {
+    transform: translateY(var(--social-bounce-start, 84px)) scale(1);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    transform: translateY(var(--social-bounce-impact, -12px)) scale(0.94);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(var(--social-bounce-rebound, 18px)) scale(1.02);
+    animation-timing-function: ease-in;
+  }
+  72% {
+    transform: translateY(0) scale(0.96);
+    animation-timing-function: ease-out;
+  }
+  81% {
+    transform: translateY(var(--social-bounce-rebound-small, 8px)) scale(1.01);
+    animation-timing-function: ease-in;
+  }
+  90% {
+    transform: translateY(0) scale(0.98);
+    animation-timing-function: ease-out;
+  }
+  95% {
+    transform: translateY(var(--social-bounce-rebound-tiny, 3px)) scale(1.005);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    animation-timing-function: ease-out;
+  }
+}
+
+.social__link-1,
+.social__link-2,
+.social__link-3,
+.social__link-4 {
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+}
+
 .social__link-1 {
-  animation: bounce-in-left 1.5s both;
+  animation-name: bounce-in-left;
   animation-delay: calc(var(--social-delay, 2.2s) + 0.2s);
 }
 
 .social__link-2 {
-  animation: bounce-in-left 1.5s both;
+  animation-name: bounce-in-left;
   animation-delay: calc(var(--social-delay, 2.2s) + 0.35s);
 }
 
 .social__link-3 {
-  animation: bounce-in-left 1.5s both;
+  animation-name: bounce-in-left;
   animation-delay: calc(var(--social-delay, 2.2s) + 0.5s);
 }
 
 .social__link-4 {
-  animation: bounce-in-left 1.5s both;
+  animation-name: bounce-in-left;
   animation-delay: calc(var(--social-delay, 2.2s) + 0.65s);
+}
+
+@media (min-width: 768px) {
+  .hero-socials {
+    position: absolute;
+    top: 5rem;
+    right: 1.25rem;
+    left: auto;
+    width: auto;
+    flex-direction: column;
+    transform: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .social__link-1,
+  .social__link-2,
+  .social__link-3,
+  .social__link-4 {
+    animation-name: bounce-in-bottom;
+  }
 }
 
 #hero.hero-anim-pending [data-hero-anim] {
@@ -343,7 +413,11 @@ const socialLinks = [
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .social__link {
+  .social__link,
+  .social__link-1,
+  .social__link-2,
+  .social__link-3,
+  .social__link-4 {
     animation: none;
     transform: none;
   }
@@ -484,6 +558,48 @@ const socialLinks = [
     requestAnimationFrame(reveal);
   }
 
+  function updateSocialBounceMetrics() {
+    if (window.matchMedia("(min-width: 768px)").matches) return;
+    var btn = document.getElementById("hero-get-in-touch");
+    var socials = document.querySelector("#hero .hero-socials");
+    var sample = document.querySelector("#hero .social__link-1");
+    if (!btn || !socials || !sample) return;
+
+    sample.style.animation = "none";
+    sample.style.transform = "translateY(0)";
+    var gap = sample.getBoundingClientRect().top - btn.getBoundingClientRect().bottom;
+    sample.style.animation = "";
+    sample.style.transform = "";
+
+    if (gap < 0) gap = 0;
+    var impact = -Math.round(gap);
+    var start = Math.round(gap + 72);
+    var rebound = Math.max(14, Math.round(gap * 0.85 + 10));
+
+    socials.style.setProperty("--social-bounce-impact", impact + "px");
+    socials.style.setProperty("--social-bounce-start", start + "px");
+    socials.style.setProperty("--social-bounce-rebound", rebound + "px");
+    socials.style.setProperty("--social-bounce-rebound-small", Math.round(rebound * 0.45) + "px");
+    socials.style.setProperty("--social-bounce-rebound-tiny", Math.max(2, Math.round(rebound * 0.15)) + "px");
+  }
+
+  function initSocialBounceMetrics() {
+    var hero = document.getElementById("hero");
+    if (!hero || hero.dataset.socialBounceBound === "1") return;
+    hero.dataset.socialBounceBound = "1";
+
+    var run = function () {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(updateSocialBounceMetrics);
+      });
+    };
+
+    run();
+    window.addEventListener("resize", run);
+    document.addEventListener("astro:page-load", run);
+    document.addEventListener("rw-page-loader-dismissed", run, { once: true });
+  }
+
   function initAstracontactButton() {
     if (document.documentElement.classList.contains("page-loader-active")) return;
     document.querySelectorAll(".astra-contact-btn").forEach((btn) => {
@@ -505,6 +621,8 @@ const socialLinks = [
 
   window.whenPageRevealed(initHeroTextAnimations);
   document.addEventListener("astro:page-load", initHeroTextAnimations);
+  window.whenPageRevealed(initSocialBounceMetrics);
+  document.addEventListener("astro:page-load", initSocialBounceMetrics);
   window.whenPageRevealed(initAstracontactButton);
   document.addEventListener("astro:page-load", initAstracontactButton);
 </script>
