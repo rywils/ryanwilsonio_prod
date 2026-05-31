@@ -155,8 +155,8 @@ const socialLinks = [
           aria-label="Social links"
           style="--social-delay: 1.4s; --social-bounce-impact: -12px; --social-bounce-start: 84px; --social-bounce-rebound: 18px;"
         >
-          {socialLinks.map(({ icon, link, label, isImage }, index) => (
-            <div class={`social__item social__link-${index + 1}`}>
+          {socialLinks.map(({ icon, link, label, isImage }) => (
+            <div class="social__item">
               <a
                 href={link}
                 target="_blank"
@@ -340,34 +340,7 @@ const socialLinks = [
   }
 }
 
-.social__link-1,
-.social__link-2,
-.social__link-3,
-.social__link-4 {
-  animation-duration: 1.5s;
-  animation-fill-mode: both;
-}
-
-.social__link-1 {
-  animation-name: bounce-in-left;
-  animation-delay: calc(var(--social-delay, 2.2s) + 0.2s);
-}
-
-.social__link-2 {
-  animation-name: bounce-in-left;
-  animation-delay: calc(var(--social-delay, 2.2s) + 0.35s);
-}
-
-.social__link-3 {
-  animation-name: bounce-in-left;
-  animation-delay: calc(var(--social-delay, 2.2s) + 0.5s);
-}
-
-.social__link-4 {
-  animation-name: bounce-in-left;
-  animation-delay: calc(var(--social-delay, 2.2s) + 0.65s);
-}
-
+/* Desktop: staggered bounce-in from the left */
 @media (min-width: 768px) {
   .hero-socials {
     position: absolute;
@@ -380,14 +353,57 @@ const socialLinks = [
     margin: 0;
     padding: 0;
   }
+
+  .hero-socials .social__item {
+    animation: bounce-in-left 1.5s both;
+  }
+
+  .hero-socials .social__item:nth-child(1) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.2s);
+  }
+
+  .hero-socials .social__item:nth-child(2) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.35s);
+  }
+
+  .hero-socials .social__item:nth-child(3) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.5s);
+  }
+
+  .hero-socials .social__item:nth-child(4) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.65s);
+  }
 }
 
+/* Mobile: wait for .hero-socials--ready so loader/metrics never desync icon 1 */
 @media (max-width: 767px) {
-  .social__link-1,
-  .social__link-2,
-  .social__link-3,
-  .social__link-4 {
-    animation-name: bounce-in-bottom;
+  .hero-socials .social__item {
+    opacity: 0;
+    animation: none;
+  }
+
+  .hero-socials.hero-socials--ready .social__item {
+    animation: bounce-in-bottom 1.5s both;
+  }
+
+  .hero-socials.hero-socials--ready .social__item:nth-child(1) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.2s);
+  }
+
+  .hero-socials.hero-socials--ready .social__item:nth-child(2) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.35s);
+  }
+
+  .hero-socials.hero-socials--ready .social__item:nth-child(3) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.5s);
+  }
+
+  .hero-socials.hero-socials--ready .social__item:nth-child(4) {
+    animation-delay: calc(var(--social-delay, 1.4s) + 0.65s);
+  }
+
+  .hero-socials.hero-socials--ready .social__item .social__link {
+    transition: opacity 0.2s ease-out;
   }
 }
 
@@ -414,11 +430,9 @@ const socialLinks = [
 
 @media (prefers-reduced-motion: reduce) {
   .social__link,
-  .social__link-1,
-  .social__link-2,
-  .social__link-3,
-  .social__link-4 {
-    animation: none;
+  .hero-socials .social__item {
+    animation: none !important;
+    opacity: 1 !important;
     transform: none;
   }
 
@@ -562,15 +576,9 @@ const socialLinks = [
     if (window.matchMedia("(min-width: 768px)").matches) return;
     var btn = document.getElementById("hero-get-in-touch");
     var socials = document.querySelector("#hero .hero-socials");
-    var sample = document.querySelector("#hero .social__link-1");
-    if (!btn || !socials || !sample) return;
+    if (!btn || !socials) return;
 
-    sample.style.animation = "none";
-    sample.style.transform = "translateY(0)";
-    var gap = sample.getBoundingClientRect().top - btn.getBoundingClientRect().bottom;
-    sample.style.animation = "";
-    sample.style.transform = "";
-
+    var gap = socials.getBoundingClientRect().top - btn.getBoundingClientRect().bottom;
     if (gap < 0) gap = 0;
     var impact = -Math.round(gap);
     var start = Math.round(gap + 72);
@@ -583,21 +591,42 @@ const socialLinks = [
     socials.style.setProperty("--social-bounce-rebound-tiny", Math.max(2, Math.round(rebound * 0.15)) + "px");
   }
 
-  function initSocialBounceMetrics() {
-    var hero = document.getElementById("hero");
-    if (!hero || hero.dataset.socialBounceBound === "1") return;
-    hero.dataset.socialBounceBound = "1";
+  function startMobileSocialEntrance() {
+    if (window.matchMedia("(min-width: 768px)").matches) return;
+    var socials = document.querySelector("#hero .hero-socials");
+    if (!socials || socials.dataset.entranceStarted === "1") return;
 
-    var run = function () {
-      requestAnimationFrame(function () {
-        requestAnimationFrame(updateSocialBounceMetrics);
-      });
-    };
+    function launch() {
+      if (socials.dataset.entranceStarted === "1") return;
+      socials.dataset.entranceStarted = "1";
+      updateSocialBounceMetrics();
+      socials.classList.add("hero-socials--ready");
+    }
 
-    run();
-    window.addEventListener("resize", run);
-    document.addEventListener("astro:page-load", run);
-    document.addEventListener("rw-page-loader-dismissed", run, { once: true });
+    if (document.documentElement.classList.contains("page-loader-active")) {
+      document.addEventListener("rw-page-loader-dismissed", launch, { once: true });
+      return;
+    }
+
+    launch();
+  }
+
+  function initMobileSocialEntrance() {
+    if (!document.getElementById("hero")) return;
+
+    startMobileSocialEntrance();
+
+    if (window.__rwMobileSocialEntrance) return;
+    window.__rwMobileSocialEntrance = true;
+
+    document.addEventListener("astro:page-load", function () {
+      var socials = document.querySelector("#hero .hero-socials");
+      if (socials) {
+        socials.classList.remove("hero-socials--ready");
+        delete socials.dataset.entranceStarted;
+      }
+      startMobileSocialEntrance();
+    });
   }
 
   function initAstracontactButton() {
@@ -621,8 +650,7 @@ const socialLinks = [
 
   window.whenPageRevealed(initHeroTextAnimations);
   document.addEventListener("astro:page-load", initHeroTextAnimations);
-  window.whenPageRevealed(initSocialBounceMetrics);
-  document.addEventListener("astro:page-load", initSocialBounceMetrics);
+  initMobileSocialEntrance();
   window.whenPageRevealed(initAstracontactButton);
   document.addEventListener("astro:page-load", initAstracontactButton);
 </script>
