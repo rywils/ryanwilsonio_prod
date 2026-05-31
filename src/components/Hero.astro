@@ -377,12 +377,17 @@ const socialLinks = [
 
 /* Mobile: wait for .hero-socials--ready so loader/metrics never desync icon 1 */
 @media (max-width: 767px) {
-  .hero-socials .social__item {
+  .hero-socials:not(.hero-socials--ready) .social__item {
     opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
     animation: none;
   }
 
   .hero-socials.hero-socials--ready .social__item {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     animation: bounce-in-bottom 1.5s both;
   }
 
@@ -619,14 +624,10 @@ const socialLinks = [
     if (window.__rwMobileSocialEntrance) return;
     window.__rwMobileSocialEntrance = true;
 
-    document.addEventListener("astro:page-load", function () {
-      var socials = document.querySelector("#hero .hero-socials");
-      if (socials) {
-        socials.classList.remove("hero-socials--ready");
-        delete socials.dataset.entranceStarted;
-      }
-      startMobileSocialEntrance();
-    });
+    /* Do not strip hero-socials--ready here — astro:page-load also fires on first
+       paint and was making icons fade out after they landed. Fresh hero DOM on
+       client navigations has no --ready / entranceStarted yet. */
+    document.addEventListener("astro:page-load", startMobileSocialEntrance);
   }
 
   function initAstracontactButton() {
