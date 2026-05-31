@@ -4,6 +4,7 @@ import me from "../../assets/me.webp";
 import WorkExperience from "@/components/WorkExperience.astro";
 import Education from "@/components/Education.astro";
 import SkillsSection from "@/components/SkillsSection.astro";
+import Heading from "@/components/ui/Heading.astro";
 ---
 
 <Layout title="About Me" description="About page">
@@ -23,7 +24,7 @@ import SkillsSection from "@/components/SkillsSection.astro";
               class="about-image md:hidden h-32 w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
             />
             <div class="flex-1 min-w-0">
-              <h1 class="about-title text-4xl font-bold mb-2 text-[rgb(var(--primary-blue))]">About Me</h1>
+              <Heading size="md" className="about-title mb-2">About Me</Heading>
               <div
                 class="about-underline h-[2px] mt-4 rounded-full bg-gradient-to-r from-[rgb(var(--primary-blue))] to-[rgb(var(--primary-purple))] mb-6"
                 aria-hidden="true"
@@ -37,7 +38,10 @@ import SkillsSection from "@/components/SkillsSection.astro";
               alt="Ryan Wilson"
               class="about-image hidden md:inline-block h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-[rgba(var(--primary-blue),0.60)] hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition shrink-0"
             />
+
+          
           </div>
+          <h1>Contact</h1>
         </div>
       </section>
 
@@ -53,7 +57,8 @@ import SkillsSection from "@/components/SkillsSection.astro";
       <Education />
 
       <div class="outside-tech-reveal slide-blur-up mt-12">
-        <h2 class="text-2xl font-semibold mb-6 text-[rgb(var(--primary-blue))]">Outside of Tech</h2>
+        <!-- <h2 class="text-2xl font-semibold mb-6 text-[rgb(var(--primary-blue))]">Outside of Tech</h2> -->
+        <Heading className="mb-6">Outside of Tech</Heading>
         <p class="text-lg text-gray-400">
           Outside of tech I enjoy spending time with friends, pool league, photography, and spontaneous road trips. I used to be a big gamer, primarily PC gaming, however nowadays I spend much more time being productive and working on personal projects, working on school related tasks, or learning new skills when I have downtime.
         </p>

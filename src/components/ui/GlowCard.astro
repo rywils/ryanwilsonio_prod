@@ -199,6 +199,12 @@ const isHero = variant === 'hero';
     z-index: 1;
   }
 
+  @media (max-width: 767px) {
+    .glow-card-wrapper--hero .glow-card-border--hero {
+      overflow: hidden;
+    }
+  }
+
   .glow-card-border--hero .glow-card-content {
     border-radius: 0;
   }
