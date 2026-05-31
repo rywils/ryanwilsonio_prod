@@ -140,7 +140,7 @@ const { description } = Astro.props;
           if (!root) return;
           var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           var revealTargets = root.querySelectorAll(
-            "section:not(#hero), article:not(.project-detail), .project-card, .blog-card, .education-card, .experience-card, .contact-info-card"
+            "section:not(#hero), article:not(.project-detail):not(.blog-post), .project-card, .blog-card, .education-card, .experience-card, .contact-info-card"
           );
           var titleTargets = root.querySelectorAll(
             ".about-title, .skills-title, .experience-title, .education-title, .projects-title, .blog-title, .contact-title"

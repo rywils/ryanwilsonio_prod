@@ -8,7 +8,7 @@ export function initScrollReveal(): void {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const revealTargets = root.querySelectorAll<HTMLElement>(
-    "section:not(#hero), article, .project-card, .blog-card, .education-card, .experience-card, .contact-info-card",
+    "section:not(#hero), article:not(.project-detail):not(.blog-post), .project-card, .blog-card, .education-card, .experience-card, .contact-info-card",
   );
 
   const titleTargets = root.querySelectorAll<HTMLElement>(
