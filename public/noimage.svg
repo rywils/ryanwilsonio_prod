@@ -1,0 +1,47 @@
+<svg
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="No image available"
+>
+  <!-- Background -->
+  <rect width="512" height="512" fill="#090E10"/>
+
+  <!-- Image icon -->
+  <rect
+    x="136"
+    y="140"
+    width="240"
+    height="160"
+    rx="12"
+    ry="12"
+    fill="none"
+    stroke="#878787"
+    stroke-width="8"
+  />
+
+  <!-- Sun -->
+  <circle cx="196" cy="188" r="12" fill="#878787"/>
+
+  <!-- Mountains -->
+  <path
+    d="M160 284 L220 220 L260 260 L310 210 L352 284 Z"
+    fill="#878787"
+  />
+
+  <!-- Text -->
+  <text
+    x="256"
+    y="350"
+    text-anchor="middle"
+    fill="#878787"
+    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    font-size="28"
+    letter-spacing="1"
+  >
+    NO IMAGE AVAILABLE
+  </text>
+</svg>
+

@@ -1,148 +1,255 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { experiences } from "../../data/experiences";
-import { Download } from '@lucide/astro';
-
+import { Download } from "lucide-react";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<Layout title="Resume">
-<div class="w-full flex justify-end max-w-4xl"><a
-      href="/resume/resume_ryanwilsonio.pdf"><button class="flex items-center gap-3 px-3 py-2 rounded-lg border-2 border-[var(--primary-green)] text-[var(--primary-green)] hover:bg-[var(--primary-green)]/10 transition-all hover:scale-105 active:scale-95 font-semibold justify-between ">Download<Download/></button></a></div>
-
-<article class="mx-auto max-w-4xl px-6 text-gray-300 ">
-  <!-- Header -->
-  <section class="mb-12">
-    <h1 class="text-4xl font-bold">Ryan Wilson</h1>
-    <p class="text-lg text-gray-400 mt-1">
-      Full-Stack Developer · Systems & Network Engineer
-    </p>
-
-    <div class="mt-4 text-sm text-gray-400 space-y-1">
-      <div>Urbandale, IA</div>
-      <div>
-        <a href="mailto:ryan@ryanwilson.io" class="hover:text-white">
-          ryan@ryanwilson.io
-        </a>
-        ·
-        <a href="https://ryanwilson.io" class="hover:text-white">
-          ryanwilson.io
-        </a>
-        ·
-        <a href="https://linkedin.com/in/rywils" class="hover:text-white">
-          linkedin.com/in/rywils
-        </a>
-      </div>
-    </div>
-</section>
-
-  <!-- Summary -->
-  <section class="mb-12">
-    <h2 class="text-xl font-semibold mb-3">Summary</h2>
-    <p class="text-gray-400 leading-relaxed">
-      A highly versatile Full-Stack Developer and Systems Engineer with experience
-      building modern web applications, managing cloud infrastructure, and supporting
-      enterprise IT environments. Comfortable owning projects end-to-end — from client
-      discovery and architecture to deployment, security, and long-term support.
-    </p>
-  </section>
-
-  <!-- Core Competencies -->
-  <section class="mb-12">
-    <h2 class="text-xl font-semibold mb-4">Core Competencies</h2>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-400">
-      <div>
-        <strong class="text-gray-300">Development:</strong><br />
-        React / Next.js, Vue / Nuxt, SvelteKit, Laravel, Node.js, Tailwind CSS,
-        REST & GraphQL APIs
-      </div>
-
-      <div>
-        <strong class="text-gray-300">Cloud & DevOps:</strong><br />
-        AWS (EC2, S3, VPC, IAM), Vercel, DigitalOcean, CI/CD, Redis, Docker
-      </div>
-
-      <div>
-        <strong class="text-gray-300">Systems & Networking:</strong><br />
-        Linux, Windows Server, VMware, Cisco Routing & Switching, Meraki,
-        Active Directory
-      </div>
-
-      <div>
-        <strong class="text-gray-300">Security:</strong><br />
-        Fortinet Firewalls, VPNs, SIEM tools, vulnerability assessment,
-        endpoint protection
-      </div>
-    </div>
-  </section>
-
-  <!-- Work Experience -->
-  <section class="mb-12">
-    <h2 class="text-xl font-semibold mb-6">Professional Experience</h2>
-
-    <table class="w-full border-separate border-spacing-y-4">
-      <tbody>
-        {experiences.map(job => (
-          <tr class="align-top">
-            <td class="py-2">
-              <div class="flex items-center gap-4">
-                <img
-                  src={job.icon.src}
-                  alt={job.company}
-                  class="h-12 w-12 rounded-full object-contain bg-neutral-900 p-2"
-                />
-                <div>
-                  <div class="font-semibold text-[15px]">{job.title}</div>
-                  <div class="text-sm text-gray-400">{job.company}</div>
-                </div>
-              </div>
-
-              <p class="mt-2 ml-16 text-sm text-gray-400 leading-relaxed">
-                {job.description}
-              </p>
-
-              <ul class="mt-2 ml-20 list-disc text-sm text-gray-400 space-y-1">
-                {job.achievements.map(a => (
-                  <li>{a}</li>
-                ))}
-              </ul>
-            </td>
-
-            <td class="py-2 text-sm text-gray-400 text-right whitespace-nowrap">
-              {job.period}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </section>
-
-  <!-- Education -->
-  <section class="mb-12">
-    <h2 class="text-xl font-semibold mb-3">Education</h2>
-
-    <div class="text-sm text-gray-400">
-      <div class="font-medium text-gray-300">
-        Des Moines Area Community College
-      </div>
-      <div>
-        Associate in Applied Science — Information Technology (Network Administration)
-      </div>
-      <div>Graduated May 2016</div>
-    </div>
-  </section>
-
-  <!-- PDF -->
-  <div class="text-sm text-gray-500">
-    Prefer a PDF?
-    <a
-      href="/resume/resume_ryanwilsonio.pdf"
-      class="ml-1 underline hover:text-gray-300"
-    >
-      Download Resume
+<Layout title="Resume" description="Resume for Ryan Wilson">
+  
+  <div class="max-w-4xl mx-auto px-6 flex justify-end">
+    <a href="/resume/resume_ryanwilsonio.pdf">
+      <button
+        class="relative top-25 flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-[rgb(var(--primary-purple))] text-[rgb(var(--primary-purple))] hover:bg-[rgba(var(--primary-purple),0.10)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold cursor-pointer z-99"
+      >
+        Download
+        <Download size={18} />
+      </button>
     </a>
-</div>
+  </div>  
 
-</article>
+  <article class="mx-auto max-w-4xl px-6 py-12 text-gray-300">
+    
+    <!-- Header -->
+    <section class="mb-12">
+      <h1 class="text-4xl font-bold text-white">Ryan Wilson</h1>
+      <p class="text-lg text-gray-400 mt-1">Security Engineer</p>
+      <p class="text-sm text-gray-500 mt-1">Des Moines, IA (open to remote)</p>
 
+      <div class="mt-3 text-sm text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
+        <span>ryan@ryanwilson.io</span>
+        <span>|</span>
+        <a href="https://ryanwilson.io" class="hover:text-white transition-colors duration-200 ease-out">ryanwilson.io</a>
+        <span>|</span>
+        <a href="https://github.com/rywils" class="hover:text-white transition-colors duration-200 ease-out">github.com/rywils</a>
+        <span>|</span>
+        <a href="https://linkedin.com/in/rywils" class="hover:text-white transition-colors duration-200 ease-out">linkedin.com/in/rywils</a>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-3 text-white">Summary</h2>
+      <p class="text-gray-400 leading-relaxed">
+        Security-focused engineer with experience across networking, systems administration, and infrastructure operations.
+        Specialized in enterprise networking, Linux systems, and cloud environments, with hands-on experience in a variety of
+        technologies including FortiGate NGFW, Cisco Firepower, CrowdStrike Falcon, and Snort.
+        Currently pursuing a B.S. in Cybersecurity and Information Assurance.
+        Focused on security engineering, infrastructure security, and AI-driven security systems.
+      </p>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4 text-white">Technical Skills</h2>
+
+      <div class="space-y-3 text-sm text-gray-400">
+        <div>
+          <strong class="text-gray-300">Security:</strong>
+          <p>
+            Vulnerability assessment, threat detection, incident response, network segmentation,
+            Fortinet NGFW, Cisco Firepower, Snort, CrowdStrike Falcon, Splunk, Wireshark, Nmap, Burp Suite
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Systems:</strong>
+          <p>
+            Linux administration, Windows Server, Active Directory, system hardening, VMware, Proxmox,
+            Hyper-V, Ubuntu, RHEL, Debian, Kali, AlmaLinux, SELinux
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Development:</strong>
+          <p>
+            JavaScript/TypeScript, Python, Go, C, C#, PHP, Node.js, React, REST APIs,
+            GraphQL, Supabase, PostgreSQL, MySQL, MariaDB
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Networking:</strong>
+          <p>
+            TCP/IP, VLANs, VPNs, routing & switching, DNS, DHCP, Cisco,
+            Juniper, Aruba, pfSense, Riverbed, Talari SD-WAN
+          </p>
+        </div>
+
+        <div>
+          <strong class="text-gray-300">Cloud / Infrastructure:</strong>
+          <p>
+            AWS, Azure, GCP, Terraform, Ansible, Docker, Kubernetes,
+            VPC networking, WAF, CloudFront/CDN, CloudWatch
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-6 text-white">Professional Experience</h2>
+
+      <div class="space-y-8 text-sm text-gray-400">
+
+        <div>
+          <div class="font-semibold text-white">Senior Infrastructure Engineer</div>
+          <div class="text-gray-500">AGIS Global | May 2026 – Present</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Designed and built the entire infrastructure stack from scratch at a pre-launch startup – spanning platform, backend, DevOps, SRE, and security simultaneously</li>
+            <li>Architected and deployed a multi-node bare-metal NVIDIA DGX Spark GPU cluster with a dedicated 400G RoCE RDMA fabric via Arista, purpose-built for large-scale AI inference</li>
+            <li>Architected datacenter migration and expansion from on-premise infrastructure to co-location</li>
+            <li>Designed full enterprise network topology across Juniper BGP border routing and perimeter firewall, and Cisco Nexus spine/leaf switching. Production-grade from day one</li>
+            <li>Built a custom Rust based orchestration layer for zero-copy IPC, eliminating Python GIL bottlenecks for high-throughput AI request handling</li>
+            <li>Implemented Infrastructure as Code using Ansible for bare-metal provisioning and Terraform for cloud failover on AWS</li>
+            <li>Deployed self-hosted observability stack via Grafana, Prometheus, Loki, and Jaeger alongside CI/CD via self-hosted GitLab</li>
+            <li>Defined and enforced security posture across IAM, endpoint detection, and secret management</li>
+            <li>Onboarded and led incoming engineering hires, establishing team workflows, repository standards, security protocols, and access controls as the organization scaled</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Freelance Developer</div>
+          <div class="text-gray-500">ryanwilson.io | Nov 2024 – Present</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Develop web applications using React and Next.js, along with WordPress sites for small business clients</li>
+            <li>Project specific, full-stack applications using Next.js, Vue/Nuxt, SvelteKit, and Laravel</li>
+            <li>Build backend APIs and services using Node.js, Express, GraphQL, tRPC, and Supabase</li>
+            <li>Deploy applications across AWS, Vercel, Netlify, Linode, and DigitalOcean</li>
+            <li>Implement CI/CD pipelines, CDN distribution, and Redis caching with Upstash</li>
+            <li>Design application data layers using PostgreSQL, SQLite, MongoDB, and MariaDB</li>
+            <li>Manage full project lifecycle including client onboarding, architecture, deployment, and support</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Systems Engineer</div>
+          <div class="text-gray-500">DH Pace | Jul 2023 – Aug 2024</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Administered VMware vSphere infrastructure (vCenter, ESXi) across hybrid environments</li>
+            <li>Managed AWS workloads and Cisco Meraki cloud-managed networking</li>
+            <li>Deployed and maintained Fortinet NGFW policies and site-to-site VPN infrastructure</li>
+            <li>Supported Cisco and Aruba networking equipment across enterprise locations</li>
+            <li>Implemented CrowdStrike Falcon endpoint protection across enterprise endpoints</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Freelance Consultant</div>
+          <div class="text-gray-500">RYIO Consulting | Mar 2022 – Jun 2023</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Provided IT consulting and infrastructure support for small and mid-sized businesses</li>
+            <li>Managed Windows Server and Linux environments including Active Directory and Group Policy</li>
+            <li>Supported AWS and Microsoft Azure infrastructure deployments</li>
+            <li>Performed infrastructure troubleshooting, system upgrades, and maintenance</li>
+            <li>Assisted clients with network configuration, system administration, and operational support</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Systems Administrator</div>
+          <div class="text-gray-500">BlueAlly | Oct 2019 – Dec 2021</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Managed Fortinet Security Fabric deployments, Cisco ASA, and Cisco Firepower firewalls</li>
+            <li>Implemented Riverbed SteelHead WAN optimization appliances</li>
+            <li>Deployed Talari SD-WAN solutions to improve connectivity across distributed sites</li>
+            <li>Administered Linux servers, including package management, services, and automation scripts</li>
+            <li>Maintained strict SLA requirements across managed enterprise environments</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Help Desk Specialist (Contract)</div>
+          <div class="text-gray-500">Casey's General Stores | Jul 2019 – Oct 2019</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Supported rollout of Casey's online ordering platform across retail locations</li>
+            <li>Assisted with incident triage, ticket resolution, and remote troubleshooting</li>
+            <li>Provided technical support for store systems and retail infrastructure</li>
+            <li>Worked with deployment teams during rollout of new ordering systems</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold text-white">Datacenter Technician (Contract)</div>
+          <div class="text-gray-500">Microsoft | Nov 2017 – Dec 2018</div>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Diagnosed and triaged server and hardware failures across datacenter clusters</li>
+            <li>Performed Cisco Nexus switch configuration and network troubleshooting</li>
+            <li>Assisted with rack deployments and server cluster provisioning</li>
+            <li>Maintained compliance with strict Microsoft SLAs for outages and hardware failures</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Security Projects -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-6 text-white">Security Projects</h2>
+
+      <div class="mb-8">
+        <div class="font-semibold text-white">Kitscan — Web application for code analysis</div>
+        <div class="text-sm text-gray-500">Personal Project | November 2025 – April 2026</div>
+        <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
+          <li>Built a local static analysis and dependency vulnerability scanning tool for identifying security issues in source code</li>
+          <li>Implemented multi-phase scanning (baseline + deep analysis) to refine findings and reduce false positives</li>
+          <li>Integrated dependency vulnerability lookups using OSV.dev to detect known CVEs in project dependencies</li>
+          <li>Developed rule-based detection for insecure coding patterns, exposed secrets, and misconfigurations</li>
+          <li>Generated structured findings with severity, file location, and remediation guidance aligned to OWASP and CWE standards</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-semibold text-white">BitSentry — Security Assessment Platform</div>
+        <div class="text-sm text-gray-500">Personal Project | 2025 – Present</div>
+        <ul class="mt-2 text-sm text-gray-400 list-disc pl-5 space-y-1">
+          <li>Released a modular CLI-based security assessment suite for attack-surface discovery, vulnerability scanning, and reporting workflows</li>
+          <li>Built and integrated multiple products including BitScope (asset discovery), BitProbe (web vulnerability scanning), BitReport (report aggregation), and BitAI (verification tooling)</li>
+          <li>Developed plugin-based scanning pipelines for web application analysis, TLS misconfiguration detection, exposed service discovery, and CVE identification</li>
+          <li>Implemented automated crawl and attack-surface enumeration workflows with scoped target handling and service fingerprinting</li>
+          <li>Designed CI/CD- and Docker-compatible execution paths for portable security testing and automation workflows</li>
+          <li>Built multi-format reporting outputs (JSON, Markdown, PDF, HTML) for remediation tracking and operational analysis</li>
+          <li>Structured the platform around extensible orchestration to support future offensive security and monitoring modules</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-4 text-white">Education</h2>
+
+      <div class="mb-4">
+        <div class="font-medium text-gray-300">Western Governors University</div>
+        <div class="text-gray-400">B.S. Cybersecurity and Information Assurance</div>
+        <div class="text-sm text-gray-500">In Progress — Started January 2026</div>
+      </div>
+
+      <div>
+        <div class="font-medium text-gray-300">Des Moines Area Community College</div>
+        <div class="text-gray-400">A.A.S. Information Technology — Network Administration</div>
+        <div class="text-sm text-gray-500">Graduated May 2016</div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold mb-3 text-white">Certifications</h2>
+      <ul class="text-sm text-gray-400 list-disc pl-5 space-y-1">
+        <li>ISC2 Certified in Cybersecurity (CC)</li>
+        <li>Riverbed RCPE Associate (Expired)</li>
+        <li>LogicMonitor Certified Professional (Expired)</li>
+        <li>Fortinet NSE3 (Expired)</li>
+      </ul>
+    </section>
+
+  </article>
 </Layout>

@@ -1,0 +1,155 @@
+---
+const SEGMENTS = 6;
+
+function wedgeClipPath(index: number, total: number): string {
+  const startDeg = (index / total) * 360 - 90;
+  const endDeg = ((index + 1) / total) * 360 - 90;
+  const r = 76;
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const x1 = 50 + r * Math.cos(rad(startDeg));
+  const y1 = 50 + r * Math.sin(rad(startDeg));
+  const x2 = 50 + r * Math.cos(rad(endDeg));
+  const y2 = 50 + r * Math.sin(rad(endDeg));
+  return `polygon(50% 50%, ${x1}% ${y1}%, ${x2}% ${y2}%)`;
+}
+
+const clips = Array.from({ length: SEGMENTS }, (_, i) => wedgeClipPath(i, SEGMENTS));
+---
+
+<div
+  id="page-loader"
+  class="hidden fixed inset-0 z-[10000] flex cursor-wait items-center justify-center bg-[#0a0a0a]/75 backdrop-blur-[1px]"
+  aria-hidden="true"
+>
+  <div class="loader-logo-square relative h-[min(24vw,120px)] w-[min(24vw,120px)] shrink-0">
+    {
+      clips.map((clip, i) => (
+        <div
+          class="loader-segment absolute inset-0 bg-[url('/rwlogo.svg')] bg-contain bg-center bg-no-repeat will-change-transform"
+          style={{ clipPath: clip, animationDelay: `${i * 0.12}s` }}
+          data-loader-segment={i}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .loader-segment {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    animation: loaderSegmentSpin 0.76s ease-in-out forwards;
+  }
+
+  @keyframes loaderSegmentSpin {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    35% {
+      transform: scale(1.1) rotate(120deg);
+    }
+    70% {
+      transform: scale(1.05) rotate(240deg);
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+    }
+  }
+
+  #page-loader.is-dismissing {
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader-segment {
+      animation: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var INTRO_SESSION_KEY = "rw-intro-completed";
+
+    function shouldSkipIntroLoader() {
+      try {
+        var nav = performance.getEntriesByType("navigation")[0];
+        var typ = nav && nav.type ? nav.type : "navigate";
+        if (typ !== "navigate") return true;
+        if (sessionStorage.getItem(INTRO_SESSION_KEY) === "1") return true;
+        return false;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function prefersReducedMotion() {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function unlockMainContent() {
+      document.documentElement.classList.remove("page-loader-active");
+      document.dispatchEvent(new CustomEvent("rw-page-loader-dismissed"));
+    }
+
+    function dismissLoader(immediate) {
+      var root = document.getElementById("page-loader");
+      document.body.style.overflow = "";
+      if (!root) {
+        unlockMainContent();
+        return;
+      }
+      if (immediate) {
+        unlockMainContent();
+        root.remove();
+        return;
+      }
+      unlockMainContent();
+      root.classList.add("is-dismissing");
+      root.addEventListener(
+        "transitionend",
+        function () {
+          root.remove();
+        },
+        { once: true }
+      );
+      setTimeout(function () {
+        if (root.parentNode) root.remove();
+      }, 200);
+    }
+
+    function runLoader() {
+      var root = document.getElementById("page-loader");
+      if (!root) return;
+
+      if (!document.documentElement.classList.contains("page-loader-active")) {
+        root.remove();
+        return;
+      }
+
+      if (prefersReducedMotion() || shouldSkipIntroLoader()) {
+        dismissLoader(true);
+        return;
+      }
+
+      root.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+
+      var motionMs = 2000;
+      window.setTimeout(function () {
+        try {
+          sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+        } catch (e) {}
+        dismissLoader(false);
+      }, motionMs);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", runLoader, { once: true });
+    } else {
+      runLoader();
+    }
+  })();
+</script>

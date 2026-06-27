@@ -37,12 +37,12 @@ const {
 </span>
 
 <style>
-  [data-encrypted-text] span {
-    display: inline-block;
+  [data-encrypted-text] {
+    line-height: 1;
   }
   
   [data-encrypted-text] span.encrypted-char {
-    color: var(--primary-green);
+    color: rgb(var(--primary-purple));
   }
   
   [data-encrypted-text] span.revealed-char {
@@ -70,6 +70,7 @@ const {
   }
 
   function initEncryptedText() {
+    if (document.documentElement.classList.contains("page-loader-active")) return;
     const elements = document.querySelectorAll("[data-encrypted-text]");
 
     elements.forEach((element) => {
@@ -166,13 +167,14 @@ const {
     });
   }
 
-  // Initialize on page load
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initEncryptedText);
+  const w = window as typeof window & { whenPageRevealed?: (fn: () => void) => void };
+  if (typeof w.whenPageRevealed === "function") {
+    w.whenPageRevealed(initEncryptedText);
+  } else if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initEncryptedText, { once: true });
   } else {
     initEncryptedText();
   }
 
-  // Re-initialize on view transitions
   document.addEventListener("astro:page-load", initEncryptedText);
 </script>

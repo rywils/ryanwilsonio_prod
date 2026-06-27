@@ -1,72 +1,90 @@
 ---
-// src/pages/projects/[id].astro
+
 import Layout from '../../layouts/Layout.astro';
-import { ArrowLeft, ExternalLink, Github } from '@lucide/astro';
-import { getCollection } from 'astro:content';
+import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
+import { getCollection, render } from 'astro:content';
+import LangBadge from '@/components/ui/LangBadge.astro';
+import ProjectImage from '@/components/ProjectImage.astro';
+import { getGitHubReadmeHtml } from '@/lib/githubReadme';
+import { shouldUseLocalProjectBody } from '@/lib/projectContent';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map(project => ({
-    params: { id: project.slug },
+    params: { id: project.id.replace(/\.md$/, '') },
     props: { project },
   }));
 }
 
 const { project } = Astro.props;
-const { Content } = await project.render();
+const { Content: ProjectContent } = await render(project);
+
+const useLocalBody = shouldUseLocalProjectBody(project.data.overwrite, project.data.github);
+
+let readmeHtml: string | null = null;
+if (!useLocalBody && project.data.github) {
+  try {
+    readmeHtml = await getGitHubReadmeHtml(project.data.github);
+  } catch (e) {
+    console.error(`Failed to fetch README for ${project.data.github}:`, e);
+  }
+}
+
+const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
 ---
 
 <Layout title={`${project.data.title} - Ryan Wilson`}>
-  <article class="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
-    <!-- Background decoration -->
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary-blue)]/5 to-transparent pointer-events-none"></div>
+  <article class="project-detail pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
     
     <div class="max-w-5xl mx-auto relative z-10">
-      <!-- Back Button -->
+      
       <a 
         href="/projects"
-        class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all mb-8 group"
+        class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out mb-8 group"
         data-astro-prefetch
       >
-        <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={20} />
+        <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={20} />
         <span class="font-semibold">Back to Projects</span>
       </a>
 
-      <!-- Hero Image -->
-      <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[var(--primary-blue)]/20">
-        <img 
-          src={project.data.image} 
+      
+      <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[rgba(var(--primary-blue),0.20)]">
+        <ProjectImage
+          src={project.data.image}
           alt={project.data.title}
           class="w-full h-full object-cover"
+          variant="hero"
         />
       </div>
 
-      <!-- Title and Tags -->
+      
       <div class="mb-8">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--primary-green)] mb-4">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[rgb(var(--primary-purple))] mb-4">
           {project.data.title}
         </h1>
         
         <div class="flex flex-wrap gap-2 mb-6">
-          {project.data.tags.map(tag => (
-            <span class="px-3 py-1 rounded-full bg-[var(--primary-blue)]/10 border border-[var(--primary-blue)]/30 text-sm">
-              {tag}
-            </span>
-          ))}
-        </div>
+  {project.data.tags.map(tag => (
+    <LangBadge
+      variant={tag as any}
+      class="opacity-90"
+    />
+  ))}
+</div>
 
-        <!-- Action Buttons -->
+
+        
         <div class="flex flex-wrap gap-4">
           {project.data.github && (
             <a 
               href={project.data.github}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-blue)]/20 border border-[var(--primary-blue)] text-[var(--primary-blue)] hover:bg-[var(--primary-blue)]/30 transition-all hover:scale-105 active:scale-95 font-semibold"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-sm bg-[rgba(var(--primary-blue),0.20)] border border-[rgb(var(--primary-blue))] text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-medium"
             >
-              <Github size={20} />
+              <Github size={16} />
               View Code
             </a>
           )}
@@ -75,7 +93,7 @@ const { Content } = await project.render();
               href={project.data.demo}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--secondary-purple)]/20 border border-[var(--secondary-purple)] text-[var(--secondary-purple)] hover:bg-[var(--secondary-purple)]/30 transition-all hover:scale-105 active:scale-95 font-semibold"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[rgba(var(--secondary-purple),0.20)] border border-[rgb(var(--secondary-purple))] text-[rgb(var(--secondary-purple))] hover:bg-[rgba(var(--secondary-purple),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold"
             >
               <ExternalLink size={20} />
               Live Demo
@@ -84,18 +102,23 @@ const { Content } = await project.render();
         </div>
       </div>
 
-      <!-- Markdown Content -->
-      <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
-        <Content />
-      </div>
+      
+      
+      {showGitHubReadme ? (
+        <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content" set:html={readmeHtml} />
+      ) : (
+        <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
+          <ProjectContent />
+        </div>
+      )}
 
-      <!-- Technologies Used (if available) -->
+      
       {project.data.technologies && project.data.technologies.length > 0 && (
         <section class="mt-8">
-          <h2 class="text-3xl font-semibold text-[var(--primary-blue)] mb-4">Technologies Used</h2>
-          <div class="flex flex-wrap gap-3">
+          <h2 class="text-lg font-semibold text-[rgb(var(--primary-blue))] mb-3">Technologies Used</h2>
+          <div class="flex flex-wrap gap-2">
             {project.data.technologies.map(tech => (
-              <span class="px-4 py-2 rounded-full bg-[var(--primary-green)]/10 border border-[var(--primary-green)]/30 text-base font-medium">
+              <span class="px-2 py-0.5 text-xs rounded-sm bg-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-purple),0.30)] font-medium">
                 {tech}
               </span>
             ))}
@@ -103,14 +126,14 @@ const { Content } = await project.render();
         </section>
       )}
 
-      <!-- Bottom Navigation -->
-      <div class="mt-16 pt-8 border-t border-[var(--primary-blue)]/20">
+      
+      <div class="mt-16 pt-8 border-t border-[rgba(var(--primary-blue),0.20)]">
         <a 
           href="/projects"
-          class="inline-flex items-center gap-2 text-[var(--primary-blue)] hover:text-[var(--primary-green)] transition-all group font-semibold text-lg"
+          class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out group font-semibold text-lg"
           data-astro-prefetch
         >
-          <ArrowLeft class="group-hover:-translate-x-1 transition-transform" size={24} />
+          <ArrowLeft class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={24} />
           <span>View All Projects</span>
         </a>
       </div>
@@ -119,10 +142,18 @@ const { Content } = await project.render();
 </Layout>
 
 <style>
+  .markdown-content :global(h1) {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: rgb(var(--primary-purple));
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+  }
+
   .markdown-content :global(h2) {
     font-size: 1.875rem;
     font-weight: 600;
-    color: var(--primary-blue);
+    color: rgb(var(--primary-blue));
     margin-bottom: 1rem;
     margin-top: 2rem;
   }
@@ -130,7 +161,7 @@ const { Content } = await project.render();
   .markdown-content :global(h3) {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary-blue);
+    color: rgb(var(--primary-blue));
     margin-bottom: 0.75rem;
     margin-top: 1.5rem;
   }
@@ -139,6 +170,49 @@ const { Content } = await project.render();
     font-size: 1.125rem;
     line-height: 1.75;
     margin-bottom: 1rem;
+  }
+
+  .markdown-content :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border: 1px solid rgba(var(--primary-blue), 0.18);
+    border-radius: 0.75rem;
+  }
+
+  .markdown-content :global(thead) {
+    background: rgba(var(--primary-blue), 0.10);
+  }
+
+  .markdown-content :global(th),
+  .markdown-content :global(td) {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(var(--primary-blue), 0.14);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+
+  .markdown-content :global(th) {
+    color: rgb(var(--primary-blue));
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .markdown-content :global(td) {
+    min-width: 9rem;
+  }
+
+  .markdown-content :global(td code) {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .markdown-content :global(tr:last-child td) {
+    border-bottom: 0;
   }
 
   .markdown-content :global(ul) {
@@ -156,24 +230,24 @@ const { Content } = await project.render();
 
   .markdown-content :global(li::before) {
     content: "▹";
-    color: var(--primary-green);
+    color: rgb(var(--primary-purple));
     font-size: 1.25rem;
     margin-top: 0.25rem;
     flex-shrink: 0;
   }
 
   .markdown-content :global(strong) {
-    color: var(--primary-green);
+    color: rgb(var(--primary-purple));
     font-weight: 600;
   }
 
   .markdown-content :global(a) {
-    color: var(--primary-blue);
+    color: rgb(var(--primary-blue));
     text-decoration: underline;
     transition: color 0.2s;
   }
 
   .markdown-content :global(a:hover) {
-    color: var(--primary-green);
+    color: rgb(var(--primary-purple));
   }
 </style>

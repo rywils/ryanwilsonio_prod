@@ -5,11 +5,15 @@ import Layout from "../layouts/Layout.astro"
 import Projects from "../components/Projects.astro"
 import Blog from "../components/Blog.astro"
 import Contact from "../components/Contact.astro"
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
 ---
 
-<Layout>
+<Layout title="Ryan Wilson" description="Profile, Blog & Portfolio">
+
 <Hero />
 <Projects />
 <Blog />
 <Contact />
 </Layout>
+

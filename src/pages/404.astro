@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import GenericButton from "@/components/ui/GenericButton.astro"
+
+
+---
+
+<Layout title="404 - Page not found">
+    <div class="w-full h-svh flex flex-col items-center justify-center text-muted-foreground mt-12 overflow-y-hidden">
+        
+        <p class="text-3xl">Error</p>
+        <h1 class="text-9xl">404</h1>
+        <h2 class="text-[3rem]">Page not found</h2>
+        <p class="p-4">The page you accessed does not exist or has been moved. Return to the homepage.</p>
+        
+       <GenericButton href="/" class="mt-4">Return to home</GenericButton>
+    </div>
+</Layout>

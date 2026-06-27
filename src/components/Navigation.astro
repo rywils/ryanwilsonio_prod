@@ -1,28 +1,30 @@
 ---
-// Navigation.astro
-import { Menu, X } from '@lucide/astro';
+
+import { Menu, X } from 'lucide-react';
 import '../styles/globals.css';
 import { Image } from 'astro:assets';
-import PagePosition from './PagePosition';
+import PagePosition from './PagePosition.astro';
 
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Projects', href: '/projects' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Contact', href: '/#contact' },
   { name: 'Resume', href: '/resume', id: 'resume'},
 ];
 ---
 
-<nav class="nav-container sticky z-40 border-l border-r border-[#10191d] shadow-xs shadow-[#0a0a0a] w-full" id="main-nav">
+<nav class="nav-container sticky z-40 border-l border-r border-[#b0b0b0]/20 shadow-xs shadow-[#0a0a0a] w-full" id="main-nav">
   <div class="nav-inner relative mx-auto transition-all duration-300 border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
     <div class="px-6 sm:px-8 bg-[#1A1A1C]">
       <div class="flex items-center justify-between h-16 w-full">
-        <!-- Logo -->
         
-        <a  href="/"
-          class="nav-logo text-2xl hover:scale-105 transition-transform bg-transparent">
+        
+        <a
+          href="/"
+          aria-label="Ryan Wilson home"
+          class="nav-logo text-2xl hover:scale-105 transition-transform duration-200 ease-out bg-transparent">
           <Image
             src="/images/Logo.svg"
             alt="Logo"
@@ -31,15 +33,15 @@ const navLinks = [
             class="object-contain" />
         </a>
 
-        <!-- Desktop Navigation -->
+        
         <div class="hidden md:flex items-center relative h-full border-l border-white/10">
           <ul class="md:flex md:items-stretch h-full">
             {navLinks.map((link) => (
-              <li class="relative flex-shrink-0 hover:bg-[#1C1C1F] hover:brightness-110 border-l border-r border-l-black/20 border-r-white/10 shadow-xs shadow-black/30">
+              <li class="relative flex-shrink-0 hover:bg-[#1C1C1F] hover:brightness-110 transition-[background-color,filter] duration-200 ease-out border-l border-r border-l-black/20 border-r-white/10 shadow-xs shadow-black/30">
                 <a
                   id={link.id ? link.id : null}
                   href={link.href}
-                  class="nav-link relative inline-flex items-center h-full px-4 text-(--primary-blue) transition-all font-body md:border-solid md:border-black/10 md:dark:border-white/10 md:border-l text-[11px] uppercase tracking-widest"
+                  class="nav-link relative inline-flex font-semibold items-center h-full px-4 text-[rgb(var(--primary-blue))] transition-all duration-200 ease-out font-body md:border-solid md:border-black/10 md:dark:border-white/10 md:border-l text-[11px] uppercase tracking-widest"
                 >
                   {link.name}
                 </a>
@@ -52,31 +54,31 @@ const navLinks = [
         
         <div class="hidden md:flex items-center h-full justify-center border-l border-r border-[#2C2C2F]">
           <div class="h-full border-l border-r border-black/20"></div>
-          <PagePosition client:load/>
+          <PagePosition />
           <div class="h-full border-l border-black/20"></div>
         </div>
 
-        <!-- Mobile Menu Button -->
+        
         <div class="md:hidden flex items-center space-x-2">
           <button
             id="mobile-menu-toggle"
-            class="p-2 rounded-md hover:bg-accent transition-colors"
+            class="p-2 rounded-md hover:bg-accent transition-colors duration-200 ease-out"
             aria-label="Toggle menu"
           >
-            <Menu class="menu-icon" size={24} />
-            <X class="close-icon hidden" size={24} />
+            <Menu className="menu-icon" size={24} />
+            <X className="close-icon hidden" size={24} />
           </button>
         </div>
       </div>
 
-      <!-- Mobile Menu -->
+      
       <div id="mobile-menu" class="md:hidden overflow-hidden mobile-menu">
         <div class="px-4 py-4 space-y-2">
           {navLinks.map((link) => (
             
             <a  href={link.href}
-              class="mobile-nav-link block px-3 py-2 rounded-md hover:bg-accent transition-colors"
-              style="color: var(--primary-blue);"
+              class="mobile-nav-link block px-3 py-2 rounded-md hover:bg-accent transition-colors duration-200 ease-out"
+              style="color: rgb(var(--primary-blue))"
             >
               {link.name}
             </a>
@@ -111,20 +113,14 @@ const navLinks = [
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--primary-blue);
+    background: rgb(var(--primary-blue));
     opacity: 1;
   }
 </style>
 
 <script>
   let ticking = false;
-  let bannerHeight = 0;
   let initialized = false;
-
-  function updateBannerHeight() {
-    const banner = document.getElementById('site-banner');
-    bannerHeight = banner ? banner.offsetHeight : 0;
-  }
 
   function handleNavPosition() {
     if (!ticking) {
@@ -135,21 +131,11 @@ const navLinks = [
         if (nav && navInner) {
           const scrollY = window.scrollY;
           
-          // Update nav styling based on scroll
+          
           if (scrollY > 20) {
             navInner.classList.add('nav-scrolled');
           } else {
             navInner.classList.remove('nav-scrolled');
-          }
-          
-          // With sticky positioning, the nav will automatically stick
-          // We just need to set the initial top position
-          if (scrollY === 0) {
-            // At top of page - position below banner if it exists
-            nav.style.top = `${bannerHeight}px`;
-          } else {
-            // When scrolling - stick to top
-            nav.style.top = '0px';
           }
         }
         
@@ -159,7 +145,7 @@ const navLinks = [
     }
   }
 
-  // Update active links
+  
   function updateActiveLinks() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link, .mobile-nav-link');
@@ -167,10 +153,12 @@ const navLinks = [
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
       if (!href) return;
+
+      const hrefPath = href.split('#')[0];
       
-      const isActive = href === '/' 
+      const isActive = hrefPath === '/' 
         ? currentPath === '/' 
-        : currentPath.startsWith(href);
+        : currentPath.startsWith(hrefPath);
       
       if (isActive) {
         link.classList.add('active-link');
@@ -180,7 +168,7 @@ const navLinks = [
     });
   }
 
-  // Mobile menu toggle
+  
   function setupMobileMenu() {
     if ((window as any).__navMobileBound) return;
     (window as any).__navMobileBound = true;
@@ -235,18 +223,30 @@ const navLinks = [
     closeMenu();
   }
 
-  // Smooth scroll
+  
   function setupSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach(anchor => {
+      const el = anchor as HTMLAnchorElement;
+      if (el.dataset.smoothScrollBound === 'true') return;
+      el.dataset.smoothScrollBound = 'true';
+
       anchor.addEventListener('click', function(this: HTMLAnchorElement, e) {
         const href = this.getAttribute('href');
-        // Skip if it's just a hash without a target
+        
         if (!href || href === '#') {
           e.preventDefault();
           return;
         }
+
+        const hashIndex = href.indexOf('#');
+        const hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
+        const path = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+        const isSamePage = !path || path === window.location.pathname || (path === '/' && window.location.pathname === '/');
+        if (!hash || !isSamePage) {
+          return;
+        }
         
-        const target = document.querySelector(href);
+        const target = document.querySelector(hash);
         if (target) {
           e.preventDefault();
           target.scrollIntoView({
@@ -258,38 +258,51 @@ const navLinks = [
     });
   }
 
-  // Initialize
+  function handleHashScroll() {
+    const hash = window.location.hash;
+    if (!hash || hash === '#') return;
+    const target = document.querySelector(hash);
+    if (!target) return;
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  
   function init() {
+    if (document.documentElement.classList.contains("page-loader-active")) return;
     if (initialized) {
-      // Only update active links if already initialized
+      setupSmoothScroll();
       updateActiveLinks();
+      handleHashScroll();
       return;
     }
     
-    updateBannerHeight();
     setupMobileMenu();
     setupSmoothScroll();
     handleNavPosition();
     updateActiveLinks();
-    
-    // Only add these listeners once
-    window.addEventListener('banner-closed', () => {
-      updateBannerHeight();
-      handleNavPosition();
-    });
+    handleHashScroll();
     
     window.addEventListener('scroll', handleNavPosition, { passive: true });
-    window.addEventListener('resize', () => {
-      updateBannerHeight();
-      handleNavPosition();
-    });
+    window.addEventListener('resize', handleNavPosition);
     
     initialized = true;
   }
 
-  init();
-  
-  // Re-run after page transitions - only update active links
+  const w = window as typeof window & { whenPageRevealed?: (fn: () => void) => void };
+  if (typeof w.whenPageRevealed === "function") {
+    w.whenPageRevealed(() => init());
+  } else {
+    init();
+  }
+
   document.addEventListener('astro:after-swap', updateActiveLinks);
-  document.addEventListener('astro:page-load', updateActiveLinks);
+  document.addEventListener('astro:after-swap', setupSmoothScroll);
+  document.addEventListener('astro:after-swap', handleHashScroll);
+  document.addEventListener('astro:page-load', () => {
+    setupSmoothScroll();
+    updateActiveLinks();
+    handleHashScroll();
+  });
 </script>

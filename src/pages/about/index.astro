@@ -1,142 +1,94 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { skillData } from "../../data/skillData";
-import me from "../../assets/me.png";
-import { experiences } from "../../data/experiences";
+import me from "../../assets/me.webp";
 import WorkExperience from "@/components/WorkExperience.astro";
- import wguIcon from '../assets/wgu.png';
-   import sansIcon from '../../assets/sans.jpg'
-   import dmaccIcon from '../../assets/dmacc.jpg'; 
-   import { Image } from "astro:assets";
-   import { GraduationCap, Award, Calendar } from '@lucide/astro';
 import Education from "@/components/Education.astro";
-
-
-
-
-const coreSkillNames = [
-  "C Programming",
-  "Python",
-  "TypeScript",
-  "Next.js",
-  "Laravel",
-  "Cisco",
-  "Docker",
-  "Kubernetes",
-  "Ansible",
-  "AWS",
-  "Fortinet",
-  "Burpsuite",
-  "Nmap",
-];
-
-const education = [
-  // {
-  //   degree: 'Bachelor of Science in Cyber Security and Information Assurance',
-  //   institution: 'Western Governors University',
-  //   period: '2025 - Present',
-  //   description: 'Expected graduation in 2027',
-  //   icon: wguIcon,
-  // },
-  {
-    degree: 'Bachelor of Applied Cybersecurity',
-    institution: 'SANS Technical Institute',
-    period: '2025 - Present',
-    description: 'Expected graduation 2027',
-    icon : sansIcon,
-  },
-  {
-    degree: 'Associate of Applied Science in Information Technology Network Administration',
-    institution: 'Des Moines Area Community College',
-    period: '2014 - 2016',
-    description: 'Linux emphasis',
-    icon: dmaccIcon,
-  },
-];
-
-const allSkills = skillData.flatMap((category) => category.skills);
-const coreSkills = coreSkillNames
-  .map((name) => allSkills.find((skill) => skill.name === name))
-  .filter(Boolean);
-
-  
+import SkillsSection from "@/components/SkillsSection.astro";
+import Heading from "@/components/ui/Heading.astro";
 ---
 
-<Layout title="About Me">
+<Layout title="About Me" description="About page">
+  <Fragment slot="head">
+    <script defer src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  </Fragment>
 
-<section class="">
-<div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
-<div class="mx-auto max-w-4xl px-6 py-20 text-gray-300">
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
-<img 
-        src={me.src ?? me}
-        alt="Ryan Wilson"
-        class="md:hidden md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
-      />
-      <div class="flex-1">
-        <h1 class="text-4xl font-bold mb-4 text-(--primary-green)">About Me</h1>
+  <div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center md:justify-center sm:overflow-visible">
+    <div class="p-4 mx-auto relative z-10 w-full pt-10 md:pt-0">
 
-        <p class="text-lg leading-relaxed text-gray-400 max-w-3xl">
-          I’m a solutions architect, full-stack developer, and cybersecurity specialist focused on
-          building secure, scalable, high-performance systems. My background spans application 
-          development, infrastructure, networking, and cloud platforms—bringing a security-first mindset 
-          to everything I build.
-        </p>
-      </div>
+      <section id="aboutme" class="flex flex-col justify-center relative py-6 overflow-visible">
+        <div class="about-container mx-auto w-full max-w-4xl px-6 pt-16 text-gray-300">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-5">
+            <img
+              src={me.src ?? me}
+              alt="Ryan Wilson"
+              class="about-image md:hidden h-32 w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
+            />
+            <div class="flex-1 min-w-0">
+              <Heading size="md" className="about-title mb-2">About Me</Heading>
+              <div
+                class="about-underline h-[2px] mt-4 rounded-full bg-gradient-to-r from-[rgb(var(--primary-blue))] to-[rgb(var(--primary-purple))] mb-6"
+                aria-hidden="true"
+              />
+              <p class="about-text text-lg leading-relaxed text-gray-400 max-w-2xl">
+                Security-focused engineer specialized in enterprise networking, linux systems, cloud environments, and web applications. Currently pursuing a B.S. in Cybersecurity and Information Assurance. Currently working as a Senior Infrastructure Engineer @ AGIS Global. I have a passion for learning and exploring new technologies, and I enjoy sharing my knowledge with others through writing and mentoring. In my free time, I enjoy photography, pool league, and spontaneous road trips.
+              </p>
+            </div>
+            <img
+              src={me.src ?? me}
+              alt="Ryan Wilson"
+              class="about-image hidden md:inline-block h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-[rgba(var(--primary-blue),0.60)] hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition shrink-0"
+            />
 
-      <img 
-        src={me.src ?? me}
-        alt="Ryan Wilson"
-        class="hidden md:inline-block md:static h-28 w-28 md:h-32 md:w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
-      />
-
-    </div>
-
-    <h2 class="text-2xl font-semibold mb-4 pb-4 text-(--primary-green)">A few of my favorites</h2>
-
-    <div class="flex flex-wrap gap-6 pb-8 justify-center md:justify-normal">
-      {coreSkills.map((skill) => (
-        <div class="flex flex-col items-center text-center w-16">
-          <!-- Iconify web component; assumes you already load the iconify script in your layout -->
-          <iconify-icon
-            icon={skill.icon}
-            class="text-4xl opacity-80 hover:opacity-100 transition"
-          ></iconify-icon>
-          <span class="text-xs mt-1 text-gray-400">
-            {skill.name}
-          </span>
+          
+          </div>
+          <!-- <h1>Contact</h1> -->
         </div>
-      ))}
+      </section>
+
     </div>
-</div>
-</div>
-<div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
-<div class="mx-auto max-w-4xl px-6 py-10 text-gray-300">
+  </div>
 
-    <WorkExperience />
-    <Education />
-    
-    <h2 class="text-2xl font-semibold mt-12 mb-4 text-(--primary-green)">Outside of Tech</h2>
-    <p class="text-lg text-gray-400">
-      Outside of tech I enjoy spending time with friends, pool league, and spontaneous road trips.
-    </p>
+  <SkillsSection />
 
-  </section>
+  <div class="border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]">
+    <div class="mx-auto max-w-4xl px-6 py-12 text-gray-300">
 
-  <script>
-  document.querySelectorAll(".resume-row").forEach((row) => {
-    row.addEventListener("click", () => {
-      const content = row.querySelector(".resume-content") as HTMLElement;
+      <WorkExperience />
+      <Education />
 
-      if (!content) return;
 
-      if (content.style.maxHeight) {
-        content.style.maxHeight = "";
-      } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-      }
-    });
-  });
-</script>
+      <script is:inline>
+        (function () {
+          function initAboutScrollAnimations() {
+            var selectors = [
+              ".about-container",
+              ".skills-container",
+              ".experience-container",
+              "#education .education-container",
+              ".outside-tech-reveal",
+              ".certifications-reveal",
+            ].join(", ");
+            var opts = { threshold: 0.12, rootMargin: "0px 0px -32px 0px" };
+            var nodes = document.querySelectorAll(selectors);
+            if (!nodes.length) return;
+            var observer = new IntersectionObserver(function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("in-view");
+                  observer.unobserve(entry.target);
+                }
+              });
+            }, opts);
+            nodes.forEach(function (el) {
+              if (!el.classList.contains("in-view")) observer.observe(el);
+            });
+          }
+          document.addEventListener("DOMContentLoaded", initAboutScrollAnimations);
+          document.addEventListener("astro:page-load", initAboutScrollAnimations);
+        })();
+      </script>
+
+    </div>
+  </div>
 
 </Layout>

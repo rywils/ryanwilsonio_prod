@@ -1,0 +1,31 @@
+---
+import { BLOG_TAGS } from '@/data/blogTags';
+
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+
+const key = label?.toLowerCase().trim();
+
+const tag = BLOG_TAGS[key];
+
+const accent = tag?.color ?? 'var(--muted-foreground)';
+const display = tag?.label ?? label;
+---
+
+<span
+  class:list={[
+    "inline-flex items-center",
+    "text-[11px] uppercase tracking-wide",
+    "opacity-75",
+    "jetbrains-mono-projTag",
+    className
+  ]}
+>
+  <span class="font-semibold" style={`color: ${accent}`}>[</span>
+  <span class="px-0.5 text-muted-foreground">{display}</span>
+  <span class="font-semibold" style={`color: ${accent}`}>]</span>
+</span>

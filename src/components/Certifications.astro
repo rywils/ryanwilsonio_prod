@@ -1,0 +1,17 @@
+---
+ import cccert from '../assets/cc.webp';
+import rcpe from '../assets/rcpe.webp';
+import nse3 from '../assets/nse3.webp';
+import lmcp from '../assets/lmcp.webp';
+import { Image } from 'astro:assets';
+import Tooltipicon from './ui/Tooltipicon.astro';
+
+---
+
+<div class="certifications certifications-reveal scale-fade min-w-full mx-auto mt-8">
+  <ul class="grid grid-cols-2 md:flex gap-6 justify-center">
+    <li><Tooltipicon content="ISC2 Certified in Cybersecurity"><Image src={cccert} class="invert" height="120" width="120" alt="ISC2 Certified in Cybersecurity"/></Tooltipicon></li>
+    <li><Tooltipicon content="Riverbed Accredited Associate RCPE - WAN Optimization"><Image src={rcpe} height="120" width="120" alt="Riverbed Accredited Associate RCPE - WAN Optimization"/></Tooltipicon></li>
+    <li><Tooltipicon content="Fortinet NSE 3"><Image src={nse3} height="120" width="120" alt="Fortinet NSE 3"/></Tooltipicon></li>
+    <li><Tooltipicon content="Logicmonitor Certified Professional"><Image src={lmcp} height="120" width="120" class="mt-4 ml-6" alt="Logicmonitor Certified Professional" /></Tooltipicon></li>
+  </ul> 

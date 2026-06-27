@@ -1,0 +1,69 @@
+1. Our Scope
+This policy applies to all publicly accessible domains and subdomains owned and operated by Ryan Wilson.
+
+Primary Domain: ryanwilson.io
+
+Subdomains: All live, in-scope subdomains (if applicable).
+
+Note: Any assets hosted by third-party services (e.g., social media platforms, analytics provider domains, payment processors) are generally considered out of scope, unless a vulnerability in their integration directly compromises the primary assets listed above.
+
+2. How to Report a Vulnerability
+If you believe you have discovered a vulnerability on ryanwilson.io, please report it to the site owner as quickly and confidentially as possible.
+
+Contact Method: Please email the site owner directly:
+
+Email: security@ryanwilson.io or ryan@ryanwilson.io (or the most secure contact method provided on the site's contact page).
+
+Reporting Requirements: Your report should be detailed enough to allow for accurate reproduction and validation of the vulnerability. This includes:
+
+A detailed description of the vulnerability.
+
+The specific URL(s) and affected parameter(s).
+
+A step-by-step proof-of-concept (PoC) demonstrating the exploit.
+
+Any necessary setup or configuration details (e.g., browser, user agent, account type).
+
+The severity assessment, if possible (e.g., Low, Medium, High, Critical).
+
+3. Our Commitment to Researchers
+We commit to working with you openly and efficiently throughout the disclosure process:
+
+Response: We will acknowledge receipt of your report within 3 business days.
+
+Validation: We will provide an estimated timeline for validation and remediation within 7 business days.
+
+Remediation: We commit to remediating confirmed vulnerabilities as quickly as development resources allow, prioritizing based on severity.
+
+Credit: We are happy to recognize security researchers who follow this policy and responsibly disclose vulnerabilities (unless you request anonymity).
+
+4. Responsible Disclosure Guidelines (What You Must Follow)
+By engaging in vulnerability research against ryanwilson.io, you agree to adhere to the following rules:
+
+No Service Disruption: Do not perform any testing that could negatively impact the site's availability, stability, or integrity (e.g., Denial of Service attacks, spamming forms).
+
+Privacy Protection: Do not access, modify, or retain any user data, personal information, or proprietary information. If accidental access occurs, stop immediately and report the incident.
+
+Non-Destructive Testing: Use non-destructive testing methods. Do not attempt to modify or delete data, or escalate privileges beyond what is necessary to prove the vulnerability.
+
+Rate Limits: Respect rate limits and do not engage in automated scanning that generates high volumes of traffic.
+
+Third-Party Disclosure: Do not publicly disclose the vulnerability to any third party (e.g., on social media, blogs, forums) until we have confirmed remediation is complete.
+
+5. Out of Scope Activities
+The following actions are strictly prohibited and considered outside the scope of this policy:
+
+Social Engineering: Any attempts to phish, abuse, or harass employees, contractors, or users.
+
+Physical or Automated Attacks: Physical attempts against facilities or automated attacks such as DDoS.
+
+Publicly Known Issues: Reports on vulnerabilities that are already known, fixed, or publicly disclosed without demonstrating a specific impact on ryanwilson.io.
+
+Weak Security Headers/Best Practices: Reports related solely to missing best practices (e.g., missing sub-domain CNAME checks, clickjacking on static content, missing security headers where no exploit is demonstrated).
+
+Self XSS (Cross-Site Scripting): XSS that requires a user to paste code into their own browser console.
+
+Rate Limiting: Lack of rate limiting on minor forms (e.g., contact form, resume download) where the risk is purely nuisance spam.
+
+6. Legal Disclaimer
+Ryan Wilson is an individual and sole proprietor who maintains this website for personal and professional purposes. By adhering to the terms of this policy, you are authorized to conduct vulnerability research on the specified scope. We will not pursue legal action against you or contact law enforcement if you follow all guidelines set forth in this policy.

@@ -5,12 +5,13 @@ dist/
 
 # dependencies
 node_modules/
-
+.pnpm-store/
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+env-pull.mjs
 
 
 # environment variables
@@ -26,6 +27,10 @@ pnpm-debug.log*
 
 .notes
 notes
+workflows/
 
 .dev.vars/
 .wrangler/
+.vscode
+.wrangler.jsonc
+.astro-report.json
