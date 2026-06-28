@@ -1,19 +1,12 @@
 ---
 export const prerender = true;
-import Hero from "../components/Hero.astro"
-import Layout from "../layouts/Layout.astro"
-import Projects from "../components/Projects.astro"
-import Blog from "../components/Blog.astro"
-import Contact from "../components/Contact.astro"
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
+import Hero from "@/components/sections/home/Hero.astro";
+import Layout from "@/layouts/Layout.astro";
+import LazyHomeBelowFold from "@/components/sections/home/LazyHomeBelowFold.astro";
 ---
 
 <Layout title="Ryan Wilson" description="Profile, Blog & Portfolio">
-
-<Hero />
-<Projects />
-<Blog />
-<Contact />
+  <link slot="head" rel="prefetch" href="/partials/home-below-fold.html" as="document" />
+  <Hero />
+  <LazyHomeBelowFold />
 </Layout>
-

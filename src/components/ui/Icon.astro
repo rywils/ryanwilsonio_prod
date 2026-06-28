@@ -1,0 +1,32 @@
+---
+import { iconPath } from "@/lib/icons";
+
+interface Props {
+  icon: string;
+  class?: string;
+  title?: string;
+  width?: number;
+  height?: number;
+  loading?: "lazy" | "eager";
+}
+
+const {
+  icon,
+  class: className = "",
+  title,
+  width = 24,
+  height = 24,
+  loading = "lazy",
+} = Astro.props;
+---
+
+<img
+  src={iconPath(icon)}
+  alt=""
+  class={className}
+  title={title}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding="async"
+/>

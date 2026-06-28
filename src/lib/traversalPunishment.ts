@@ -36,7 +36,6 @@ declare global {
     __rwLulzSpamActive?: boolean;
     __rwSkullFloodResizeBound?: boolean;
     __rwGotchaLogged?: boolean;
-    whenPageRevealed?: (fn: () => void) => void;
   }
 }
 
@@ -102,17 +101,12 @@ function scheduleGotchaConsoleLog(): void {
     window.setTimeout(logGotcha, GOTCHA_CONSOLE_DELAY_MS);
   };
 
-  if (typeof window.whenPageRevealed === "function") {
-    window.whenPageRevealed(runAfterLoad);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runAfterLoad, { once: true });
     return;
   }
 
-  if (document.readyState === "complete") {
-    runAfterLoad();
-    return;
-  }
-
-  window.addEventListener("load", runAfterLoad, { once: true });
+  requestAnimationFrame(runAfterLoad);
 }
 
 function getHeroRootInMain(): HTMLElement | null {

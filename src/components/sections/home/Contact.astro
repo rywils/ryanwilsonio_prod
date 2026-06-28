@@ -1,0 +1,174 @@
+---
+
+export const prerender = false;
+
+import LucideIcon from '@/components/ui/LucideIcon.astro';
+
+const { compact = false } = Astro.props;
+
+const contactInfo = [
+  {
+    icon: 'mail' as const,
+    label: 'Email',
+    value: 'ryan@ryanwilson.io',
+    href: 'mailto:ryan@ryanwilson.io',
+  },
+];
+---
+
+<section
+  id="contact"
+  class="pt-12 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden border-b-1 border-[#10191d] shadow-md shadow-[#0a0a0a]"
+>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary-blue/5 to-transparent pointer-events-none"></div>
+
+  <div class:list={['contact-container relative z-10 mx-auto', compact ? 'max-w-3xl' : 'max-w-6xl']}>
+    <div class="text-center mb-8 contact-header">
+      <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4 text-[rgb(var(--primary-blue))] contact-title">
+        Get In Touch
+      </h2>
+      <div
+        class="contact-underline h-[2px] bg-gradient-to-r from-[rgb(var(--primary-blue))] to-[rgb(var(--primary-purple))] mx-auto rounded-full mt-4"
+        aria-hidden="true"
+      ></div>
+      <p class="text-muted-foreground max-w-2xl mx-auto pt-4 contact-subtitle">
+        Have a project in mind or want to collaborate? Feel free to reach out!
+      </p>
+    </div>
+
+    <div class="flex justify-center items-center">
+      <div class="flex flex-col space-y-6 contact-info">
+        <div class="max-w-2xl">
+          <h3 class="text-2xl mb-4 font-semibold text-[rgb(var(--primary-blue))] text-center">
+            Let's Connect
+          </h3>
+          <p class="text-muted-foreground mb-6 text-center">
+            I'm always interested in hearing about new projects and opportunities.
+            Whether you're a recruiter, hiring manager, have a question or just want to say hi, I'll try my best to
+            get back to you!
+          </p>
+        </div>
+
+        <div class="space-y-12">
+          {contactInfo.map((info) => (
+              <div class="justify-center flex">
+                <a
+                  href={info.href}
+                  class="contact-info-card flex items-center gap-4 px-8 py-4 rounded-xl bg-gradient-to-br from-[rgba(var(--primary-blue),0.10)] to-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-blue),0.20)] hover:border-[rgba(var(--primary-blue),0.50)] transition-all duration-200 ease-out hover:translate-x-1 group"
+                  style="--info-delay: 0s"
+                >
+                  <div class="p-3 rounded-full bg-[rgba(var(--primary-blue),0.10)] border border-[rgba(var(--primary-blue),0.30)] group-hover:bg-[rgba(var(--primary-blue),0.20)] transition-colors duration-200 ease-out">
+                    <LucideIcon name={info.icon} size={20} class="w-5 h-5 text-[rgb(var(--primary-blue))]" />
+                  </div>
+                  <div>
+                    <p class="text-sm text-muted-foreground">{info.label}</p>
+                    <p class="group-hover:text-[rgb(var(--primary-blue))] transition-colors duration-200 ease-out">
+                      {info.value}
+                    </p>
+                  </div>
+                </a>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  function initContactScroll() {
+    document.querySelectorAll("#contact .contact-container").forEach(function (container) {
+      if (container.dataset.contactScrollBound === "1") return;
+      container.dataset.contactScrollBound = "1";
+
+      var opts = { threshold: 0.12, rootMargin: "0px 0px -32px 0px" };
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, opts);
+
+      obs.observe(container);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initContactScroll);
+  document.addEventListener("astro:page-load", initContactScroll);
+
+  function showToast(message, type) {
+    var toastContainer = document.getElementById("toast-container");
+    if (!toastContainer) return;
+    var toast = document.createElement("div");
+    toast.className =
+      "px-6 py-3 rounded-lg shadow-lg " +
+      (type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white");
+    toast.textContent = message;
+    toastContainer.appendChild(toast);
+    setTimeout(function () {
+      toastContainer.removeChild(toast);
+    }, 4000);
+  }
+
+  function setupForm() {
+    var form = document.getElementById("contact-form");
+    if (!form) return;
+
+    if (form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
+
+    var submitButton = document.getElementById("submit-button");
+    var buttonText = document.getElementById("button-text");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      submitButton.disabled = true;
+      buttonText.textContent = "Sending...";
+
+      try {
+        var response = await fetch("/api/contact", {
+          method: "POST",
+          body: new FormData(form),
+        });
+
+        if (response.ok) {
+          showToast("Message sent! I'll get back to you soon.", "success");
+          form.reset();
+        } else {
+          var message = "Failed to send message. Please try again.";
+          var contentType = response.headers.get("content-type") || "";
+          if (contentType.includes("application/json")) {
+            try {
+              var data = await response.json();
+              if (data && data.error) {
+                message = String(data.error);
+                if (data.details) message = message + ": " + String(data.details);
+              }
+            } catch (ignore) {}
+          } else {
+            try {
+              var text = await response.text();
+              if (text) message = text;
+            } catch (ignore2) {}
+          }
+          showToast(message, "error");
+        }
+      } catch (err) {
+        showToast("Network error. Please try again.", "error");
+      } finally {
+        submitButton.disabled = false;
+        buttonText.textContent = "Send Message";
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupForm);
+  } else {
+    setupForm();
+  }
+
+  document.addEventListener("astro:page-load", setupForm);
+</script>

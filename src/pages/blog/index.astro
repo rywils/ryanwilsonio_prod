@@ -1,9 +1,8 @@
 ---
 
 import Layout from '../../layouts/Layout.astro';
-import { Calendar, Clock, User, ArrowRight, ChevronDown } from 'lucide-react';
+import LucideIcon from "@/components/ui/LucideIcon.astro";
 import { getCollection } from 'astro:content';
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import CategoryMarker from '@/components/ui/CategoryMarker.astro';
 
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -75,7 +74,7 @@ function getPreview(content: string, wordCount: number = 50): string {
             class="flex w-full min-w-0 items-center justify-between gap-2 rounded-sm border-2 border-[rgb(var(--primary-blue))] px-3 py-2 text-sm font-semibold text-[rgb(var(--primary-blue))] transition-all duration-200 ease-out hover:scale-[1.02] hover:border-[rgb(var(--primary-purple))] hover:bg-[rgba(var(--primary-purple),0.10)] hover:text-[rgb(var(--primary-purple))] active:scale-[0.98] sm:px-4"
           >
             <span id="selected-category" class="truncate text-left">All Categories</span>
-            <ChevronDown size={16} class="shrink-0" id="dropdown-icon" />
+            <LucideIcon name="chevron-down" size={16} class="shrink-0" id="dropdown-icon" />
           </button>
 
           <div
@@ -125,11 +124,11 @@ function getPreview(content: string, wordCount: number = 50): string {
 
     <div class="flex items-center gap-3 text-xs text-muted-foreground">
       <span class="flex items-center gap-1">
-        <Calendar size={12} />
+        <LucideIcon name="calendar" size={12} />
         {post.data.date}
       </span>
       <span class="flex items-center gap-1">
-        <Clock size={12} />
+        <LucideIcon name="clock" size={12} />
         {post.data.readTime}
       </span>
     </div>
@@ -145,13 +144,13 @@ function getPreview(content: string, wordCount: number = 50): string {
 
   <div class="flex items-center justify-between">
     <span class="flex items-center gap-1 text-xs text-muted-foreground">
-      <User size={12} />
+      <LucideIcon name="user" size={12} />
       {post.data.author}
     </span>
 
     <span class="flex items-center gap-1 text-xs text-[rgb(var(--primary-blue))] group-hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out font-medium">
       Read More
-      <ArrowRight size={12} class="group-hover:translate-x-1 transition-transform duration-200 ease-out" />
+      <LucideIcon name="arrow-right" size={12} class="group-hover:translate-x-1 transition-transform duration-200 ease-out" />
     </span>
   </div>
 </div>

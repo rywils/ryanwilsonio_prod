@@ -1,0 +1,177 @@
+---
+
+---
+
+<canvas id="orbital-tracer" class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50"></canvas>
+
+<script>
+(function () {
+  const canvas = document.getElementById('orbital-tracer') as HTMLCanvasElement;
+  if (!canvas) return;
+
+  const SIZE = 220;
+  canvas.width = SIZE;
+  canvas.height = SIZE;
+  canvas.style.width = SIZE + 'px';
+  canvas.style.height = SIZE + 'px';
+
+  const ctx = canvas.getContext('2d')!;
+  const cx = SIZE / 2;
+  const cy = SIZE / 2;
+
+  const RADIUS = 102;
+  const icons = [
+    { name: 'C',      angle: Math.atan2(-117,    0), color: '#4e4ab4' },
+    { name: 'Elixir', angle: Math.atan2( -73,  -91), color: '#2f2a44' },
+    { name: 'C#',     angle: Math.atan2(  26, -114), color: '#953cad' },
+    { name: 'PHP',    angle: Math.atan2( 105,  -51), color: '#edeef0' },
+    { name: 'Go',     angle: Math.atan2( 105,   51), color: '#00b4e0' },
+    { name: 'Python', angle: Math.atan2(  26,  114), color: '#ffd94a' },
+    { name: 'Rust',   angle: Math.atan2( -73,   91), color: '#df372a' },
+  ];
+
+  const DOM_INDEX: Record<string, number> = {
+    C: 0, Rust: 1, Python: 2, Go: 3, PHP: 4, 'C#': 5, Elixir: 6,
+  };
+
+  const SPEED = (2 * Math.PI) / (36 * 60);
+
+  function normalizeAngle(a: number): number {
+    while (a >  Math.PI) a -= 2 * Math.PI;
+    while (a < -Math.PI) a += 2 * Math.PI;
+    return a;
+  }
+
+  // CCW angular distance from->to, 0...2
+  function ccwDist(from: number, to: number): number {
+    let d = normalizeAngle(from - to);
+    if (d < 0) d += 2 * Math.PI;
+    return d;
+  }
+
+  type Segment = { startAngle: number; endAngle: number; color: string; closed: boolean };
+  const segments: Segment[] = [];
+
+  let dotAngle       = icons[0].angle;
+  let currentIconIdx = 0;
+
+  segments.push({ startAngle: dotAngle, endAngle: dotAngle, color: icons[0].color, closed: false });
+
+  function getSkillEl(name: string): HTMLElement | null {
+    const els = document.querySelectorAll<HTMLElement>('.skill');
+    const idx = DOM_INDEX[name];
+    return (idx !== undefined && els[idx]) ? els[idx] : null;
+  }
+
+  function triggerPop(name: string, popColor: string) {
+    const el = getSkillEl(name);
+    if (!el) return;
+el.style.transition = 'filter 0.4s ease-in, box-shadow 0.4s ease-in';
+el.style.filter     = 'brightness(1.6)';
+el.style.boxShadow  = '0 0 16px ' + popColor;
+setTimeout(() => {
+  el.style.transition = 'filter 1.2s ease-out, box-shadow 1.2s ease-out';
+  el.style.filter     = 'brightness(1)';
+  el.style.boxShadow  = '';
+}, 450);
+  }
+
+  function hexToRgba(hex: string, alpha: number): string {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  const TRAIL_SPAN = 0.55; // radians (~31 degrees) of comet tail
+
+  // Draw comet tail as individual line segments between computed points.
+  function drawArc(segStart: number, dotEnd: number, color: string, baseAlpha: number) {
+    const fullSpan  = ccwDist(segStart, dotEnd);
+    const trailSpan = Math.min(fullSpan, TRAIL_SPAN);
+    if (trailSpan < 0.003) return; // nothing to draw yet
+
+    const STEPS = 40;
+    for (let i = 0; i < STEPS; i++) {
+      const t0 = i       / STEPS;
+      const t1 = (i + 1) / STEPS;
+      const a0 = dotEnd + trailSpan * (1 - t0); 
+      const a1 = dotEnd + trailSpan * (1 - t1);
+      const x0 = cx + RADIUS * Math.cos(a0);
+      const y0 = cy + RADIUS * Math.sin(a0);
+      const x1 = cx + RADIUS * Math.cos(a1);
+      const y1 = cy + RADIUS * Math.sin(a1);
+      const fade  = Math.pow(t1, 1.2);
+      const alpha = baseAlpha * fade;
+
+      if (alpha < 0.015) continue;
+
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.strokeStyle = hexToRgba(color, alpha);
+      ctx.lineWidth   = 1;
+      ctx.lineCap     = 'round';
+      ctx.stroke();
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, SIZE, SIZE);
+
+    const prevAngle = dotAngle;
+    dotAngle = normalizeAngle(dotAngle - SPEED);
+
+    // Detect passing the next icon.
+    const nextIdx    = (currentIconIdx + 1) % icons.length;
+    const nextAngle  = icons[nextIdx].angle;
+    const distBefore = ccwDist(prevAngle, nextAngle);
+    const distAfter  = ccwDist(dotAngle,  nextAngle);
+    const passed     = distBefore < SPEED * 6 && distAfter > Math.PI;
+
+    if (passed) {
+      segments[segments.length - 1].endAngle = nextAngle;
+      segments[segments.length - 1].closed   = true;
+
+      dotAngle       = nextAngle;
+      currentIconIdx = nextIdx;
+
+      triggerPop(icons[nextIdx].name, icons[nextIdx].color);
+
+      segments.length = 0;
+      segments.push({
+        startAngle: dotAngle,
+        endAngle:   dotAngle,
+        color:      icons[currentIconIdx].color,
+        closed:     false,
+      });
+    }
+
+    // Keep live segment's end updated
+    const live = segments[segments.length - 1];
+    if (!live.closed) live.endAngle = dotAngle;
+
+    const liveDraw = segments[segments.length - 1];
+    drawArc(liveDraw.startAngle, liveDraw.endAngle, liveDraw.color, 0.9);
+
+    // White dot
+    const dotX = cx + RADIUS * Math.cos(dotAngle);
+    const dotY = cy + RADIUS * Math.sin(dotAngle);
+    ctx.beginPath();
+    ctx.arc(dotX, dotY, 1, 0, Math.PI * 2);
+    ctx.fillStyle   = 'rgba(255, 255, 255, 0.7)';
+ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+ctx.shadowBlur  = 10;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+
+    requestAnimationFrame(animate);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", animate, { once: true });
+  } else {
+    animate();
+  }
+})();
+</script>

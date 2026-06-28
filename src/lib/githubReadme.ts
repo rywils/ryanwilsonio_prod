@@ -132,7 +132,193 @@ export function excerptPlainText(text: string, length = 100): string {
   const plain = markdownToPlainText(text);
   if (!plain) return '';
   if (plain.length <= length) return plain;
-  return `${plain.slice(0, length).trimEnd()}…`;
+  const slice = plain.slice(0, length);
+  const lastSpace = slice.lastIndexOf(' ');
+  const trimmed = (lastSpace > length * 0.55 ? slice.slice(0, lastSpace) : slice).trimEnd();
+  return `${trimmed}…`;
+}
+
+function stripPreviewMarkdown(markdown: string): string {
+  return markdown
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/^\|.+\|\s*\n\|[-:\s|]+\|\s*\n(?:\|.+\|\s*\n?)*/gm, '')
+    .trim();
+}
+
+function splitMarkdownBlocks(markdown: string): string[] {
+  return markdown
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean);
+}
+
+function isListBlock(block: string): boolean {
+  return block.split('\n').every((line) => /^\s*(?:[-*+]|\d+\.)\s+/.test(line) || !line.trim());
+}
+
+function excerptListBlock(block: string, remaining: number): string {
+  const lines = block.split('\n').filter((line) => line.trim());
+  const kept: string[] = [];
+  let plain = 0;
+
+  for (const line of lines) {
+    const linePlain = markdownToPlainText(line);
+    if (kept.length > 0 && plain + linePlain.length > remaining) break;
+    if (kept.length === 0 && linePlain.length > remaining) {
+      return truncateInlineMarkdown(line, remaining);
+    }
+    kept.push(line);
+    plain += linePlain.length;
+  }
+
+  if (kept.length < lines.length && kept.length > 0) {
+    const marker = /^\s*\d+\./.test(lines[0]!) ? '1.' : '-';
+    kept.push(`${marker} …`);
+  }
+
+  return kept.join('\n');
+}
+
+function truncateInlineMarkdown(markdown: string, maxPlain: number): string {
+  if (maxPlain <= 0) return '…';
+  const plain = markdownToPlainText(markdown);
+  if (plain.length <= maxPlain) return markdown;
+
+  let plainCount = 0;
+  let i = 0;
+  let result = '';
+
+  const appendEllipsis = () => {
+    if (!result.endsWith('…')) result = `${result.trimEnd()}…`;
+  };
+
+  while (i < markdown.length && plainCount < maxPlain) {
+    if (markdown.startsWith('**', i)) {
+      const end = markdown.indexOf('**', i + 2);
+      if (end !== -1) {
+        const inner = markdown.slice(i + 2, end);
+        const innerPlain = markdownToPlainText(inner);
+        if (plainCount + innerPlain.length > maxPlain) {
+          result += `**${truncateInlineMarkdown(inner, maxPlain - plainCount).replace(/…$/, '')}**`;
+          appendEllipsis();
+          break;
+        }
+        result += markdown.slice(i, end + 2);
+        plainCount += innerPlain.length;
+        i = end + 2;
+        continue;
+      }
+    }
+
+    if (markdown[i] === '`') {
+      const end = markdown.indexOf('`', i + 1);
+      if (end !== -1) {
+        const inner = markdown.slice(i + 1, end);
+        if (plainCount + inner.length > maxPlain) {
+          result += `\`${inner.slice(0, maxPlain - plainCount)}…\``;
+          plainCount = maxPlain;
+          break;
+        }
+        result += markdown.slice(i, end + 1);
+        plainCount += inner.length;
+        i = end + 1;
+        continue;
+      }
+    }
+
+    if (markdown[i] === '[') {
+      const closeBracket = markdown.indexOf(']', i + 1);
+      const openParen = closeBracket !== -1 ? markdown.indexOf('(', closeBracket) : -1;
+      const closeParen = openParen !== -1 ? markdown.indexOf(')', openParen + 1) : -1;
+      if (closeBracket !== -1 && openParen === closeBracket + 1 && closeParen !== -1) {
+        const label = markdown.slice(i + 1, closeBracket);
+        const url = markdown.slice(openParen + 1, closeParen);
+        if (plainCount + label.length > maxPlain) {
+          result += `[${label.slice(0, maxPlain - plainCount)}…](${url})`;
+          plainCount = maxPlain;
+          break;
+        }
+        result += markdown.slice(i, closeParen + 1);
+        plainCount += label.length;
+        i = closeParen + 1;
+        continue;
+      }
+    }
+
+    result += markdown[i];
+    plainCount += 1;
+    i += 1;
+  }
+
+  if (plain.length > maxPlain) appendEllipsis();
+  return result;
+}
+
+/** Keep block structure (paragraphs, lists, headings) while limiting visible text length. */
+export function excerptMarkdown(markdown: string, length = 520): string {
+  const source = stripPreviewMarkdown(stripFirstH1(markdown));
+  if (!source) return '';
+
+  const fullPlain = markdownToPlainText(source);
+  if (fullPlain.length <= length) return source;
+
+  const blocks = splitMarkdownBlocks(source);
+  const parts: string[] = [];
+  let totalPlain = 0;
+
+  for (const block of blocks) {
+    const blockPlain = markdownToPlainText(block);
+    if (totalPlain >= length) break;
+
+    if (totalPlain + blockPlain.length <= length) {
+      parts.push(block);
+      totalPlain += blockPlain.length;
+      continue;
+    }
+
+    const remaining = length - totalPlain;
+    if (remaining < 40) break;
+
+    if (isListBlock(block)) {
+      const partial = excerptListBlock(block, remaining);
+      if (partial) parts.push(partial);
+    } else {
+      parts.push(truncateInlineMarkdown(block, remaining));
+    }
+    break;
+  }
+
+  return parts.join('\n\n').trim();
+}
+
+export async function renderMarkdownExcerpt(markdown: string, length = 520): Promise<string> {
+  const excerpt = excerptMarkdown(markdown, length);
+  if (!excerpt) return '';
+  const p = await getProcessor();
+  const rendered = await p.render(excerpt);
+  return rendered.code?.trim() ?? '';
+}
+
+export async function getGitHubReadmeExcerptHtml(
+  githubUrl: string,
+  length = 520,
+): Promise<string | null> {
+  try {
+    const parsed = parseGitHubUrl(githubUrl);
+    if (!parsed?.repo) return null;
+
+    const result = await fetchGitHubReadme(parsed.owner, parsed.repo);
+    if (!result) return null;
+
+    const baseUrl = `https://raw.githubusercontent.com/${parsed.owner}/${parsed.repo}/${result.branch}/`;
+    const processed = resolveMarkdownUrls(result.markdown, baseUrl);
+    const html = await renderMarkdownExcerpt(processed, length);
+    return html || null;
+  } catch (e) {
+    console.error(`getGitHubReadmeExcerptHtml error for ${githubUrl}:`, e);
+    return null;
+  }
 }
 
 export async function getGitHubReadmeMarkdown(githubUrl: string): Promise<string | null> {

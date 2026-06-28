@@ -44,7 +44,7 @@ export const skillData: SkillCategory[] = [
       { name: "Fedora Linux", icon: "logos:fedora" },
       { name: "CentOS", icon: "devicon:centos" },
       { name: "Alma Linux", icon: "simple-icons:almalinux" },
-      { name: "Arch Linux", icon: "logos:archlix" },
+      { name: "Arch Linux", icon: "simple-icons:archlinux" },
       { name: "Debian", icon: "devicon:debian" },
       { name: "Ubuntu", icon: "logos:ubuntu" },
       { name: "Microsoft Windows", icon: "devicon:windows11" },

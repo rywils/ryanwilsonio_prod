@@ -1,19 +1,16 @@
 ---
 
 import Layout from '../../layouts/Layout.astro';
-import { ExternalLink, Github, Tag } from 'lucide-react';
 import { getCollection } from 'astro:content';
-import ComingSoon from "../../components/ComingSoon.astro"
-import CategoryEmpty from '@/components/CategoryEmpty.astro';
-import LangBadge from '@/components/ui/LangBadge.astro';
-import ProjectImage from '@/components/ProjectImage.astro';
+import CategoryEmpty from "@/components/feedback/CategoryEmpty.astro";
+import LangBadge from "@/components/ui/LangBadge.astro";
+import ProjectImage from "@/components/projects/ProjectImage.astro";
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => 
   b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 
 const categories = ['All', 'Development', 'Systems/Cloud', 'Cybersecurity'];
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <Layout title="Projects" description="Portfolio/Project showcasing of completed and in-progress projects.">

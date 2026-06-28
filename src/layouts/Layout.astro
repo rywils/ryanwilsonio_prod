@@ -5,64 +5,15 @@ export interface Props {
 }
 
 import '../styles/globals.css';
-import Navigation from '../components/Navigation.astro';
-import ContentBarLeft from '../components/ui/ContentBarLeft.astro';
-import ContentBarRight from '../components/ui/ContentBarRight.astro';
-import Footer from '../components/Footer.astro';
-import PageLoader from '../components/PageLoader.astro';
+import Navigation from '@/components/layout/Navigation.astro';
+import Footer from '@/components/layout/Footer.astro';
 import { SEO } from 'astro-seo';
 const { title } = Astro.props;
-const { description } = Astro.props; 
-import * as Sentry from "@sentry/astro";
-
-Sentry.metrics.count('test_metric', 1);
-
+const { description } = Astro.props;
 ---
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- Intro loader: first full navigate only (per tab session) -->
-    <script is:inline>
-      try {
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          var navEntry = performance.getEntriesByType("navigation")[0];
-          var navType = navEntry && navEntry.type ? navEntry.type : "navigate";
-          var introDone = sessionStorage.getItem("rw-intro-completed") === "1";
-          var skipIntro = navType !== "navigate" || introDone;
-          if (!skipIntro) {
-            document.documentElement.classList.add("page-loader-active");
-          }
-        }
-      } catch (e) {}
-    </script>
-    <script is:inline>
-      window.whenPageRevealed = function (fn) {
-        if (typeof fn !== "function") return;
-        if (document.documentElement.classList.contains("page-loader-active")) {
-          document.addEventListener(
-            "rw-page-loader-dismissed",
-            function onReady() {
-              document.removeEventListener("rw-page-loader-dismissed", onReady);
-              fn();
-            }
-          );
-          return;
-        }
-        if (document.readyState === "loading") {
-          document.addEventListener(
-            "DOMContentLoaded",
-            function onDcl() {
-              document.removeEventListener("DOMContentLoaded", onDcl);
-              fn();
-            }
-          );
-        } else {
-          requestAnimationFrame(function () {
-            fn();
-          });
-        }
-      };
-    </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp">
@@ -100,9 +51,7 @@ Sentry.metrics.count('test_metric', 1);
         creator: "@siltrace_"
       }}
       extend={{
-        
         link: [{ rel: "icon", href: "/favicon.ico" }],
-        
         meta: [
           {
             name: "twitter:image",
@@ -115,18 +64,13 @@ Sentry.metrics.count('test_metric', 1);
     />
     <title>{title}</title>
     <slot name="head" />
-    
   </head>
-  
+
   <body class="bg-[#0a0a0a] overflow-x-hidden">
-    <PageLoader />
     <div id="documentContainer" class="max-w-2xl md:max-w-5xl h-full glow-grey mx-auto border-l border-r border-[#0a0a0a]/20 ">
-      <!-- <ContentBarLeft/> -->
-      <!-- <ContentBarRight/> -->
       <Navigation />
       <main id="main-content">
         <slot />
-        
       </main>
       <Footer/>
     </div>
@@ -139,7 +83,6 @@ Sentry.metrics.count('test_metric', 1);
     <script is:inline>
       (function () {
         function initScrollReveal() {
-          if (document.documentElement.classList.contains("page-loader-active")) return;
           var root = document.getElementById("main-content");
           if (!root) return;
           var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -183,13 +126,31 @@ Sentry.metrics.count('test_metric', 1);
             });
           }
         }
-        function boot() { initScrollReveal(); }
-        if (typeof window.whenPageRevealed === "function") {
-          window.whenPageRevealed(boot);
-        } else {
-          boot();
+        initScrollReveal();
+        document.addEventListener("astro:page-load", initScrollReveal);
+
+        function initSectionReveal() {
+          var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var opts = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+          document.querySelectorAll(".projects-container, .blog-container, .contact-container").forEach(function (el) {
+            if (el.classList.contains("in-view") || el.dataset.sectionRevealBound === "1") return;
+            el.dataset.sectionRevealBound = "1";
+            if (reduced) {
+              el.classList.add("in-view");
+              return;
+            }
+            var obs = new IntersectionObserver(function (entries) {
+              entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("in-view");
+                obs.unobserve(entry.target);
+              });
+            }, opts);
+            obs.observe(el);
+          });
         }
-        document.addEventListener("astro:page-load", boot);
+        initSectionReveal();
+        document.addEventListener("astro:page-load", initSectionReveal);
       })();
     </script>
     <script is:inline>

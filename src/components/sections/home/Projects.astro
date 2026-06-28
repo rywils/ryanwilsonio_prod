@@ -1,0 +1,222 @@
+---
+import LucideIcon from '@/components/ui/LucideIcon.astro';
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import ProjectCard from '@/components/projects/ProjectCard.astro';
+import { resolveProjectImage } from '@/lib/projectImages';
+import { getGitHubReadmeExcerptHtml, renderMarkdownExcerpt } from '@/lib/githubReadme';
+import { shouldUseLocalProjectBody } from '@/lib/projectContent';
+
+const allProjects = await getCollection('projects');
+const projects = [...allProjects].sort((a, b) =>
+  b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const featuredProjects = projects
+  .filter(p => p.data.featured)
+  .slice(0, 6);
+
+const displayProjects = featuredProjects.length > 0 ? featuredProjects : projects.slice(0, 6);
+
+const PREVIEW_EXCERPT_CHARS = 520;
+
+const projectsWithContent = await Promise.all(
+  displayProjects.map(async (project) => {
+    const slug = project.id.replace(/\.md$/, '');
+    const useLocalBody = shouldUseLocalProjectBody(project.data.overwrite, project.data.github);
+    let previewHtml = '';
+    if (useLocalBody) {
+      previewHtml = await renderMarkdownExcerpt(project.body ?? '', PREVIEW_EXCERPT_CHARS);
+    } else if (project.data.github) {
+      previewHtml =
+        (await getGitHubReadmeExcerptHtml(project.data.github, PREVIEW_EXCERPT_CHARS)) ??
+        (await renderMarkdownExcerpt(project.body ?? '', PREVIEW_EXCERPT_CHARS));
+    }
+    const imageMeta = resolveProjectImage(project.data.image);
+    const optimizedImage = imageMeta
+      ? (await getImage({ src: imageMeta, width: 960, format: 'webp' })).src
+      : project.data.image;
+    return { project, slug, previewHtml, optimizedImage };
+  })
+);
+---
+
+<section id="projects" class="py-10 md:pt-12 md:pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a]">
+  <div class="max-w-7xl mx-auto relative z-10 projects-container ">
+    <div class="text-center mb-16">
+      <h2 class="text-2xl sm:text-5xl md:text-5xl mb-4 text-[rgb(var(--primary-blue))] projects-title">
+        Recent Projects
+      </h2>
+      <div class="h-[2px] w-20 bg-gradient-to-r from-[rgb(var(--secondary-purple))] to-[rgb(var(--primary-purple))] mx-auto rounded-full mt-4 projects-underline"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+      {displayProjects.map((project, index) => (
+        <ProjectCard
+          slug={project.id.replace(/\.md$/, '')}
+          title={project.data.title}
+          description={project.data.description}
+          image={project.data.image}
+          tags={project.data.tags}
+          category={Array.isArray(project.data.category) ? project.data.category : [project.data.category]}
+          index={index}
+        />
+      ))}
+    </div>
+
+    {allProjects.length > 6 && (
+      <div class="text-center mt-16">
+        <a
+          href="/projects"
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-md border border-[rgb(var(--primary-blue))] text-sm text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.1)] hover:scale-105 transition-all duration-200 ease-out active:scale-95 font-semibold"
+          data-astro-prefetch
+        >
+          View All Projects
+          <LucideIcon name="external-link" size={16} />
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+<div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6">
+  <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm" id="project-modal-backdrop"></div>
+  <div class="modal-content relative z-10 flex w-full max-w-xl max-h-[min(88vh,680px)] flex-col overflow-hidden rounded-2xl border border-[rgba(var(--primary-blue),0.30)] bg-card shadow-2xl">
+    <div class="flex shrink-0 items-center justify-between border-b border-[rgba(var(--primary-blue),0.20)] bg-card px-4 py-3 sm:px-5">
+      <button id="project-modal-back" class="flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-colors duration-200 ease-out cursor-pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+      </button>
+      <button id="project-modal-close" class="text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--secondary-pink))] transition-colors duration-200 ease-out cursor-pointer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="project-modal-body flex-1 overflow-y-auto px-4 py-4 sm:px-5 sm:py-5 bg-card text-sm" id="project-modal-body"></div>
+  </div>
+</div>
+
+<script define:vars={{ projectsWithContent }}>
+  function renderLangBadge(tag) {
+    const accents = {
+      go: '#6ad7e5', python: '#f2c94c', javascript: '#f7df1e', typescript: '#3178c6',
+      c: '#5bc0de', cpp: '#6495ed', cs: '#9b59b6', bash: '#7bd88f', powershell: '#4fa3ff',
+      php: '#8993be', lua: '#e67e22', java: '#f2994a', ruby: '#eb5757', html: '#ff6b6b',
+      css: '#56ccf2', sass: '#f178b6', tailwind: '#38bdf8',
+    };
+    const accent = accents[tag] ?? '#6b7280';
+    return `<span class="relative inline-flex items-center px-2 py-1 text-[11px] uppercase tracking-wide bg-[#0b1215] border border-[#10191d] opacity-85 rounded-sm"><span class="absolute left-0 top-0 h-full w-[2px] rounded-l-sm" style="background-color: ${accent}"></span><span class="relative z-10 jetbrains-mono-projTag">${tag}</span></span>`;
+  }
+
+  function initProjectModal() {
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('project-modal-body');
+    const modalBackdrop = document.getElementById('project-modal-backdrop');
+    const modalBack = document.getElementById('project-modal-back');
+    const modalClose = document.getElementById('project-modal-close');
+
+    if (!modal || !modalBody) return;
+    if (modal.dataset.modalBound === "1") return;
+    modal.dataset.modalBound = "1";
+
+    const projectContents = {};
+    const projectExcerpts = {};
+    projectsWithContent.forEach(({ project, slug, previewHtml, optimizedImage }) => {
+      const p = project.data;
+      const techs = project.data.technologies || [];
+      projectExcerpts[slug] = previewHtml || '';
+      
+      projectContents[slug] = `
+        <div class="project-modal-inner">
+          <img src="${optimizedImage}" alt="${p.title}" class="mb-4 h-36 w-full rounded-lg object-cover sm:h-40" width="640" height="360" loading="lazy" decoding="async" />
+          <h2 class="mb-2 text-xl font-semibold text-[rgb(var(--primary-purple))] sm:text-2xl">${p.title}</h2>
+          <div class="mb-4 flex flex-wrap gap-1.5">${p.tags.map(tag => renderLangBadge(tag)).join('')}</div>
+          <div class="mb-5 flex flex-wrap gap-2">
+            ${p.github ? `<a href="${p.github}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-sm border border-[rgb(var(--primary-blue))] bg-[rgba(var(--primary-blue),0.20)] px-3 py-1.5 text-xs text-[rgb(var(--primary-blue))] transition-all duration-200 ease-out hover:bg-[rgba(var(--primary-blue),0.30)]"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>View Code</a>` : ''}
+            ${p.demo && p.demo !== p.github ? `<a href="${p.demo}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-sm border border-[rgb(var(--secondary-purple))] bg-[rgba(var(--secondary-purple),0.20)] px-3 py-1.5 text-xs text-[rgb(var(--secondary-purple))] transition-all duration-200 ease-out hover:bg-[rgba(var(--secondary-purple),0.30)]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>Live Demo</a>` : ''}
+          </div>
+          <div class="project-modal-excerpt mb-5 text-muted-foreground" data-excerpt-slot></div>
+          ${techs.length > 0 ? `<div class="mb-5"><h3 class="mb-2 text-sm font-semibold text-[rgb(var(--primary-blue))]">Technologies Used</h3><div class="flex flex-wrap gap-1.5">${techs.map(tech => `<span class="rounded-sm border border-[rgba(var(--primary-purple),0.30)] bg-[rgba(var(--primary-purple),0.10)] px-2 py-0.5 text-[11px] font-medium">${tech}</span>`).join('')}</div></div>` : ''}
+          <div class="border-t border-[rgba(var(--primary-blue),0.20)] pt-4 text-center"><a href="/projects/${slug}" class="inline-flex items-center gap-1.5 rounded-sm bg-[rgb(var(--primary-blue))] px-4 py-2 text-xs font-semibold text-white transition-all duration-200 ease-out hover:bg-[rgb(var(--primary-purple))] hover:scale-105 active:scale-95">Read Full Project<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+        </div>
+      `;
+    });
+
+    function openModal(projectSlug) {
+      if (!projectContents[projectSlug]) return;
+      modalBody.innerHTML = projectContents[projectSlug];
+      const excerptSlot = modalBody.querySelector('[data-excerpt-slot]');
+      const excerptHtml = projectExcerpts[projectSlug];
+      if (excerptSlot && excerptHtml) {
+        excerptSlot.innerHTML = excerptHtml;
+      } else if (excerptSlot) {
+        excerptSlot.remove();
+      }
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      requestAnimationFrame(() => {
+        modal.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closeModal() {
+      modal.classList.remove('modal-open');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    document.querySelectorAll("#projects .project-card").forEach(card => {
+      card.addEventListener('click', () => {
+        const projectSlug = card.getAttribute('data-project-slug');
+        if (projectSlug) openModal(projectSlug);
+      });
+    });
+
+    modalBackdrop?.addEventListener('click', closeModal);
+    modalBack?.addEventListener('click', closeModal);
+    modalClose?.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initProjectModal);
+  document.addEventListener('astro:page-load', initProjectModal);
+
+  if (typeof window !== 'undefined') {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    function setupObserver() {
+      const section = document.querySelector('#projects .projects-container');
+      if (section) {
+        observer.observe(section);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', setupObserver);
+    document.addEventListener('astro:page-load', setupObserver);
+  }
+</script>
+

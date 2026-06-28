@@ -1,10 +1,10 @@
 ---
 
 import Layout from '../../layouts/Layout.astro';
-import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
+import LucideIcon from "@/components/ui/LucideIcon.astro";
 import { getCollection, render } from 'astro:content';
-import LangBadge from '@/components/ui/LangBadge.astro';
-import ProjectImage from '@/components/ProjectImage.astro';
+import LangBadge from "@/components/ui/LangBadge.astro";
+import ProjectImage from "@/components/projects/ProjectImage.astro";
 import { getGitHubReadmeHtml } from '@/lib/githubReadme';
 import { shouldUseLocalProjectBody } from '@/lib/projectContent';
 
@@ -38,19 +38,19 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
 <Layout title={`${project.data.title} - Ryan Wilson`}>
   <article class="project-detail pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden min-h-screen">
     
-    <div class="max-w-5xl mx-auto relative z-10">
+    <div class="max-w-3xl mx-auto relative z-10">
       
       <a 
         href="/projects"
-        class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out mb-8 group"
+        class="inline-flex items-center gap-2 text-sm text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out mb-6 group"
         data-astro-prefetch
       >
-        <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={20} />
-        <span class="font-semibold">Back to Projects</span>
+        <LucideIcon name="arrow-left" class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={18} />
+        <span class="font-medium">Back to Projects</span>
       </a>
 
       
-      <div class="relative overflow-hidden rounded-2xl mb-8 aspect-video border border-[rgba(var(--primary-blue),0.20)]">
+      <div class="relative overflow-hidden rounded-xl mb-6 aspect-video border border-[rgba(var(--primary-blue),0.20)]">
         <ProjectImage
           src={project.data.image}
           alt={project.data.title}
@@ -60,12 +60,12 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
       </div>
 
       
-      <div class="mb-8">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-[rgb(var(--primary-purple))] mb-4">
+      <div class="mb-6">
+        <h1 class="text-2xl sm:text-3xl font-semibold text-[rgb(var(--primary-purple))] mb-3 tracking-tight">
           {project.data.title}
         </h1>
         
-        <div class="flex flex-wrap gap-2 mb-6">
+        <div class="flex flex-wrap gap-1.5 mb-4">
   {project.data.tags.map(tag => (
     <LangBadge
       variant={tag as any}
@@ -76,15 +76,15 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
 
 
         
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-wrap gap-2">
           {project.data.github && (
             <a 
               href={project.data.github}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-sm bg-[rgba(var(--primary-blue),0.20)] border border-[rgb(var(--primary-blue))] text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-medium"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-sm bg-[rgba(var(--primary-blue),0.20)] border border-[rgb(var(--primary-blue))] text-[rgb(var(--primary-blue))] hover:bg-[rgba(var(--primary-blue),0.30)] transition-all duration-200 ease-out font-medium"
             >
-              <Github size={16} />
+              <LucideIcon name="github" size={14} />
               View Code
             </a>
           )}
@@ -93,9 +93,9 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
               href={project.data.demo}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[rgba(var(--secondary-purple),0.20)] border border-[rgb(var(--secondary-purple))] text-[rgb(var(--secondary-purple))] hover:bg-[rgba(var(--secondary-purple),0.30)] transition-all duration-200 ease-out hover:scale-105 active:scale-95 font-semibold"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-sm bg-[rgba(var(--secondary-purple),0.20)] border border-[rgb(var(--secondary-purple))] text-[rgb(var(--secondary-purple))] hover:bg-[rgba(var(--secondary-purple),0.30)] transition-all duration-200 ease-out font-medium"
             >
-              <ExternalLink size={20} />
+              <LucideIcon name="external-link" size={14} />
               Live Demo
             </a>
           )}
@@ -105,9 +105,9 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
       
       
       {showGitHubReadme ? (
-        <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content" set:html={readmeHtml} />
+        <div class="markdown-content text-muted-foreground" set:html={readmeHtml} />
       ) : (
-        <div class="prose prose-invert max-w-none space-y-8 text-muted-foreground markdown-content">
+        <div class="markdown-content text-muted-foreground">
           <ProjectContent />
         </div>
       )}
@@ -115,7 +115,7 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
       
       {project.data.technologies && project.data.technologies.length > 0 && (
         <section class="mt-8">
-          <h2 class="text-lg font-semibold text-[rgb(var(--primary-blue))] mb-3">Technologies Used</h2>
+          <h2 class="text-sm font-semibold text-[rgb(var(--primary-blue))] mb-2">Technologies Used</h2>
           <div class="flex flex-wrap gap-2">
             {project.data.technologies.map(tech => (
               <span class="px-2 py-0.5 text-xs rounded-sm bg-[rgba(var(--primary-purple),0.10)] border border-[rgba(var(--primary-purple),0.30)] font-medium">
@@ -127,13 +127,13 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
       )}
 
       
-      <div class="mt-16 pt-8 border-t border-[rgba(var(--primary-blue),0.20)]">
+      <div class="mt-12 pt-6 border-t border-[rgba(var(--primary-blue),0.20)]">
         <a 
           href="/projects"
-          class="inline-flex items-center gap-2 text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out group font-semibold text-lg"
+          class="inline-flex items-center gap-2 text-sm text-[rgb(var(--primary-blue))] hover:text-[rgb(var(--primary-purple))] transition-all duration-200 ease-out group font-medium"
           data-astro-prefetch
         >
-          <ArrowLeft class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={24} />
+          <LucideIcon name="arrow-left" class="group-hover:-translate-x-1 transition-transform duration-200 ease-out" size={18} />
           <span>View All Projects</span>
         </a>
       </div>
@@ -142,55 +142,74 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
 </Layout>
 
 <style>
+  .markdown-content :global(h1:first-child) {
+    display: none;
+  }
+
   .markdown-content :global(h1) {
-    font-size: 2.25rem;
-    font-weight: 700;
+    font-size: 1.375rem;
+    font-weight: 600;
     color: rgb(var(--primary-purple));
-    margin-bottom: 1rem;
-    margin-top: 2.5rem;
+    margin: 1.75rem 0 0.75rem;
+    line-height: 1.35;
   }
 
   .markdown-content :global(h2) {
-    font-size: 1.875rem;
+    font-size: 1.125rem;
     font-weight: 600;
     color: rgb(var(--primary-blue));
-    margin-bottom: 1rem;
-    margin-top: 2rem;
+    margin: 1.5rem 0 0.625rem;
+    line-height: 1.4;
   }
 
   .markdown-content :global(h3) {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     color: rgb(var(--primary-blue));
-    margin-bottom: 0.75rem;
-    margin-top: 1.5rem;
+    margin: 1.25rem 0 0.5rem;
+    line-height: 1.4;
+  }
+
+  .markdown-content :global(h4),
+  .markdown-content :global(h5),
+  .markdown-content :global(h6) {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: rgb(var(--primary-blue));
+    margin: 1rem 0 0.5rem;
   }
   
   .markdown-content :global(p) {
-    font-size: 1.125rem;
-    line-height: 1.75;
-    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin-bottom: 0.875rem;
+  }
+
+  .markdown-content :global(hr) {
+    margin: 1.25rem 0;
+    border-color: rgba(var(--primary-blue), 0.15);
   }
 
   .markdown-content :global(table) {
     display: block;
     width: 100%;
     max-width: 100%;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     overflow-x: auto;
     border-collapse: collapse;
     border: 1px solid rgba(var(--primary-blue), 0.18);
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
   }
 
   .markdown-content :global(thead) {
-    background: rgba(var(--primary-blue), 0.10);
+    background: rgba(var(--primary-blue), 0.08);
   }
 
   .markdown-content :global(th),
   .markdown-content :global(td) {
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid rgba(var(--primary-blue), 0.14);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(var(--primary-blue), 0.12);
     text-align: left;
     vertical-align: top;
     overflow-wrap: anywhere;
@@ -198,15 +217,18 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
 
   .markdown-content :global(th) {
     color: rgb(var(--primary-blue));
-    font-weight: 700;
+    font-weight: 600;
     white-space: nowrap;
   }
 
   .markdown-content :global(td) {
-    min-width: 9rem;
+    min-width: 6rem;
   }
 
-  .markdown-content :global(td code) {
+  .markdown-content :global(td code),
+  .markdown-content :global(p code),
+  .markdown-content :global(li code) {
+    font-size: 0.8125rem;
     white-space: normal;
     overflow-wrap: anywhere;
   }
@@ -215,25 +237,50 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
     border-bottom: 0;
   }
 
+  .markdown-content :global(ul),
+  .markdown-content :global(ol) {
+    margin: 0.5rem 0 0.875rem;
+    padding-left: 1.35rem;
+  }
+
   .markdown-content :global(ul) {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin: 1rem 0;
+    list-style-type: disc;
+  }
+
+  .markdown-content :global(ol) {
+    list-style-type: decimal;
   }
 
   .markdown-content :global(li) {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
+    display: list-item;
+    margin-bottom: 0.35rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
   }
 
-  .markdown-content :global(li::before) {
-    content: "▹";
-    color: rgb(var(--primary-purple));
-    font-size: 1.25rem;
-    margin-top: 0.25rem;
-    flex-shrink: 0;
+  .markdown-content :global(li > ul),
+  .markdown-content :global(li > ol) {
+    margin-top: 0.35rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .markdown-content :global(blockquote) {
+    margin: 0.875rem 0;
+    padding: 0.5rem 0 0.5rem 0.875rem;
+    border-left: 3px solid rgba(var(--primary-purple), 0.45);
+    font-size: 0.9375rem;
+    color: #9ca3af;
+  }
+
+  .markdown-content :global(pre) {
+    margin: 0.875rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(var(--primary-blue), 0.15);
+    background: rgba(0, 0, 0, 0.35);
+    overflow-x: auto;
+    font-size: 0.8125rem;
+    line-height: 1.55;
   }
 
   .markdown-content :global(strong) {
@@ -244,6 +291,7 @@ const showGitHubReadme = !useLocalBody && Boolean(readmeHtml?.trim());
   .markdown-content :global(a) {
     color: rgb(var(--primary-blue));
     text-decoration: underline;
+    text-underline-offset: 2px;
     transition: color 0.2s;
   }
 

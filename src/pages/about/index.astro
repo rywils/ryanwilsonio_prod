@@ -1,17 +1,13 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import me from "../../assets/me.webp";
-import WorkExperience from "@/components/WorkExperience.astro";
-import Education from "@/components/Education.astro";
-import SkillsSection from "@/components/SkillsSection.astro";
+import Layout from "@/layouts/Layout.astro";
+import me from "@/assets/me.webp";
+import WorkExperience from "@/components/sections/about/WorkExperience.astro";
+import Education from "@/components/sections/about/Education.astro";
+import SkillsSection from "@/components/sections/about/SkillsSection.astro";
 import Heading from "@/components/ui/Heading.astro";
 ---
 
 <Layout title="About Me" description="About page">
-  <Fragment slot="head">
-    <script defer src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
-  </Fragment>
-
   <div class="relative flex h-full w-full flex-col overflow-x-hidden border-b border-[#10191d] shadow-md shadow-[#0a0a0a] antialiased md:items-center md:justify-center sm:overflow-visible">
     <div class="p-4 mx-auto relative z-10 w-full pt-10 md:pt-0">
 
@@ -38,10 +34,7 @@ import Heading from "@/components/ui/Heading.astro";
               alt="Ryan Wilson"
               class="about-image hidden md:inline-block h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-[rgba(var(--primary-blue),0.60)] hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition shrink-0"
             />
-
-          
           </div>
-          <!-- <h1>Contact</h1> -->
         </div>
       </section>
 
@@ -55,7 +48,6 @@ import Heading from "@/components/ui/Heading.astro";
 
       <WorkExperience />
       <Education />
-
 
       <script is:inline>
         (function () {
