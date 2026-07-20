@@ -4,6 +4,8 @@ import dhpaceIcon from '../assets/experience/dhpace.webp';
 import blueallyIcon from '../assets/experience/blueally.webp';
 import caseysIcon from '../assets/experience/caseys.svg';
 import microsoftIcon from '../assets/experience/microsoft.svg';
+import agisIcon from '../assets/experience/a9is.webp';
+
 
 export interface ExperienceItem {
   icon: ImageMetadata;
@@ -16,10 +18,28 @@ export interface ExperienceItem {
 
 export const experiences: ExperienceItem[] = [
   {
+    icon: agisIcon,
+    title: 'Senior Infrastructure Engineer',
+    company: 'AGIS Global',
+    period: 'May 2026 - Present',
+    description: 'Designed and built the company\'s entire technology stack from the ground up, including enterprise networking, Linux infrastructure, hybrid AWS cloud, DevOps, security, internal, and production software developed in Rust, Go, TypeScript, and C#.',
+    achievements: [
+      'Developed business-critical internal platforms including an employee management portal & timeclock, ITSM platform, infrastructure management console, and customer-facing web applications.',
+      'Architected and deployed a multi-node bare-metal NVIDIA DGX Spark GPU cluster with a dedicated 400G RoCE RDMA fabric via Arista, purpose-built for large-scale AI inference',
+      'Architected datacenter migration and expansion from on-premise infrastructure to co-location',
+      'Designed full enterprise network topology across Juniper BGP border routing and perimeter firewall, and Cisco Nexus spine/leaf switching. Production-grade from day one',
+      'Built a custom Rust based orchestration layer for zero-copy IPC, eliminating Python GIL bottlenecks for high-throughput AI request handling',
+      'Implemented Infrastructure as Code using Ansible for bare-metal provisioning and Terraform for cloud failover on AWS',
+      'Deployed self-hosted observability stack via Grafana, Prometheus, Loki, and Jaeger alongside CI/CD via self-hosted GitLab',
+      'Defined and enforced security posture across IAM, endpoint detection, and secret management',
+      'Onboarded and led incoming engineering hires, establishing team workflows, repository standards, security protocols, and access controls as the organization scaled',
+    ],
+  },
+  {
     icon: ryanwilsonioIcon2,
     title: 'Freelance Developer',
     company: 'ryanwilson.io',
-    period: 'Nov 2024 - Present',
+    period: 'Nov 2024 - May 2026',
     description: 'Develop web applications and full-stack solutions for small business clients across a range of modern frameworks and cloud platforms.',
     achievements: [
       'Develop web applications using React and Next.js, along with WordPress sites for small business clients',
