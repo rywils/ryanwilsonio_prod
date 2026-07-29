@@ -5,6 +5,7 @@ import WorkExperience from "@/components/sections/about/WorkExperience.astro";
 import Education from "@/components/sections/about/Education.astro";
 import SkillsSection from "@/components/sections/about/SkillsSection.astro";
 import Heading from "@/components/ui/Heading.astro";
+import LucideIcon from "@/components/ui/LucideIcon.astro";
 ---
 
 <Layout title="About Me" description="About page">
@@ -14,26 +15,31 @@ import Heading from "@/components/ui/Heading.astro";
       <section id="aboutme" class="flex flex-col justify-center relative py-6 overflow-visible">
         <div class="about-container mx-auto w-full max-w-4xl px-6 pt-16 text-gray-300">
           <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-5">
-            <img
-              src={me.src ?? me}
-              alt="Ryan Wilson"
-              class="about-image md:hidden h-32 w-32 rounded-full object-cover border border-white/10 shadow-xl opacity-90 hover:opacity-100 transition"
-            />
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 order-2 md:order-1">
               <Heading size="md" className="about-title mb-2">About Me</Heading>
               <div
                 class="about-underline h-[2px] mt-4 rounded-full bg-gradient-to-r from-[rgb(var(--primary-blue))] to-[rgb(var(--primary-purple))] mb-6"
                 aria-hidden="true"
               />
               <p class="about-text text-lg leading-relaxed text-gray-400 max-w-2xl">
-                Security-focused engineer specialized in enterprise networking, linux systems, cloud environments, and web applications. Currently pursuing a B.S. in Cybersecurity and Information Assurance. Currently working as a Senior Infrastructure Engineer @ AGIS Global. I have a passion for learning and exploring new technologies, and I enjoy sharing my knowledge with others through writing and mentoring. In my free time, I enjoy photography, pool league, and spontaneous road trips.
+                Software, security, and AI engineer with a broad technical background ranging from infrastructure administration, systems and application security, to cloud and AI. Experience building full-stack applications, AI agent frameworks, and secure, scalable infrastructure, alongside risk management, threat mitigation, and enterprise network architecture. I've lived up and down the stack, and my work shows it. Currently pursuing a B.S. in Cybersecurity and Information Assurance with a focus on AI security.
               </p>
             </div>
-            <img
-              src={me.src ?? me}
-              alt="Ryan Wilson"
-              class="about-image hidden md:inline-block h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border-3 border-[rgba(var(--primary-blue),0.60)] hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition shrink-0"
-            />
+            <div class="relative shrink-0 order-1 md:order-2 mb-14 md:mb-0">
+              <img
+                src={me.src ?? me}
+                alt="Ryan Wilson"
+                class="about-image h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border border-white/10 md:border-3 md:border-[rgba(var(--primary-blue),0.60)] md:hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition"
+              />
+              <a
+                href="/Ryan_Wilson_Resume.pdf"
+                download="Ryan_Wilson_Resume.pdf"
+                class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-full mt-6 px-5 py-2 text-sm whitespace-nowrap bg-transparent rounded-lg glow-primary-blue inline-flex items-center justify-center gap-1.5 hover:bg-secondary-purple hover:scale-[1.02] active:scale-[0.98] transition-all text-[rgb(var(--primary-blue))] cursor-pointer"
+              >
+                <LucideIcon name="download" size={15} />
+                Download my resume
+              </a>
+            </div>
           </div>
         </div>
       </section>
