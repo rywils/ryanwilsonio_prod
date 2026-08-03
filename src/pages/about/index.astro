@@ -6,6 +6,7 @@ import Education from "@/components/sections/about/Education.astro";
 import SkillsSection from "@/components/sections/about/SkillsSection.astro";
 import Heading from "@/components/ui/Heading.astro";
 import LucideIcon from "@/components/ui/LucideIcon.astro";
+import AstraContactButton from "@/components/ui/AstraContactButton.astro";
 ---
 
 <Layout title="About Me" description="About page">
@@ -31,14 +32,16 @@ import LucideIcon from "@/components/ui/LucideIcon.astro";
                 alt="Ryan Wilson"
                 class="about-image h-32 w-32 md:h-40 md:w-40 rounded-full object-cover border border-white/10 md:border-3 md:border-[rgba(var(--primary-blue),0.60)] md:hover:border-[rgba(var(--primary-purple),0.60)] shadow-xl opacity-90 hover:opacity-100 transition"
               />
-              <a
-                href="/Ryan_Wilson_Resume.pdf"
-                download="Ryan_Wilson_Resume.pdf"
-                class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-full mt-6 px-5 py-2 text-sm whitespace-nowrap bg-transparent rounded-lg glow-primary-blue inline-flex items-center justify-center gap-1.5 hover:bg-secondary-purple hover:scale-[1.02] active:scale-[0.98] transition-all text-[rgb(var(--primary-blue))] cursor-pointer"
-              >
-                <LucideIcon name="download" size={15} />
-                Download my resume
-              </a>
+              <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-full mt-6">
+                <AstraContactButton
+                  href="/Ryan_Wilson_Resume.pdf"
+                  download="Ryan_Wilson_Resume.pdf"
+                  class="whitespace-nowrap"
+                >
+                  <LucideIcon name="download" size={15} />
+                  Download my resume
+                </AstraContactButton>
+              </div>
             </div>
           </div>
         </div>

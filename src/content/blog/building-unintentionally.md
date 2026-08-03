@@ -51,7 +51,7 @@ Finally, I was reminded that a single number is never enough. Risk scoring is us
 
 One of the harder parts of building BitProbe was deciding what not to include.
 
-There’s a lot of tooling in security that lives in gray areas — ethically, legally, or both. As developers, engineers, practitioners, red-teamers, blue or purple teamers, *insert label/title here*, intentionally keeping this in mind is crucial. We have to remember, we're testing systems for a specific purpose. We also have to take into account the reality we live in and ask ourselves, how easily is our tool weaponized? Say somebody who meant harm had something with the capability to do a lot of damage, would they be able to destroy someones everything, with the very thing you built to try to protect it? I have plenty of my own weaponized tools that I use when practicing witin a lab environment or running CTF's, but I made them for that specific purpose, just for me. I didn't turn 12 years old one day and decide I'm going to download some tool online and try to attack everything ([Villager is heavy on my mind](https://cybersecuritynews.com/villager-ai-powered-pentesting-tool/)). They were built with intention. The intention is just as firm as not freely handing them out to anybody and everybody. So where do we draw the lines when we are building out tools?
+There’s a lot of tooling in security that lives in gray areas, ethically, legally, or both. As developers, engineers, practitioners, red-teamers, blue or purple teamers, *insert label/title here*, intentionally keeping this in mind is crucial. We have to remember, we're testing systems for a specific purpose. We also have to take into account the reality we live in and ask ourselves, how easily is our tool weaponized? Say somebody who meant harm had something with the capability to do a lot of damage, would they be able to destroy someones everything, with the very thing you built to try to protect it? I have plenty of my own weaponized tools that I use when practicing witin a lab environment or running CTF's, but I made them for that specific purpose, just for me. I didn't turn 12 years old one day and decide I'm going to download some tool online and try to attack everything ([Villager is heavy on my mind](https://cybersecuritynews.com/villager-ai-powered-pentesting-tool/)). They were built with intention. The intention is just as firm as not freely handing them out to anybody and everybody. So where do we draw the lines when we are building out tools?
 
 
 ### Where This Goes Next
@@ -68,7 +68,7 @@ It’s an external, edge-aware scanner that focuses on accuracy and prioritizati
 
 * tighter correlation between exposure and impact
 
-The longer I build the more ideas as "features" come to mind. But I remember, other capabilities belong in other tools — and that separation is intentional.
+The longer I build the more ideas as "features" come to mind. But I remember, other capabilities belong in other tools, and that separation is intentional.
 
 ### Closing Thoughts
 

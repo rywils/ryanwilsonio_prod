@@ -1,0 +1,143 @@
+---
+interface Props {
+  href: string;
+  class?: string;
+  id?: string;
+  download?: string | boolean;
+  target?: string;
+  rel?: string;
+  variant?: "primary" | "secondary" | "github";
+}
+
+const {
+  href,
+  class: className = "",
+  id,
+  download,
+  target,
+  rel,
+  variant = "primary",
+} = Astro.props;
+
+const variantClass =
+  variant === "secondary"
+    ? "astra-contact-btn--secondary"
+    : variant === "github"
+      ? "astra-contact-btn--github"
+      : "";
+---
+
+<a
+  href={href}
+  id={id}
+  download={download}
+  target={target}
+  rel={rel}
+  class:list={["astra-contact-btn", variantClass, className]}
+>
+  <span class="astra-contact-btn__fill" aria-hidden="true"></span>
+  <span class="relative z-10 inline-flex items-center gap-2">
+    <slot />
+  </span>
+</a>
+
+<style>
+  .astra-contact-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(var(--primary-blue));
+    color: rgb(var(--primary-blue));
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden;
+    isolation: isolate;
+    background: transparent;
+    cursor: pointer;
+    transition:
+      color 0.25s ease-out,
+      box-shadow 0.25s ease-out,
+      transform 0.2s ease-out,
+      letter-spacing 0.35s ease-out;
+    --fill-x: 50%;
+    --fill-y: 50%;
+    --cta-color: rgb(var(--primary-blue));
+    --cta-shadow: rgba(0, 191, 255, 0.45);
+  }
+
+  .astra-contact-btn--secondary {
+    --cta-color: rgb(var(--secondary-purple));
+    --cta-shadow: rgba(var(--secondary-purple), 0.42);
+  }
+
+  .astra-contact-btn--github {
+    --cta-color: #f98a3c;
+    --cta-shadow: rgba(249, 138, 60, 0.42);
+  }
+
+  .astra-contact-btn {
+    border-color: var(--cta-color);
+    color: var(--cta-color);
+  }
+
+  .astra-contact-btn:hover,
+  .astra-contact-btn:focus-visible {
+    color: #fff;
+    box-shadow: 0 0 30px 5px var(--cta-shadow);
+    transform: scale(1.04);
+    letter-spacing: 0.2em;
+  }
+
+  .astra-contact-btn:active {
+    transform: scale(0.98);
+    box-shadow: none;
+  }
+
+  .astra-contact-btn__fill {
+    display: block;
+    position: absolute;
+    top: var(--fill-y);
+    left: var(--fill-x);
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    background: var(--cta-color);
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: center;
+    z-index: 0;
+    transition: transform 0.45s ease-out;
+  }
+
+  .astra-contact-btn:hover .astra-contact-btn__fill,
+  .astra-contact-btn:focus-visible .astra-contact-btn__fill {
+    transform: translate(-50%, -50%) scale(24);
+  }
+</style>
+
+<script is:inline>
+  function initAstracontactButton() {
+    document.querySelectorAll(".astra-contact-btn").forEach((btn) => {
+      if (btn.dataset.astraBound === "1") return;
+      btn.dataset.astraBound = "1";
+
+      const updateFillOrigin = (event) => {
+        const rect = btn.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        btn.style.setProperty("--fill-x", `${x}%`);
+        btn.style.setProperty("--fill-y", `${y}%`);
+      };
+
+      btn.addEventListener("pointerenter", updateFillOrigin);
+      btn.addEventListener("pointermove", updateFillOrigin);
+    });
+  }
+
+  initAstracontactButton();
+  document.addEventListener("astro:page-load", initAstracontactButton);
+</script>

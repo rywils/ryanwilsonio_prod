@@ -10,6 +10,15 @@ interface Props {
   loading?: "lazy" | "eager";
 }
 
+/** Collections that ship as currentColor silhouettes — need masking to pick up text color. */
+const MONOCHROME_COLLECTIONS = new Set([
+  "simple-icons",
+  "file-icons",
+  "grommet-icons",
+  "mdi",
+  "lineicons",
+]);
+
 const {
   icon,
   class: className = "",
@@ -18,15 +27,29 @@ const {
   height = 24,
   loading = "lazy",
 } = Astro.props;
+
+const collection = icon.split(":")[0] ?? "";
+const src = iconPath(icon);
+const monochrome = MONOCHROME_COLLECTIONS.has(collection);
 ---
 
-<img
-  src={iconPath(icon)}
-  alt=""
-  class={className}
-  title={title}
-  width={width}
-  height={height}
-  loading={loading}
-  decoding="async"
-/>
+{monochrome ? (
+  <span
+    role="img"
+    aria-label={title || undefined}
+    title={title}
+    class:list={["inline-block shrink-0 bg-current", className]}
+    style={`width:${width}px;height:${height}px;mask-image:url(${src});mask-repeat:no-repeat;mask-position:center;mask-size:contain;-webkit-mask-image:url(${src});-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;-webkit-mask-size:contain;`}
+  />
+) : (
+  <img
+    src={src}
+    alt=""
+    class={className}
+    title={title}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding="async"
+  />
+)}

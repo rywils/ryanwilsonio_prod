@@ -30,15 +30,15 @@ Then came the coffee-fueled epiphany: if I was going to write everything in Reac
 
 What followed was a beautiful cycle of enthusiasm, confusion, and the mounting realization that not having a design plan was, in fact, a terrible idea.
 
-Each iteration started the same way: "This time will be different." And each iteration ended with me staring at a half-finished site that looked completely different from the last one. Minimalist portfolio? Maximalist blog? Something that would make a design system cry? Who knows—I certainly didn't.
+Each iteration started the same way: "This time will be different." And each iteration ended with me staring at a half-finished site that looked completely different from the last one. Minimalist portfolio? Maximalist blog? Something that would make a design system cry? Who knows? I certainly didn't.
 
-The problem wasn't Astro. The problem was me trying to learn a new framework while also figuring out what I even wanted the site to look like. No Figma mockups, no design plan—just vibes and increasingly questionable color choices.
+The problem wasn't Astro. The problem was me trying to learn a new framework while also figuring out what I even wanted the site to look like. No Figma mockups, no design plan, just vibes and increasingly questionable color choices.
 
 ### The Breakthrough: Actually Learning Astro
 
 Eventually, somewhere between "I've lost all sense of time" and "maybe I should just use WordPress," something clicked. I stopped trying to force my React patterns into Astro and started actually *using* Astro components the way they were intended.
 
-Props flowing down, HTML-like syntax, keeping things static by default, sprinkling in interactivity only where needed. It felt different, but good. Like switching from an automatic to a manual transmission—more thinking involved, but more control too.
+Props flowing down, HTML-like syntax, keeping things static by default, sprinkling in interactivity only where needed. It felt different, but good. Like switching from an automatic to a manual transmission - more thinking involved, but more control too.
 
 ### The Verdict: It's Complicated (But In a Good Way)
 
