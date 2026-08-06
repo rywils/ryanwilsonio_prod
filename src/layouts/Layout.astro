@@ -107,15 +107,26 @@ const { description } = Astro.props;
             },
             { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
           );
+          var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+          function revealOrObserve(el) {
+            if (el.classList.contains("scroll-reveal-visible") || el.dataset.scrollRevealBound === "1") return;
+            el.dataset.scrollRevealBound = "1";
+            var rect = el.getBoundingClientRect();
+            if (rect.top < viewportHeight && rect.bottom > 0) {
+              el.classList.add("scroll-reveal-visible");
+              return;
+            }
+            observer.observe(el);
+          }
           revealTargets.forEach(function (el, i) {
             var noStagger = Boolean(el.closest(".experience-container"));
             el.classList.add("scroll-reveal");
             if (!noStagger) el.style.setProperty("--reveal-delay", Math.min(i * 20, 120) + "ms");
-            observer.observe(el);
+            revealOrObserve(el);
           });
           titleTargets.forEach(function (el) {
             el.classList.add("scroll-reveal", "scroll-reveal-title");
-            observer.observe(el);
+            revealOrObserve(el);
           });
           var hero = root.querySelector("#hero");
           if (hero) {
@@ -136,6 +147,12 @@ const { description } = Astro.props;
             if (el.classList.contains("in-view") || el.dataset.sectionRevealBound === "1") return;
             el.dataset.sectionRevealBound = "1";
             if (reduced) {
+              el.classList.add("in-view");
+              return;
+            }
+            var rect = el.getBoundingClientRect();
+            var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            if (rect.top < viewportHeight && rect.bottom > 0) {
               el.classList.add("in-view");
               return;
             }
